@@ -1,0 +1,23 @@
+<body>
+    {% if current_user.is_authenticated %}
+        <a href="{{ url_for('logout') }}">Logout</a>
+    {% else %}
+        <a href="{{ url_for('login') }}">Login</a>
+    {% endif %}
+
+    {% if current_user.is_authenticated %}
+        <h2>Current User: {{ current_user.username }}</h2>
+    {% endif %}
+    <ul>
+        {% for index, user in enumerate(users, 1) %}
+        <li>
+            {{ index }} {{ user.username| capitalize }}
+        </li>
+        {% endfor %}
+    </ul>
+
+    <div id="model-select">
+            <p>选择</p><p v-text="message"></p><p>数据库</p>
+            <input name="username" v-model="message" />
+    </div>
+</body>
