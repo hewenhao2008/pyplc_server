@@ -13,7 +13,7 @@ from web_server.ext import db
 #     env = 'prod'
 # print(env)
 app = create_app('web_server.config')
-print(app.config['SQLALCHEMY_DATABASE_URI'])
+print()
 # app = create_app('web_server.config.{}Config'.format(env.capitalize()))
 
 migrate = Migrate(app, db)

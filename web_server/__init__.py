@@ -50,10 +50,11 @@ def create_app(object_name):
     #     app.config.from_object(ProdConfig)
 
     # eventlet.monkey_patch()
+    a = app.config['SQLALCHEMY_DATABASE_URI']
     mako.init_app(app)
     db.init_app(app)
     with app.app_context():
-        db.create_all()
+        db.create_all(a)
     hashing.init_app(app)
     admin.init_app(app)
     login_manager.init_app(app)
