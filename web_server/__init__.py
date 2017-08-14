@@ -39,13 +39,13 @@ def create_app(config_name):
     # if os.path.exists('dev'):
     #     app.config.from_object(DevConfig)
     # else:
-    app.config.from_pyfile(config_name)
+    app.config.from_object(ProdConfig)
 
     # eventlet.monkey_patch()
     mako.init_app(app)
     db.init_app(app)
     with app.app_context():
-        db.create_all(app.config['SQLALCHEMY_DATABASE_URI'])
+        db.create_all()
     hashing.init_app(app)
     admin.init_app(app)
     login_manager.init_app(app)
