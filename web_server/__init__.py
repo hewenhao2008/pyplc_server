@@ -60,11 +60,11 @@ def create_app(object_name):
     debug_toolbar.init_app(app)
     cache.init_app(app)
 
-    SOCKETIO_REDIS_URL = app.config['CELERY_BACKEND_URL']
-    socketio.init_app(
-        app, async_mode='eventlet',
-        message_queue=SOCKETIO_REDIS_URL
-    )
+    # SOCKETIO_REDIS_URL = app.config['CELERY_BACKEND_URL']
+    # socketio.init_app(
+    #     app, async_mode='eventlet',
+    #     message_queue=SOCKETIO_REDIS_URL
+    # )
 
     # celery = Celery(app.name)
     # celery.conf.update(app.config)
