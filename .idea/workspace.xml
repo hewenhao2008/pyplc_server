@@ -2,7 +2,61 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e126bebe-f028-4a30-9661-aea5909fb763" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/site-packages/SQLAlchemy-1.1.13.dist-info/DESCRIPTION.rst" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/site-packages/SQLAlchemy-1.1.13.dist-info/INSTALLER" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/site-packages/SQLAlchemy-1.1.13.dist-info/METADATA" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/site-packages/SQLAlchemy-1.1.13.dist-info/RECORD" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/site-packages/SQLAlchemy-1.1.13.dist-info/WHEEL" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/site-packages/SQLAlchemy-1.1.13.dist-info/metadata.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/site-packages/SQLAlchemy-1.1.13.dist-info/top_level.txt" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/cprocessors.so" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/cprocessors.so" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/cresultproxy.so" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/cresultproxy.so" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/cutils.so" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/cutils.so" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/__init__.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/__init__.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/dialects/mssql/base.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/dialects/mssql/base.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/dialects/mysql/base.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/dialects/mysql/base.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/dialects/oracle/base.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/dialects/oracle/base.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/dialects/oracle/cx_oracle.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/dialects/oracle/cx_oracle.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/dialects/postgresql/base.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/dialects/postgresql/base.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/dialects/postgresql/ext.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/dialects/postgresql/ext.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/dialects/sqlite/base.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/dialects/sqlite/base.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/engine/base.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/engine/base.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/engine/default.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/engine/default.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/engine/interfaces.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/engine/interfaces.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/engine/reflection.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/engine/reflection.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/engine/result.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/engine/result.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/events.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/events.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/ext/automap.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/ext/automap.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/ext/baked.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/ext/baked.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/ext/declarative/base.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/ext/declarative/base.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/ext/indexable.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/ext/indexable.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/ext/mutable.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/ext/mutable.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/orm/events.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/orm/events.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/orm/exc.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/orm/exc.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/orm/identity.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/orm/identity.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/orm/interfaces.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/orm/interfaces.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/orm/mapper.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/orm/mapper.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/orm/path_registry.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/orm/path_registry.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/orm/persistence.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/orm/persistence.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/orm/query.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/orm/query.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/orm/relationships.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/orm/relationships.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/orm/session.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/orm/session.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/orm/strategies.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/orm/strategies.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/orm/strategy_options.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/orm/strategy_options.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/orm/util.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/orm/util.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/sql/annotation.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/sql/annotation.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/sql/compiler.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/sql/compiler.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/sql/elements.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/sql/elements.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/sql/schema.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/sql/schema.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/sql/selectable.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/sql/selectable.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/sql/sqltypes.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/sql/sqltypes.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/sql/type_api.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/sql/type_api.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/testing/assertions.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/testing/assertions.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/testing/engines.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/testing/engines.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/testing/provision.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/testing/provision.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/testing/util.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/testing/util.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/util/langhelpers.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/util/langhelpers.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web_server/config.py" afterPath="$PROJECT_DIR$/web_server/config.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
