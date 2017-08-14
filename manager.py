@@ -15,8 +15,8 @@ os.environ['lazy-apps'] = True
 app = create_app('config.py')
 # app = create_app('web_server.config.{}Config'.format(env.capitalize()))
 
-with app.app_context():
-    db.create_all()
+# with app.app_context():
+#     db.create_all()
 
 migrate = Migrate(app, db)
 manager = Manager(app)

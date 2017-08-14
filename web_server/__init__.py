@@ -95,10 +95,10 @@ def create_app(config_name):
 
     request_tearing_down.connect(close_db_connection, app)
 
-    @app.before_first_request
-    def set_up():
-        with app.app_context():
-            db.create_all()
+    # @app.before_first_request
+    # def set_up():
+    #     with app.app_context():
+    #         db.create_all()
 
     @app.context_processor
     def template_extras():
