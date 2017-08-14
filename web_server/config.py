@@ -92,7 +92,7 @@ class DevConfig(Config):
 
 
 class ProdConfig(Config):
-    SQLALCHEMY_DATABASE_URI = 'mysql://%s:%s@%s:%s/%s' \
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://%s:%s@%s:%s/%s' \
                               % (sae.const.MYSQL_USER, sae.const.MYSQL_PASS,
                                  sae.const.MYSQL_HOST, int(sae.const.MYSQL_PORT), sae.const.MYSQL_DB)
 
