@@ -5,5 +5,4 @@ sys.path.insert(0, os.path.join(root, 'site-packages'))
 import sae 
 from manager import app
 
-lazy-apps = true
 application = sae.create_wsgi_app(app)
