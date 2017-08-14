@@ -7,7 +7,7 @@ import random
 import time
 
 import MySQLdb
-import eventlet
+# import eventlet
 from celery import Celery
 from flask import Flask, request, jsonify, g, render_template, redirect, url_for, current_app, flash, Config, session
 from flask import request_tearing_down, appcontext_tearing_down
@@ -49,7 +49,7 @@ def create_app(object_name):
     else:
         app.config.from_object(ProdConfig)
 
-    eventlet.monkey_patch()
+    # eventlet.monkey_patch()
     mako.init_app(app)
     db.init_app(app)
     db.create_all()

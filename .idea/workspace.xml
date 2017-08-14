@@ -2,9 +2,22 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e126bebe-f028-4a30-9661-aea5909fb763" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/site-packages/MySQL_python-1.2.5.dist-info/DESCRIPTION.rst" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/site-packages/MySQL_python-1.2.5.dist-info/INSTALLER" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/site-packages/MySQL_python-1.2.5.dist-info/METADATA" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/site-packages/MySQL_python-1.2.5.dist-info/RECORD" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/site-packages/MySQL_python-1.2.5.dist-info/WHEEL" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/site-packages/MySQL_python-1.2.5.dist-info/metadata.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/site-packages/MySQL_python-1.2.5.dist-info/top_level.txt" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/yakumo.iml" afterPath="$PROJECT_DIR$/.idea/yakumo.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/MySQLdb/__init__.py" afterPath="$PROJECT_DIR$/site-packages/MySQLdb/__init__.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/MySQLdb/connections.py" afterPath="$PROJECT_DIR$/site-packages/MySQLdb/connections.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/MySQLdb/converters.py" afterPath="$PROJECT_DIR$/site-packages/MySQLdb/converters.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/MySQLdb/cursors.py" afterPath="$PROJECT_DIR$/site-packages/MySQLdb/cursors.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/MySQLdb/release.py" afterPath="$PROJECT_DIR$/site-packages/MySQLdb/release.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/MySQLdb/times.py" afterPath="$PROJECT_DIR$/site-packages/MySQLdb/times.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web_server/__init__.py" afterPath="$PROJECT_DIR$/web_server/__init__.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web_server/config.py" afterPath="$PROJECT_DIR$/web_server/config.py" />
     </list>
