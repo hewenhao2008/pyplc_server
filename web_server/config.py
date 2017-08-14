@@ -1,6 +1,6 @@
 # coding=utf-8
 from datetime import timedelta
-import tempfile
+# import tempfile
 
 from celery.schedules import crontab
 
@@ -94,12 +94,12 @@ class ProdConfig(Config):
 
 
 class TestConfig(Config):
-    db_file = tempfile.NamedTemporaryFile()
+    # db_file = tempfile.NamedTemporaryFile()
 
     DEBUG = True
     DEBUG_TB_ENABLED = False
 
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + db_file.name
+    # SQLALCHEMY_DATABASE_URI = 'sqlite:///' + db_file.name
 
     CACHE_TyPE = 'null'
     WTF_CSRF_ENABLED = False
