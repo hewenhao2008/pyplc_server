@@ -5,7 +5,7 @@ from flask_migrate import Migrate, MigrateCommand
 
 from web_server import create_app
 from web_server.models import *
-from web_server.ext import db, socketio
+from web_server.ext import db
 
 env = os.environ.get('WEBAPP_ENV', 'dev')
 app = create_app('web_server.config.{}Config'.format(env.capitalize()))
