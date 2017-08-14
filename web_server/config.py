@@ -10,6 +10,8 @@ class Config(object):
     STATION_TIMEOUT = 60
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    # 回收连接
+    SQLALCHEMY_POOL_RECYCLE = 10
 
     # csrf secret key
     SECRET_KEY = 'yakumo17s'

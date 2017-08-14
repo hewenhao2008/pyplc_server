@@ -11,10 +11,7 @@ import eventlet
 from celery import Celery
 from flask import Flask, request, jsonify, g, render_template, redirect, url_for, current_app, flash, Config, session
 from flask import request_tearing_down, appcontext_tearing_down
-from flask_security import url_for_security
 from flask_login import login_user, logout_user, user_logged_in, login_required, current_user
-from flask_principal import identity_loaded, identity_changed, UserNeed, RoleNeed, Identity, AnonymousIdentity
-from pandas.io.sql import read_sql
 
 from models import *
 from ext import mako, hashing, api, admin, login_manager, csrf, cache, debug_toolbar, CSRFProtect, socketio
@@ -55,6 +52,7 @@ def create_app(object_name):
     eventlet.monkey_patch()
     mako.init_app(app)
     db.init_app(app)
+    db.create_all()
     hashing.init_app(app)
     admin.init_app(app)
     login_manager.init_app(app)
@@ -148,20 +146,20 @@ def create_app(object_name):
         db.session.add(user)
         db.session.commit()
 
-    def _get_frame(date_string):
-        db = MySQLdb.connect('localhost', 'web', 'web', 'pyplc')
-        query = 'SELECT * FROM {}'.format(date_string)
-        df = read_sql(query, db)
-        df = df.head(100)
-        return df
-
-    @app.route('/db/<any(yjstationinfo, yjplcinfo, yjgroupinfo, yjvariableinfo):date_string>/')
-    @cache.cached(timeout=10)
-    def show_tables(date_string=None):
-        df = _get_frame(date_string)
-        if isinstance(df, bool) and not df:
-            return 'Bad data format!'
-        return render_template('show_data.html', df=df.to_html(classes='frame'), date_string=date_string)
+    # def _get_frame(date_string):
+    #     db = MySQLdb.connect('localhost', 'web', 'web', 'pyplc')
+    #     query = 'SELECT * FROM {}'.format(date_string)
+    #     df = read_sql(query, db)
+    #     df = df.head(100)
+    #     return df
+    #
+    # @app.route('/db/<any(yjstationinfo, yjplcinfo, yjgroupinfo, yjvariableinfo):date_string>/')
+    # @cache.cached(timeout=10)
+    # def show_tables(date_string=None):
+    #     df = _get_frame(date_string)
+    #     if isinstance(df, bool) and not df:
+    #         return 'Bad data format!'
+    #     return render_template('show_data.html', df=df.to_html(classes='frame'), date_string=date_string)
 
     app.register_blueprint(basic_blueprint)
     app.register_blueprint(api_blueprint)
