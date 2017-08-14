@@ -1,0 +1,3 @@
+name: yakumo
+worker: wsgi
+version: 1
