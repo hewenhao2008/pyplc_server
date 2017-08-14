@@ -16,7 +16,7 @@ class Config(object):
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     # 回收连接
-    SQLALCHEMY_POOL_RECYCLE = 10
+    SQLALCHEMY_POOL_RECYCLE = 60
 
     # csrf secret key
     SECRET_KEY = 'yakumo17s'
@@ -98,6 +98,8 @@ class ProdConfig(Config):
 
     SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://1m4zwn31kn:i155mii155xx51xkyi0ximxl3hzy3hzk244lk4j0@w.rdc.sae.sina.com.cn:3307/app_yakumo'
     # SQLALCHEMY_DATABASE_URI = 'mysql://web:web@localhost:3306/pythonPLC'
+
+    SQLALCHEMY_POOL_RECYCLE = 60
 
     # 指定消息代理
     CELERY_BROKER_URL = 'pyamqp://yakumo17s:touhou@localhost:5672/web_develop'
