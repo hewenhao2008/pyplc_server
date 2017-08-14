@@ -44,10 +44,10 @@ def create_app(object_name):
 
     # here = os.path.abspath(os.path.dirname(__file__))
 
-    if os.path.exists('dev'):
-        app.config.from_object(DevConfig)
-    else:
-        app.config.from_object(ProdConfig)
+    # if os.path.exists('dev'):
+    #     app.config.from_object(DevConfig)
+    # else:
+    #     app.config.from_object(ProdConfig)
 
     # eventlet.monkey_patch()
     mako.init_app(app)
