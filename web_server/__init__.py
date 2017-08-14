@@ -1,17 +1,9 @@
 # coding=utf-8
 
-import os
-
-import random
-
-import time
-
-import MySQLdb
-# import eventlet
 from celery import Celery
-from flask import Flask, request, jsonify, g, render_template, redirect, url_for, current_app, flash, Config, session
-from flask import request_tearing_down, appcontext_tearing_down
-from flask_login import login_user, logout_user, user_logged_in, login_required, current_user
+from flask import Flask, request, session
+from flask import request_tearing_down
+from flask_login import user_logged_in,  current_user
 
 from models import *
 from ext import mako, hashing, api, admin, login_manager, csrf, cache, debug_toolbar, CSRFProtect
