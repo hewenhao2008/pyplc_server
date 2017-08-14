@@ -11,7 +11,9 @@ if os.environ.get('APP_NAME') == None:
     env = 'dev'
 else:
     env = 'prod'
-app = create_app('web_server.config.{}Config'.format(env.capitalize()))
+print(env)
+app = create_app('web_server.config.ProdConfig')
+# app = create_app('web_server.config.{}Config'.format(env.capitalize()))
 
 migrate = Migrate(app, db)
 manager = Manager(app)
