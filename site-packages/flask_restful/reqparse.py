@@ -1,4 +1,6 @@
 from copy import deepcopy
+
+import collections
 from flask import current_app, request
 from werkzeug.datastructures import MultiDict, FileStorage
 from werkzeug import exceptions
@@ -143,7 +145,7 @@ class Argument(object):
         """
         error_str = six.text_type(error)
         error_msg = self.help.format(error_msg=error_str) if self.help else error_str
-        msg = {self.name: "{0}".format(error_msg)}
+        msg = {self.name: error_msg}
 
         if current_app.config.get("BUNDLE_ERRORS", False) or bundle_errors:
             return error, msg
@@ -173,7 +175,9 @@ class Argument(object):
                 if hasattr(source, "getlist"):
                     values = source.getlist(name)
                 else:
-                    values = [source.get(name)]
+                    values = source.get(name)
+                    if not isinstance(values, collections.MutableSequence):
+                        values = [values]
 
                 for value in values:
                     if hasattr(value, "strip") and self.trim:
@@ -238,9 +242,9 @@ class RequestParser(object):
     """Enables adding and parsing of multiple arguments in the context of a
     single request. Ex::
 
-        from flask import request
+        from flask_restful import reqparse
 
-        parser = RequestParser()
+        parser = reqparse.RequestParser()
         parser.add_argument('foo')
         parser.add_argument('int_bar', type=int)
         args = parser.parse_args()

@@ -17,6 +17,7 @@ import sys
 from flask.helpers import _endpoint_from_view_func
 from types import MethodType
 import operator
+from collections import Mapping
 
 
 __all__ = ('Api', 'Resource', 'marshal', 'marshal_with', 'marshal_with_field', 'abort')
@@ -50,6 +51,7 @@ class Api(object):
 
     :param app: the Flask application object
     :type app: flask.Flask
+    :type app: flask.Blueprint
     :param prefix: Prefix all routes with a value, eg v1 or 2010-04-01
     :type prefix: str
     :param default_mediatype: The default media type to return
@@ -370,6 +372,7 @@ class Api(object):
 
         :param resource: the class name of your resource
         :type resource: :class:`Resource`
+
         :param urls: one or more url routes to match for the resource, standard
                      flask routing rules apply.  Any url variables will be
                      passed to the resource method as args.
@@ -581,7 +584,12 @@ class Resource(MethodView):
             meth = getattr(self, 'get', None)
         assert meth is not None, 'Unimplemented method %r' % request.method
 
-        for decorator in self.method_decorators:
+        if isinstance(self.method_decorators, Mapping):
+            decorators = self.method_decorators.get(request.method.lower(), [])
+        else:
+            decorators = self.method_decorators
+
+        for decorator in decorators:
             meth = decorator(meth)
 
         resp = meth(*args, **kwargs)

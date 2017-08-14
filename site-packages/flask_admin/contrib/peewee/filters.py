@@ -1,6 +1,3 @@
-import time
-import datetime
-
 from flask_admin.babel import lazy_gettext
 
 from flask_admin.model import filters
@@ -322,7 +319,7 @@ class FilterConverter(filters.BaseFilterConverter):
     def conv_bool(self, column, name):
         return [f(column, name) for f in self.bool_filters]
 
-    @filters.convert('IntegerField', 'BigIntegerField')
+    @filters.convert('IntegerField', 'BigIntegerField', 'PrimaryKeyField')
     def conv_int(self, column, name):
         return [f(column, name) for f in self.int_filters]
 

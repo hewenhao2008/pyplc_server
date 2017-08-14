@@ -2,6 +2,7 @@
 """The periodic task scheduler."""
 from __future__ import absolute_import, unicode_literals
 
+import copy
 import errno
 import heapq
 import os
@@ -197,6 +198,7 @@ class Scheduler(object):
                              self.max_interval)
         self.Producer = Producer or app.amqp.Producer
         self._heap = None
+        self.old_schedulers = None
         self.sync_every_tasks = (
             app.conf.beat_sync_every if sync_every_tasks is None
             else sync_every_tasks)
@@ -232,10 +234,21 @@ class Scheduler(object):
     def is_due(self, entry):
         return entry.is_due()
 
+    def _when(self, entry, next_time_to_run, mktime=time.mktime):
+        adjust = self.adjust
+
+        return (mktime(entry.schedule.now().timetuple()) +
+                (adjust(next_time_to_run) or 0))
+
+    def populate_heap(self, event_t=event_t, heapify=heapq.heapify):
+        """Populate the heap with the data contained in the schedule."""
+        self._heap = [event_t(self._when(e, e.is_due()[1]) or 0, 5, e)
+                      for e in values(self.schedule)]
+        heapify(self._heap)
+
     # pylint disable=redefined-outer-name
-    def tick(self, event_t=event_t, min=min,
-             heappop=heapq.heappop, heappush=heapq.heappush,
-             heapify=heapq.heapify, mktime=time.mktime):
+    def tick(self, event_t=event_t, min=min, heappop=heapq.heappop,
+             heappush=heapq.heappush):
         """Run a tick - one iteration of the scheduler.
 
         Executes one due task per call.
@@ -243,17 +256,16 @@ class Scheduler(object):
         Returns:
             float: preferred delay in seconds for next call.
         """
-        def _when(entry, next_time_to_run):
-            return (mktime(entry.schedule.now().timetuple()) +
-                    (adjust(next_time_to_run) or 0))
-
         adjust = self.adjust
         max_interval = self.max_interval
+
+        if (self._heap is None or
+                not self.schedules_equal(self.old_schedulers, self.schedule)):
+            self.old_schedulers = copy.copy(self.schedule)
+            self.populate_heap()
+
         H = self._heap
-        if H is None:
-            H = self._heap = [event_t(_when(e, e.is_due()[1]) or 0, 5, e)
-                              for e in values(self.schedule)]
-            heapify(H)
+
         if not H:
             return max_interval
 
@@ -265,13 +277,22 @@ class Scheduler(object):
             if verify is event:
                 next_entry = self.reserve(entry)
                 self.apply_entry(entry, producer=self.producer)
-                heappush(H, event_t(_when(next_entry, next_time_to_run),
+                heappush(H, event_t(self._when(next_entry, next_time_to_run),
                                     event[1], next_entry))
                 return 0
             else:
                 heappush(H, verify)
                 return min(verify[0], max_interval)
         return min(adjust(next_time_to_run) or max_interval, max_interval)
+
+    def schedules_equal(self, old_schedules, new_schedules):
+        if set(old_schedules.keys()) != set(new_schedules.keys()):
+            return False
+        for name, old_entry in old_schedules.items():
+            new_entry = new_schedules.get(name)
+            if not new_entry or old_entry.schedule != new_entry.schedule:
+                return False
+        return True
 
     def should_sync(self):
         return (

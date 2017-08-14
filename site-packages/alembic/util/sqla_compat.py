@@ -28,7 +28,9 @@ sqla_094 = _vers >= (0, 9, 4)
 sqla_099 = _vers >= (0, 9, 9)
 sqla_100 = _vers >= (1, 0, 0)
 sqla_105 = _vers >= (1, 0, 5)
+sqla_1010 = _vers >= (1, 0, 10)
 sqla_110 = _vers >= (1, 1, 0)
+sqla_1014 = _vers >= (1, 0, 14)
 
 if sqla_08:
     from sqlalchemy.sql.expression import TextClause
@@ -171,3 +173,10 @@ def _get_index_expressions(idx):
 
 def _get_index_column_names(idx):
     return [getattr(exp, "name", None) for exp in _get_index_expressions(idx)]
+
+
+def _get_index_final_name(dialect, idx):
+    if sqla_08:
+        return dialect.ddl_compiler(dialect, None)._prepared_index_name(idx)
+    else:
+        return idx.name

@@ -30,7 +30,7 @@ def proto1_to_proto2(message, body):
         Tuple: of ``(body, headers, already_decoded_status, utc)``
     """
     try:
-        args, kwargs = body['args'], body['kwargs']
+        args, kwargs = body.get('args', ()), body.get('kwargs', {})
         kwargs.items  # pylint: disable=pointless-statement
     except KeyError:
         raise InvalidTaskError('Message does not have args/kwargs')
@@ -92,7 +92,7 @@ def default(task, app, consumer,
                              to_timestamp=to_timestamp):
         if body is None:
             body, headers, decoded, utc = (
-                message.body, message.headers, False, True,
+                message.body, message.headers, False, app.uses_utc_timezone(),
             )
             if not body_can_be_buffer:
                 body = bytes(body) if isinstance(body, buffer_t) else body
@@ -126,7 +126,7 @@ def default(task, app, consumer,
                 if req.utc:
                     eta = to_timestamp(to_system_tz(req.eta))
                 else:
-                    eta = to_timestamp(req.eta, timezone.local)
+                    eta = to_timestamp(req.eta, app.timezone)
             except (OverflowError, ValueError) as exc:
                 error("Couldn't convert ETA %r to timestamp: %r. Task: %r",
                       req.eta, exc, req.info(safe=True), exc_info=True)
