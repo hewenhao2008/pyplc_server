@@ -101,6 +101,8 @@ class ProdConfig(Config):
 
     SQLALCHEMY_POOL_RECYCLE = 5
 
+    DEBUG = True
+
     # 指定消息代理
     CELERY_BROKER_URL = 'pyamqp://yakumo17s:touhou@localhost:5672/web_develop'
 
