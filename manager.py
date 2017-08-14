@@ -7,12 +7,13 @@ from web_server import create_app
 from web_server.models import *
 from web_server.ext import db
 
-if os.environ.get('APP_NAME') == None:
-    env = 'dev'
-else:
-    env = 'prod'
-print(env)
+# if os.environ.get('APP_NAME') == None:
+#     env = 'dev'
+# else:
+#     env = 'prod'
+# print(env)
 app = create_app('web_server.config')
+print(app.config['SQLALCHEMY_DATABASE_URI'])
 # app = create_app('web_server.config.{}Config'.format(env.capitalize()))
 
 migrate = Migrate(app, db)
