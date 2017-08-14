@@ -45,7 +45,7 @@ def create_app(config_name):
     mako.init_app(app)
     db.init_app(app)
     with app.app_context():
-        db.create_all()
+        db.create_all(app.config['SQLALCHEMY_DATABASE_URI'])
     hashing.init_app(app)
     admin.init_app(app)
     login_manager.init_app(app)

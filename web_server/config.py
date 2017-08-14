@@ -11,7 +11,8 @@ class Config(object):
     # 终端连接超时
     STATION_TIMEOUT = 60
     SQLALCHEMY_DATABASE_URI = 'mysql://%s:%s@%s:%s/%s'.format(sae.const.MYSQL_USER, sae.const.MYSQL_PASS,
-                                sae.const.MYSQL_HOST, int(sae.const.MYSQL_PORT), sae.const.MYSQL_DB)
+                                                              sae.const.MYSQL_HOST, int(sae.const.MYSQL_PORT),
+                                                              sae.const.MYSQL_DB)
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     # 回收连接
@@ -21,7 +22,8 @@ class Config(object):
     SECRET_KEY = 'yakumo17s'
 
     # flask-cache
-    CACHE_TYPE = 'redis'
+    CACHE_TYPE = 'simple'
+    # CACHE_TYPE = 'redis'
     CACHE_REDIS_HOST = 'localhost'
     CACHE_REDIS_PORT = '6379'
     # CACHE_REDIS_PASSWORD = 'password'
