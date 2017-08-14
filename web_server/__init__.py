@@ -47,7 +47,7 @@ def create_app(object_name):
     # if os.path.exists('dev'):
     #     app.config.from_object(DevConfig)
     # else:
-    #     app.config.from_object(ProdConfig)
+    app.config.from_object(ProdConfig)
 
     # eventlet.monkey_patch()
     a = app.config['SQLALCHEMY_DATABASE_URI']

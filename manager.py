@@ -11,9 +11,7 @@ from web_server.ext import db
 #     env = 'dev'
 # else:
 #     env = 'prod'
-# print(env)
 app = create_app('web_server.config')
-print()
 # app = create_app('web_server.config.{}Config'.format(env.capitalize()))
 
 migrate = Migrate(app, db)
