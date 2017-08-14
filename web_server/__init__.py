@@ -31,7 +31,7 @@ reload(sys)
 sys.setdefaultencoding("utf-8")
 
 
-def create_app(object_name):
+def create_app(config_name):
     app = Flask(__name__, template_folder='templates')
 
     # here = os.path.abspath(os.path.dirname(__file__))
@@ -39,7 +39,7 @@ def create_app(object_name):
     # if os.path.exists('dev'):
     #     app.config.from_object(DevConfig)
     # else:
-    app.config.from_object(ProdConfig)
+    app.config.from_object(config_name)
 
     # eventlet.monkey_patch()
     mako.init_app(app)
