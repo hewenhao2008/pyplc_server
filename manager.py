@@ -12,7 +12,7 @@ if os.environ.get('APP_NAME') == None:
 else:
     env = 'prod'
 print(env)
-app = create_app('web_server.config.ProdConfig')
+app = create_app('web_server.config')
 # app = create_app('web_server.config.{}Config'.format(env.capitalize()))
 
 migrate = Migrate(app, db)
