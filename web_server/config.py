@@ -2,6 +2,8 @@
 from datetime import timedelta
 # import tempfile
 
+import sae
+
 from celery.schedules import crontab
 
 
@@ -86,7 +88,10 @@ class DevConfig(Config):
 
 
 class ProdConfig(Config):
-    SQLALCHEMY_DATABASE_URI = 'w.rdc.sae.sina.com.cn'
+    SQLALCHEMY_DATABASE_URI = 'mysql://%s:%s@%s:%s/%s' \
+                              % (sae.const.MYSQL_USER, sae.const.MYSQL_PASS,
+                                 sae.const.MYSQL_HOST, int(sae.const.MYSQL_PORT), sae.const.MYSQL_DB)
+
     # SQLALCHEMY_DATABASE_URI = 'mysql://web:web@localhost:3306/pythonPLC'
 
     # 指定消息代理
