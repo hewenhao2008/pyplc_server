@@ -98,18 +98,6 @@ def create_app(object_name):
     def server_inner_error(error):
         return u"内部代码错误 by yakumo17s"
 
-    # @app.before_first_request
-    # def setup():
-    #     pass
-
-    # 使用flask-login.current_user代替
-    # @app.before_request
-    # def before_request():
-    #     pass
-    #
-    # @app.teardown_appcontext
-    # def teardown():
-    #     pass
     def close_db_connection(sender, **extra):
         db.session.close()
         # sender.logger.debug('Database close.')
@@ -137,15 +125,6 @@ def create_app(object_name):
     def user_loader(user_id):
         user = User.query.get(user_id)
         return user
-
-    @user_logged_in.connect_via(app)
-    def _track_logins(sender, user, **extra):
-        # 记录用户登录次数，登录IP
-        user.login_count += 1
-        user.last_login_ip = request.remote_addr
-        user.last_login_time = int(time.time())
-        db.session.add(user)
-        db.session.commit()
 
     # def _get_frame(date_string):
     #     db = MySQLdb.connect('localhost', 'web', 'web', 'pyplc')
