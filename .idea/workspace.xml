@@ -3,8 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="e126bebe-f028-4a30-9661-aea5909fb763" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/manager.py" afterPath="$PROJECT_DIR$/manager.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web_server/__init__.py" afterPath="$PROJECT_DIR$/web_server/__init__.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web_server/config.py" afterPath="$PROJECT_DIR$/web_server/config.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -16,11 +15,11 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="config.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="config.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/web_server/config.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="171">
-              <caret line="12" column="27" lean-forward="true" selection-start-line="12" selection-start-column="4" selection-end-line="12" selection-end-column="27" />
+            <state relative-caret-position="165">
+              <caret line="11" column="24" lean-forward="true" selection-start-line="11" selection-start-column="24" selection-end-line="11" selection-end-column="24" />
               <folding>
                 <element signature="e#15#45#0" expanded="true" />
               </folding>
@@ -28,14 +27,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="__init__.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web_server/__init__.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="337">
-              <caret line="56" column="59" lean-forward="false" selection-start-line="56" selection-start-column="59" selection-end-line="56" selection-end-column="59" />
+            <state relative-caret-position="352">
+              <caret line="57" column="25" lean-forward="true" selection-start-line="57" selection-start-column="25" selection-end-line="57" selection-end-column="25" />
               <folding>
                 <element signature="e#16#25#0" expanded="true" />
-                <marker date="1502692117000" expanded="true" signature="4461:4475" ph="SELECT * FRO... missing_value" />
+                <marker date="1502692122000" expanded="true" signature="4425:4439" ph="SELECT * FRO... missing_value" />
               </folding>
             </state>
           </provider>
@@ -149,9 +148,9 @@
       <list>
         <option value="$USER_HOME$/.pyenv/versions/sae-plc/lib/python2.7/site-packages/flask_celery.py" />
         <option value="$PROJECT_DIR$/web_server/ext.py" />
-        <option value="$PROJECT_DIR$/web_server/config.py" />
         <option value="$PROJECT_DIR$/manager.py" />
         <option value="$PROJECT_DIR$/web_server/__init__.py" />
+        <option value="$PROJECT_DIR$/web_server/config.py" />
       </list>
     </option>
   </component>
@@ -448,7 +447,7 @@
           <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
           <folding>
             <element signature="e#16#25#0" expanded="true" />
-            <marker date="1502692117000" expanded="true" signature="4461:4475" ph="SELECT * FRO... missing_value" />
+            <marker date="1502692122000" expanded="true" signature="4425:4439" ph="SELECT * FRO... missing_value" />
           </folding>
         </state>
       </provider>
@@ -647,16 +646,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web_server/config.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
-          <caret line="12" column="27" lean-forward="true" selection-start-line="12" selection-start-column="4" selection-end-line="12" selection-end-column="27" />
-          <folding>
-            <element signature="e#15#45#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/manager.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="134">
@@ -669,11 +658,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/web_server/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="337">
-          <caret line="56" column="59" lean-forward="false" selection-start-line="56" selection-start-column="59" selection-end-line="56" selection-end-column="59" />
+        <state relative-caret-position="352">
+          <caret line="57" column="25" lean-forward="true" selection-start-line="57" selection-start-column="25" selection-end-line="57" selection-end-column="25" />
           <folding>
             <element signature="e#16#25#0" expanded="true" />
-            <marker date="1502692117000" expanded="true" signature="4461:4475" ph="SELECT * FRO... missing_value" />
+            <marker date="1502692122000" expanded="true" signature="4425:4439" ph="SELECT * FRO... missing_value" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web_server/config.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="24" lean-forward="true" selection-start-line="11" selection-start-column="24" selection-end-line="11" selection-end-column="24" />
+          <folding>
+            <element signature="e#15#45#0" expanded="true" />
           </folding>
         </state>
       </provider>
