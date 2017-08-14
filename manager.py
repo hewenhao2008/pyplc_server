@@ -7,7 +7,10 @@ from web_server import create_app
 from web_server.models import *
 from web_server.ext import db
 
-env = os.environ.get('WEBAPP_ENV', 'dev')
+if os.environ.get('APP_NAME') == None:
+    env = 'dev'
+else:
+    env = 'prod'
 app = create_app('web_server.config.{}Config'.format(env.capitalize()))
 
 migrate = Migrate(app, db)
@@ -18,18 +21,19 @@ manager.add_command("server", Server(
     use_reloader=True,
     host='0.0.0.0',
     port=11000)
-)
+                    )
 manager.add_command("prod", Server(
     use_debugger=False,
     use_reloader=False,
     host='127.0.0.1',
     port=11000)
-)
+                    )
 
 
 @manager.shell
 def make_shell_context():
     return dict(app=app)
+
 
 if __name__ == "__main__":
     manager.run()
