@@ -99,7 +99,7 @@ class ProdConfig(Config):
     # SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://1m4zwn31kn:i155mii155xx51xkyi0ximxl3hzy3hzk244lk4j0@w.rdc.sae.sina.com.cn:3306/app_yakumo'
     # SQLALCHEMY_DATABASE_URI = 'mysql://web:web@localhost:3306/pythonPLC'
 
-    SQLALCHEMY_POOL_RECYCLE = 60
+    SQLALCHEMY_POOL_RECYCLE = 5
 
     # 指定消息代理
     CELERY_BROKER_URL = 'pyamqp://yakumo17s:touhou@localhost:5672/web_develop'
