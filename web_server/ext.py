@@ -9,7 +9,7 @@ from flask_login import LoginManager
 from flask_wtf.csrf import CSRFProtect
 from flask_cache import Cache
 from flask_debugtoolbar import DebugToolbarExtension
-from flask_socketio import SocketIO
+# from flask_socketio import SocketIO
 from flask_celery import Celery
 
 mako = MakoTemplates()
