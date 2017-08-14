@@ -39,7 +39,7 @@ def create_app(config_name):
     # if os.path.exists('dev'):
     #     app.config.from_object(DevConfig)
     # else:
-    app.config.from_object(config_name)
+    app.config.from_pyfile(config_name)
 
     # eventlet.monkey_patch()
     mako.init_app(app)
