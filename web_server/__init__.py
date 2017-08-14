@@ -14,7 +14,7 @@ from flask import request_tearing_down, appcontext_tearing_down
 from flask_login import login_user, logout_user, user_logged_in, login_required, current_user
 
 from models import *
-from ext import mako, hashing, api, admin, login_manager, csrf, cache, debug_toolbar, CSRFProtect, socketio
+from ext import mako, hashing, api, admin, login_manager, csrf, cache, debug_toolbar, CSRFProtect
 from forms import RegistrationForm, LoginForm
 from config import DevConfig, ProdConfig
 
