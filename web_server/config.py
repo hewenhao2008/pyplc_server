@@ -92,11 +92,11 @@ class DevConfig(Config):
 
 
 class ProdConfig(Config):
-    # SQLALCHEMY_DATABASE_URI = 'mysql://%s:%s@%s:%s/%s' \
-    #                           % (sae.const.MYSQL_USER, sae.const.MYSQL_PASS,
-    #                              sae.const.MYSQL_HOST, int(sae.const.MYSQL_PORT), sae.const.MYSQL_DB)
+    SQLALCHEMY_DATABASE_URI = 'mysql://%s:%s@%s:%s/%s' \
+                              % (sae.const.MYSQL_USER, sae.const.MYSQL_PASS,
+                                 sae.const.MYSQL_HOST, int(sae.const.MYSQL_PORT), sae.const.MYSQL_DB)
 
-    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://1m4zwn31kn:i155mii155xx51xkyi0ximxl3hzy3hzk244lk4j0@w.rdc.sae.sina.com.cn:3307/app_yakumo'
+    # SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://1m4zwn31kn:i155mii155xx51xkyi0ximxl3hzy3hzk244lk4j0@w.rdc.sae.sina.com.cn:3306/app_yakumo'
     # SQLALCHEMY_DATABASE_URI = 'mysql://web:web@localhost:3306/pythonPLC'
 
     SQLALCHEMY_POOL_RECYCLE = 60
