@@ -11,7 +11,6 @@ from web_server.ext import db
 #     env = 'dev'
 # else:
 #     env = 'prod'
-os.environ['lazy-apps'] = True
 app = create_app('config.py')
 # app = create_app('web_server.config.{}Config'.format(env.capitalize()))
 
