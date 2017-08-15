@@ -22,16 +22,15 @@ db = SQLAlchemy(app)
 
 @app.before_request
 def before_request():
-    # g.db = SQLAlchemy(app)
-    print
-    # g.db = MySQLdb.connect(MYSQL_HOST, MYSQL_USER, MYSQL_PASS,
-    #                       MYSQL_DB, port=int(MYSQL_PORT), charset="utf8")
+    g.db = SQLAlchemy(app)
+    g.db = MySQLdb.connect(MYSQL_HOST, MYSQL_USER, MYSQL_PASS,
+                          MYSQL_DB, port=int(MYSQL_PORT), charset="utf8")
 
 
 @app.teardown_request
 def teardown_request(exception):
     if hasattr(g, 'db'): g.db.close()
-    # db2 = getattr(g, 'db2', None)
+        # db2 = getattr(g, 'db2', None)
     if db is not None:
         db.session.remove()
 
