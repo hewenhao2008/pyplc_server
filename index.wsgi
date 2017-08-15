@@ -3,6 +3,6 @@ import sys
 root = os.path.dirname(__file__)
 sys.path.insert(0, os.path.join(root, 'site-packages'))
 import sae 
-from flask-blog-master.manager import app
+from blog.manage import app
 
 application = sae.create_wsgi_app(app)
