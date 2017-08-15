@@ -7,41 +7,16 @@ default, MySQLdb uses the Cursor class.
 
 import re
 import sys
-try:
-    from types import ListType, TupleType, UnicodeType
-except ImportError:
-    # Python 3
-    ListType = list
-    TupleType = tuple
-    UnicodeType = str
+from types import ListType, TupleType, UnicodeType
 
-restr = r"""
-    \s
-    values
-    \s*
-    (
-        \(
-            [^()']*
-            (?:
-                (?:
-                        (?:\(
-                            # ( - editor hightlighting helper
-                            .*
-                        \))
-                    |
-                        '
-                            [^\\']*
-                            (?:\\.[^\\']*)*
-                        '
-                )
-                [^()']*
-            )*
-        \)
-    )
-"""
 
-insert_values = re.compile(restr, re.S | re.I | re.X)
+restr = (r"\svalues\s*"
+        r"(\(((?<!\\)'[^\)]*?\)[^\)]*(?<!\\)?'"
+        r"|[^\(\)]|"
+        r"(?:\([^\)]*\))"
+        r")+\))")
 
+insert_values= re.compile(restr)
 from _mysql_exceptions import Warning, Error, InterfaceError, DataError, \
      DatabaseError, OperationalError, IntegrityError, InternalError, \
      NotSupportedError, ProgrammingError
@@ -177,16 +152,12 @@ class BaseCursor(object):
         """
         del self.messages[:]
         db = self._get_db()
+        charset = db.character_set_name()
         if isinstance(query, unicode):
-            query = query.encode(db.unicode_literal.charset)
+            query = query.encode(charset)
         if args is not None:
-            if isinstance(args, dict):
-                query = query % dict((key, db.literal(item))
-                                     for key, item in args.iteritems())
-            else:
-                query = query % tuple([db.literal(item) for item in args])
+            query = query % db.literal(args)
         try:
-            r = None
             r = self._query(query)
         except TypeError, m:
             if m.args[0] in ("not enough arguments for format string",
@@ -196,8 +167,6 @@ class BaseCursor(object):
             else:
                 self.messages.append((TypeError, m))
                 self.errorhandler(self, TypeError, m)
-        except (SystemExit, KeyboardInterrupt):
-            raise
         except:
             exc, value, tb = sys.exc_info()
             del tb
@@ -228,8 +197,8 @@ class BaseCursor(object):
         del self.messages[:]
         db = self._get_db()
         if not args: return
-        if isinstance(query, unicode):
-            query = query.encode(db.unicode_literal.charset)
+        charset = db.character_set_name()
+        if isinstance(query, unicode): query = query.encode(charset)
         m = insert_values.search(query)
         if not m:
             r = 0
@@ -240,21 +209,13 @@ class BaseCursor(object):
         e = m.end(1)
         qv = m.group(1)
         try:
-            q = []
-            for a in args:
-                if isinstance(a, dict):
-                    q.append(qv % dict((key, db.literal(item))
-                                       for key, item in a.iteritems()))
-                else:
-                    q.append(qv % tuple([db.literal(item) for item in a]))
+            q = [ qv % db.literal(a) for a in args ]
         except TypeError, msg:
             if msg.args[0] in ("not enough arguments for format string",
                                "not all arguments converted"):
                 self.errorhandler(self, ProgrammingError, msg.args[0])
             else:
                 self.errorhandler(self, TypeError, msg)
-        except (SystemExit, KeyboardInterrupt):
-            raise
         except:
             exc, value, tb = sys.exc_info()
             del tb
@@ -294,11 +255,12 @@ class BaseCursor(object):
         """
 
         db = self._get_db()
+        charset = db.character_set_name()
         for index, arg in enumerate(args):
             q = "SET @_%s_%d=%s" % (procname, index,
                                          db.literal(arg))
             if isinstance(q, unicode):
-                q = q.encode(db.unicode_literal.charset)
+                q = q.encode(charset)
             self._query(q)
             self.nextset()
             
@@ -306,7 +268,7 @@ class BaseCursor(object):
                              ','.join(['@_%s_%d' % (procname, i)
                                        for i in range(len(args))]))
         if type(q) is UnicodeType:
-            q = q.encode(db.unicode_literal.charset)
+            q = q.encode(charset)
         self._query(q)
         self._executed = q
         if not self._defer_warnings: self._warning_check()
@@ -401,7 +363,7 @@ class CursorStoreResultMixIn(object):
             r = value
         else:
             self.errorhandler(self, ProgrammingError,
-                              "unknown scroll mode %s" % repr(mode))
+                              "unknown scroll mode %s" % `mode`)
         if r < 0 or r >= len(self._rows):
             self.errorhandler(self, IndexError, "out of range")
         self.rownumber = r
