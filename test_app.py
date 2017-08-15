@@ -25,18 +25,18 @@ def hello():
 
     import MySQLdb
 
-    db = MySQLdb.connect(host='w.rdc.sae.sina.com.cn',user='1m4zwn31kn', passwd='i155mii155xx51xkyi0ximxl3hzy3hzk244lk4j0', db='app_yakumo', port=3306 )
+    # db = MySQLdb.connect(host='w.rdc.sae.sina.com.cn',user='1m4zwn31kn', passwd='i155mii155xx51xkyi0ximxl3hzy3hzk244lk4j0', db='app_yakumo', port=3306 )
 
     # SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://%s:%s@%s:%s/%s' \
     #                           % (sae.const.MYSQL_USER, sae.const.MYSQL_PASS,
     #                              sae.const.MYSQL_HOST, int(sae.const.MYSQL_PORT), sae.const.MYSQL_DB)
-    cursor = db.cursor()
+    # cursor = db.cursor()
 
 
-    cursor.execute('select * from user')
-
-    result = cursor.fetchone()
-    db.close()
+    # cursor.execute('select * from user')
+    #
+    # result = cursor.fetchone()
+    # db.close()
     import random
 
     # a = Test(id=1, name='1')
