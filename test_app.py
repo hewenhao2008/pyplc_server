@@ -42,10 +42,14 @@ def teardown_request(exception):
 
 
 class User(db.Model):
-    __tablename__ = 'user'
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True)
-    email = db.Column(db.String(120), unique=True)
+    __tablename__ = 'users'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    username = db.Column(db.String(32), nullable=False)
+    email = db.Column(db.String(32))
+    pw_hash = db.Column(db.String(128))
+    login_count = db.Column(db.Integer, default=0)
+    last_login_ip = db.Column(db.String(64), default='unknown')
+    last_login_time = db.Column(db.Integer)
 
     def __init__(self, username, email):
         self.username = username
