@@ -9,6 +9,10 @@ from sae.const import (MYSQL_HOST, MYSQL_HOST_S,
                        MYSQL_PORT, MYSQL_USER, MYSQL_PASS, MYSQL_DB
                        )
 
+print(MySQLdb.__version__)
+import _mysql
+print(_mysql.__version__)
+
 app = Flask(__name__)
 app.debug = True
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://%s:%s@%s:%s/%s' % (
