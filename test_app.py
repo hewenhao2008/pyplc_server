@@ -46,4 +46,4 @@ def hello():
     #
     # db.session.commit()
 
-    return result
+    return 'a'
