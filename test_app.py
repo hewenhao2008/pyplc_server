@@ -66,8 +66,8 @@ def test():
     admin2 = User.query.first()
     html = "test result:"
 
-    # return admin2.username
-    return html
+    return admin2.username
+    # return html
 
 if __name__ == '__main__':
     app.run(debug=True)
