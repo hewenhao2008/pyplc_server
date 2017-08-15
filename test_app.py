@@ -35,7 +35,7 @@ def hello():
 
     cursor.execute('select * from user')
 
-    result = cursor.fetchall()
+    result = cursor.fetchone()
     db.close()
     import random
 

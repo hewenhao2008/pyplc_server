@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="e126bebe-f028-4a30-9661-aea5909fb763" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test_app.py" afterPath="$PROJECT_DIR$/test_app.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -51,11 +52,11 @@
       <file leaf-file-name="test_app.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/test_app.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="160">
-              <caret line="28" column="0" lean-forward="true" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+            <state relative-caret-position="325">
+              <caret line="39" column="17" lean-forward="true" selection-start-line="39" selection-start-column="17" selection-end-line="39" selection-end-column="17" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
-                <marker date="1502768671000" expanded="true" signature="1015:1033" ph="select * fro... user" />
+                <marker date="1502768991000" expanded="true" signature="1047:1065" ph="select * fro... user" />
               </folding>
             </state>
           </provider>
@@ -767,11 +768,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/test_app.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="28" column="0" lean-forward="true" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+        <state relative-caret-position="325">
+          <caret line="39" column="17" lean-forward="true" selection-start-line="39" selection-start-column="17" selection-end-line="39" selection-end-column="17" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
-            <marker date="1502768671000" expanded="true" signature="1015:1033" ph="select * fro... user" />
+            <marker date="1502768991000" expanded="true" signature="1047:1065" ph="select * fro... user" />
           </folding>
         </state>
       </provider>
