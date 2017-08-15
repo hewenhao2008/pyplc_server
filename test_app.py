@@ -10,9 +10,14 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db = SQLAlchemy(app)
 
 
-# class Test(db.Model):
-#     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-#     name = db.Column(db.String(20))
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    username = db.Column(db.String(32), nullable=False)
+    email = db.Column(db.String(32))
+    pw_hash = db.Column(db.String(128))
+    login_count = db.Column(db.Integer, default=0)
+    last_login_ip = db.Column(db.String(64), default='unknown')
+    last_login_time = db.Column(db.Integer)
 
 
 # db.create_all()
@@ -38,6 +43,8 @@ def hello():
     db.close()
     import random
 
+    a = User.query.first()
+    print a.id, a.name
     # a = Test(id=1, name='1')
     # # print a.__init__(), a.__getattribute__(1)
     #
