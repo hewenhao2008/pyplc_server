@@ -15,9 +15,9 @@ print(_mysql.__version__)
 
 app = Flask(__name__)
 app.debug = True
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqldb://%s:%s@%s:%s/%s' % (
-# MYSQL_USER, MYSQL_PASS, MYSQL_HOST, MYSQL_PORT, MYSQL_DB)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://web:web@localhost:3306/pyplc'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqldb://%s:%s@%s:%s/%s' % (
+MYSQL_USER, MYSQL_PASS, MYSQL_HOST, MYSQL_PORT, MYSQL_DB)
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://web:web@localhost:3306/pyplc'
 app.config['SQLALCHEMY_ECHO'] = True
 app.config['SQLALCHEMY_RECORD_QUERIES'] = True
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
