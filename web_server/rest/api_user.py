@@ -16,7 +16,7 @@ class UserResource(ApiResource):
         self.args = user_parser.parse_args()
         super(UserResource, self).__init__()
 
-    def search(self, model_id=None):
+    def search(self):
 
         model_id = self.args['id']
 
@@ -44,6 +44,8 @@ class UserResource(ApiResource):
 
         if limit:
             query = query.limit(limit)
+
+        print(query)
 
         if page:
             query = query.paginate(page, per_page, False).items
@@ -74,11 +76,10 @@ class UserResource(ApiResource):
 
         return response
 
-    def put(self, model_id=None):
+    def put(self):
         args = user_parser.parse_args()
 
-        if not model_id:
-            model_id = args['id']
+        model_id = args['id']
 
         if model_id:
 
@@ -101,9 +102,9 @@ class UserResource(ApiResource):
             db.session.commit()
             return rp_modify()
 
-    def delete(self, model_id=None):
+    def delete(self):
 
-        models = self.search(model_id)
+        models = self.search()
         count = len(models)
 
         if not models:
