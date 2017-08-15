@@ -18,8 +18,8 @@
       <file leaf-file-name="config.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web_server/config.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="160">
-              <caret line="96" column="103" lean-forward="true" selection-start-line="94" selection-start-column="4" selection-end-line="96" selection-end-column="103" />
+            <state relative-caret-position="205">
+              <caret line="99" column="138" lean-forward="false" selection-start-line="99" selection-start-column="128" selection-end-line="99" selection-end-column="138" />
               <folding>
                 <element signature="e#15#45#0" expanded="true" />
               </folding>
@@ -52,11 +52,11 @@
       <file leaf-file-name="test_app.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/test_app.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="429">
-              <caret line="48" column="17" lean-forward="false" selection-start-line="48" selection-start-column="17" selection-end-line="48" selection-end-column="17" />
+            <state relative-caret-position="151">
+              <caret line="27" column="107" lean-forward="true" selection-start-line="27" selection-start-column="107" selection-end-line="27" selection-end-column="107" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
-                <marker date="1502768558000" expanded="true" signature="1004:1022" ph="select * fro... user" />
+                <marker date="1502768671000" expanded="true" signature="1015:1033" ph="select * fro... user" />
               </folding>
             </state>
           </provider>
@@ -720,13 +720,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web_server/config.py">
+    <entry file="file://$PROJECT_DIR$/index.wsgi">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="96" column="103" lean-forward="true" selection-start-line="94" selection-start-column="4" selection-end-line="96" selection-end-column="103" />
-          <folding>
-            <element signature="e#15#45#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="75">
+          <caret line="5" column="24" lean-forward="true" selection-start-line="5" selection-start-column="24" selection-end-line="5" selection-end-column="24" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -740,21 +738,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.wsgi">
+    <entry file="file://$PROJECT_DIR$/web_server/config.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="24" lean-forward="true" selection-start-line="5" selection-start-column="24" selection-end-line="5" selection-end-column="24" />
-          <folding />
+        <state relative-caret-position="205">
+          <caret line="99" column="138" lean-forward="false" selection-start-line="99" selection-start-column="128" selection-end-line="99" selection-end-column="138" />
+          <folding>
+            <element signature="e#15#45#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/test_app.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="429">
-          <caret line="48" column="17" lean-forward="false" selection-start-line="48" selection-start-column="17" selection-end-line="48" selection-end-column="17" />
+        <state relative-caret-position="151">
+          <caret line="27" column="107" lean-forward="true" selection-start-line="27" selection-start-column="107" selection-end-line="27" selection-end-column="107" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
-            <marker date="1502768558000" expanded="true" signature="1004:1022" ph="select * fro... user" />
+            <marker date="1502768671000" expanded="true" signature="1015:1033" ph="select * fro... user" />
           </folding>
         </state>
       </provider>

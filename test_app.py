@@ -25,7 +25,7 @@ def hello():
 
     import MySQLdb
 
-    db = MySQLdb.connect(sae.const.MYSQL_HOST,sae.const.MYSQL_USER, sae.const.MYSQL_PASS,sae.const.MYSQL_DB )
+    db = MySQLdb.connect('w.rdc.sae.sina.com.cn','1m4zwn31kn', 'i155mii155xx51xkyi0ximxl3hzy3hzk244lk4j0','app_yakumo' )
 
     # SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://%s:%s@%s:%s/%s' \
     #                           % (sae.const.MYSQL_USER, sae.const.MYSQL_PASS,
