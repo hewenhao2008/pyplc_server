@@ -2,73 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e126bebe-f028-4a30-9661-aea5909fb763" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/.gitignore" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/.idea/.name" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/.idea/blog.iml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/.idea/dataSources.ids" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/.idea/dataSources.local.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/.idea/dataSources.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/.idea/encodings.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/.idea/misc.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/.idea/modules.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/.idea/vcs.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/.idea/workspace.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/LICENSE" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/README.md" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/app/__init__.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/app/auth/__init__.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/app/auth/forms.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/app/auth/views.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/app/decorators.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/app/email.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/app/main/__init__.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/app/main/errors.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/app/main/forms.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/app/main/views.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/app/models.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/app/static/AWoter.ico" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/app/static/styles.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/app/templates/403.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/app/templates/404.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/app/templates/500.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/app/templates/_comments.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/app/templates/_doc.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/app/templates/_macros.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/app/templates/about.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/app/templates/auth/change-email.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/app/templates/auth/change-password.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/app/templates/auth/email/confirm.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/app/templates/auth/email/confirm.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/app/templates/auth/login.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/app/templates/auth/register.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/app/templates/auth/unconfirmed.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/app/templates/base.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/app/templates/doc.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/app/templates/edit-profile.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/app/templates/followers.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/app/templates/hd.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/app/templates/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/app/templates/mail/new_user.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/app/templates/mail/new_user.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/app/templates/moderate.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/app/templates/post.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/app/templates/res-mods.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/app/templates/user.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/app/templates/video.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/config.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/data-dev.sqlite" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/manage.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/migrations/README" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/migrations/alembic.ini" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/migrations/env.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/migrations/script.py.mako" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/migrations/versions/c9c5c007d22_.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/requirements.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/tests/__init__.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/tests/test_basics.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/flask-blog-master/tests/test_user_model.py" afterPath="" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/blog/__init__.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.wsgi" afterPath="$PROJECT_DIR$/index.wsgi" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -149,11 +84,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.wsgi" pinned="false" current-in-tab="true">
+      <file leaf-file-name="index.wsgi" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.wsgi">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="90">
               <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="__init__.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/blog/__init__.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -185,6 +130,13 @@
       </file>
     </leaf>
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
   <component name="FindInProjectRecents">
     <findStrings>
       <find>read_sql</find>
@@ -207,6 +159,7 @@
         <option value="$PROJECT_DIR$/web_server/config.py" />
         <option value="$PROJECT_DIR$/test_app.py" />
         <option value="$PROJECT_DIR$/index.wsgi" />
+        <option value="$PROJECT_DIR$/blog/__init__.py" />
       </list>
     </option>
   </component>
@@ -279,6 +232,20 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="controllers" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="yakumo" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="yakumo" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="blog" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -814,6 +781,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
           <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/blog/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
