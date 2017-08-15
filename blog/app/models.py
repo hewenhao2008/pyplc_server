@@ -207,7 +207,6 @@ class Post(db.Model):
 
 
 
-db.event.listen(Post.body, 'set', Post.on_changed_body)
 
 
 class Comment(db.Model):
@@ -220,5 +219,3 @@ class Comment(db.Model):
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     post_id = db.Column(db.Integer, db.ForeignKey('posts.id'))
 
-
-db.event.listen(Comment.body, 'set', Comment.on_changed_body)
