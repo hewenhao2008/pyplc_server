@@ -96,8 +96,8 @@ def create_app(config_name):
 
     request_tearing_down.connect(close_db_connection, app)
 
-    @app.before_first_request
-    def set_up():
+    # @app.before_first_request
+    # def set_up():
 
 
     @app.context_processor
