@@ -52,12 +52,11 @@
       <file leaf-file-name="test_app.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/test_app.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="387">
-              <caret line="48" column="13" lean-forward="false" selection-start-line="48" selection-start-column="13" selection-end-line="48" selection-end-column="13" />
+            <state relative-caret-position="114">
+              <caret line="28" column="0" lean-forward="true" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
-                <marker date="1502769156000" expanded="true" signature="552:1303" ph="..." />
-                <marker date="1502769156000" expanded="true" signature="1053:1071" ph="select * fro... user" />
+                <marker date="1502769176000" expanded="true" signature="1051:1069" ph="select * fro... user" />
               </folding>
             </state>
           </provider>
@@ -768,12 +767,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/test_app.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="387">
-          <caret line="48" column="13" lean-forward="false" selection-start-line="48" selection-start-column="13" selection-end-line="48" selection-end-column="13" />
+        <state relative-caret-position="114">
+          <caret line="28" column="0" lean-forward="true" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
-            <marker date="1502769156000" expanded="true" signature="552:1303" ph="..." />
-            <marker date="1502769156000" expanded="true" signature="1053:1071" ph="select * fro... user" />
+            <marker date="1502769176000" expanded="true" signature="1051:1069" ph="select * fro... user" />
           </folding>
         </state>
       </provider>
