@@ -33,7 +33,7 @@ def hello():
     cursor = db.cursor()
 
 
-    # cursor.execute('select * from user')
+    cursor.execute('select * from user')
     #
     # result = cursor.fetchone()
     # db.close()
