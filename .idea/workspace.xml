@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e126bebe-f028-4a30-9661-aea5909fb763" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web_server/rest/api_user.py" afterPath="$PROJECT_DIR$/web_server/rest/api_user.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web_server/rest/api_value.py" afterPath="$PROJECT_DIR$/web_server/rest/api_value.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -59,11 +58,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="api_user.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="api_user.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web_server/rest/api_user.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="210">
-              <caret line="48" column="8" lean-forward="false" selection-start-line="48" selection-start-column="8" selection-end-line="48" selection-end-column="8" />
+              <caret line="48" column="0" lean-forward="false" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
               <folding>
                 <element signature="e#15#30#0" expanded="true" />
               </folding>
@@ -71,13 +70,13 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="api_value.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="api_value.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/web_server/rest/api_value.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="28" column="0" lean-forward="true" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+            <state relative-caret-position="225">
+              <caret line="102" column="32" lean-forward="true" selection-start-line="102" selection-start-column="32" selection-end-line="102" selection-end-column="32" />
               <folding>
-                <marker date="1502528962000" expanded="true" signature="2123:2167" ph="select yjvar... yjvariableinfo" />
+                <marker date="1502787407000" expanded="true" signature="2123:2167" ph="select yjvar... yjvariableinfo" />
               </folding>
             </state>
           </provider>
@@ -169,6 +168,7 @@
         <option value="$PROJECT_DIR$/test_app.py" />
         <option value="$PROJECT_DIR$/index.wsgi" />
         <option value="$PROJECT_DIR$/web_server/rest/api_user.py" />
+        <option value="$PROJECT_DIR$/web_server/rest/api_value.py" />
       </list>
     </option>
   </component>
@@ -871,16 +871,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web_server/rest/api_value.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="28" column="0" lean-forward="true" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
-          <folding>
-            <marker date="1502528962000" expanded="true" signature="2123:2167" ph="select yjvar... yjvariableinfo" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/web_server/rest/api_templete.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1147">
@@ -892,9 +882,19 @@
     <entry file="file://$PROJECT_DIR$/web_server/rest/api_user.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
-          <caret line="48" column="8" lean-forward="false" selection-start-line="48" selection-start-column="8" selection-end-line="48" selection-end-column="8" />
+          <caret line="48" column="0" lean-forward="false" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
           <folding>
             <element signature="e#15#30#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web_server/rest/api_value.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="102" column="32" lean-forward="true" selection-start-line="102" selection-start-column="32" selection-end-line="102" selection-end-column="32" />
+          <folding>
+            <marker date="1502787407000" expanded="true" signature="2123:2167" ph="select yjvar... yjvariableinfo" />
           </folding>
         </state>
       </provider>

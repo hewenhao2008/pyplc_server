@@ -101,6 +101,7 @@ class ValueResource(ApiResource):
 
         # if limit:
         #     q = q.limit(limit)
+        print(query)
 
         if page:
             query = query.paginate(page, per_page, False).items
