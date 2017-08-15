@@ -33,25 +33,10 @@ MySQL.connect().
 """
 
 from _mysql import string_literal, escape_sequence, escape_dict, escape, NULL
-from MySQLdb.constants import FIELD_TYPE, FLAG
-from MySQLdb.times import *
-
-try:
-    from types import IntType, LongType, FloatType, NoneType, TupleType, ListType, DictType, InstanceType, \
-        StringType, UnicodeType, ObjectType, BooleanType, ClassType, TypeType
-except ImportError:
-    # Python 3
-    long = int
-    IntType, LongType, FloatType, NoneType = int, long, float, type(None)
-    TupleType, ListType, DictType, InstanceType = tuple, list, dict, None
-    StringType, UnicodeType, ObjectType, BooleanType = bytes, str, object, bool
-
+from constants import FIELD_TYPE, FLAG
+from times import *
+import types
 import array
-
-try:
-    ArrayType = array.ArrayType
-except AttributeError:
-    ArrayType = array.array
 
 try:
     set
@@ -107,19 +92,19 @@ def Instance2Str(o, d):
 
     """
 
-    if o.__class__ in d:
+    if d.has_key(o.__class__):
         return d[o.__class__](o, d)
     cl = filter(lambda x,o=o:
-                type(x) is ClassType
+                type(x) is types.ClassType
                 and isinstance(o, x), d.keys())
-    if not cl:
+    if not cl and hasattr(types, 'ObjectType'):
         cl = filter(lambda x,o=o:
-                    type(x) is TypeType
+                    type(x) is types.TypeType
                     and isinstance(o, x)
                     and d[x] is not Instance2Str,
                     d.keys())
     if not cl:
-        return d[StringType](o,d)
+        return d[types.StringType](o,d)
     d[o.__class__] = d[cl[0]]
     return d[cl[0]](o, d)
 
@@ -129,23 +114,20 @@ def char_array(s):
 def array2Str(o, d):
     return Thing2Literal(o.tostring(), d)
 
-def quote_tuple(t, d):
-    return "(%s)" % (','.join(escape_sequence(t, d)))
-
 conversions = {
-    IntType: Thing2Str,
-    LongType: Long2Int,
-    FloatType: Float2Str,
-    NoneType: None2NULL,
-    TupleType: quote_tuple,
-    ListType: quote_tuple,
-    DictType: escape_dict,
-    InstanceType: Instance2Str,
-    ArrayType: array2Str,
-    StringType: Thing2Literal, # default
-    UnicodeType: Unicode2Str,
-    ObjectType: Instance2Str,
-    BooleanType: Bool2Str,
+    types.IntType: Thing2Str,
+    types.LongType: Long2Int,
+    types.FloatType: Float2Str,
+    types.NoneType: None2NULL,
+    types.TupleType: escape_sequence,
+    types.ListType: escape_sequence,
+    types.DictType: escape_dict,
+    types.InstanceType: Instance2Str,
+    array.ArrayType: array2Str,
+    types.StringType: Thing2Literal, # default
+    types.UnicodeType: Unicode2Str,
+    types.ObjectType: Instance2Str,
+    types.BooleanType: Bool2Str,
     DateTimeType: DateTime2literal,
     DateTimeDeltaType: DateTimeDelta2literal,
     set: Set2Str,
