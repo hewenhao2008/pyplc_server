@@ -52,6 +52,8 @@ class UserResource(ApiResource):
         else:
             query = query.all()
 
+        print(query)
+
         # print query
 
         return query
