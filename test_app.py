@@ -1,56 +1,64 @@
-import flask
-from flask_sqlalchemy import SQLAlchemy
-import logging
-import sae.const
+import MySQLdb
+import json
+import traceback
+from flask import Flask, g, request, jsonify
+# from flask.ext.sqlalchemy import SQLAlchemy
+from flaskext.sqlalchemy import SQLAlchemy
 
-app = flask.Flask(__name__)
-app.config['DEBUG'] = True
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://1m4zwn31kn:i155mii155xx51xkyi0ximxl3hzy3hzk244lk4j0@w.rdc.sae.sina.com.cn:3306/app_yakumo'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+from sae.const import (MYSQL_HOST, MYSQL_HOST_S,
+                       MYSQL_PORT, MYSQL_USER, MYSQL_PASS, MYSQL_DB
+                       )
+
+app = Flask(__name__)
+app.debug = True
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://%s:%s@%s:%s/%s' % (
+MYSQL_USER, MYSQL_PASS, MYSQL_HOST, MYSQL_PORT, MYSQL_DB)
+app.config['SQLALCHEMY_ECHO'] = True
+app.config['SQLALCHEMY_RECORD_QUERIES'] = True
+
+# extensions
 db = SQLAlchemy(app)
 
 
+@app.before_request
+def before_request():
+    # g.db = SQLAlchemy(app)
+    print
+    # g.db = MySQLdb.connect(MYSQL_HOST, MYSQL_USER, MYSQL_PASS,
+    #                       MYSQL_DB, port=int(MYSQL_PORT), charset="utf8")
+
+
+@app.teardown_request
+def teardown_request(exception):
+    if hasattr(g, 'db'): g.db.close()
+    # db2 = getattr(g, 'db2', None)
+    if db is not None:
+        db.session.remove()
+
+
 class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    username = db.Column(db.String(32), nullable=False)
-    email = db.Column(db.String(32))
-    pw_hash = db.Column(db.String(128))
-    login_count = db.Column(db.Integer, default=0)
-    last_login_ip = db.Column(db.String(64), default='unknown')
-    last_login_time = db.Column(db.Integer)
+    __tablename__ = 'users'
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True)
+    email = db.Column(db.String(120), unique=True)
+
+    def __init__(self, username, email):
+        self.username = username
+        self.email = email
+
+    def __repr__(self):
+        return '<User %r>' % self.username
 
 
-# db.create_all()
+@app.route('/test')
+def test():
+    admin = User('admin', 'admin@example.com')
+    guest = User('guest', 'guest@example.com')
+    db.session.add(admin)
+    db.session.add(guest)
+    db.session.commit()
+    users = User.query.all()
+    admin2 = User.query.filter_by(username='admin').first()
+    html = "test result:"
 
-
-@app.route("/")
-def hello():
-    logging.warn('2')
-
-    import MySQLdb
-
-    db = MySQLdb.connect(host='w.rdc.sae.sina.com.cn',user='1m4zwn31kn', passwd='i155mii155xx51xkyi0ximxl3hzy3hzk244lk4j0', db='app_yakumo', port=3306 )
-
-    # SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://%s:%s@%s:%s/%s' \
-    #                           % (sae.const.MYSQL_USER, sae.const.MYSQL_PASS,
-    #                              sae.const.MYSQL_HOST, int(sae.const.MYSQL_PORT), sae.const.MYSQL_DB)
-    cursor = db.cursor()
-
-
-    cursor.execute('select * from user')
-    #
-    result = cursor.fetchone()
-    db.close()
-    import random
-
-    a = User.query.first()
-    print a.id, a.name
-    # a = Test(id=1, name='1')
-    # # print a.__init__(), a.__getattribute__(1)
-    #
-    # db.session.add(a)
-    #
-    # db.session.commit()
-    print result
-    # return 'a'
-    return 'a'
+    return admin2.username
