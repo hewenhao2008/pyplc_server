@@ -39,6 +39,13 @@ def test():
     return jsonify({'a': '1'})
 
 
+@basic_blueprint.route('/test/2')
+def test2():
+    config = db.session.query(YjStationInfo).all()
+    print(config)
+
+    return jsonify({'a': '1'})
+
 @basic_blueprint.route('/register', methods=['GET', 'POST'])
 @csrf.exempt
 def register():
