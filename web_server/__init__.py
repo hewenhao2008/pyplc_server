@@ -51,7 +51,7 @@ def create_app(config_name):
     login_manager.init_app(app)
     # csrf.init_app(app)
     debug_toolbar.init_app(app)
-    cache.init_app(app)
+    # cache.init_app(app)
 
     # SOCKETIO_REDIS_URL = app.config['CELERY_BACKEND_URL']
     # socketio.init_app(
