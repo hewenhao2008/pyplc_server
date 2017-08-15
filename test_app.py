@@ -3,7 +3,7 @@ import json
 import traceback
 from flask import Flask, g, request, jsonify
 # from flask.ext.sqlalchemy import SQLAlchemy
-from flaskext.sqlalchemy import SQLAlchemy
+from flask.ext.sqlalchemy import SQLAlchemy
 
 from sae.const import (MYSQL_HOST, MYSQL_HOST_S,
                        MYSQL_PORT, MYSQL_USER, MYSQL_PASS, MYSQL_DB
