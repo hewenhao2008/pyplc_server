@@ -6,8 +6,6 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import current_app, request
 from datetime import datetime
 import hashlib
-from markdown import markdown
-import bleach
 
 
 class Follow(db.Model):
@@ -150,27 +148,6 @@ class User(UserMixin, db.Model):
         return '{url}/{hash}?s={size}&d={default}&r={rating}'.format(
             url=url, hash=hash, size=size, default=default, rating=rating)
 
-    @staticmethod
-    def generate_fake(count=100):
-        from sqlalchemy.exc import IntegrityError
-        from random import seed
-        import forgery_py
-
-        seed()
-        for i in range(count):
-            u = User(email=forgery_py.internet.email_address(),
-                     username=forgery_py.internet.user_name(True),
-                     password=forgery_py.lorem_ipsum.word(),
-                     confirmed=True,
-                     nickname=forgery_py.name.full_name(),
-                     location=forgery_py.address.city(),
-                     about_me=forgery_py.lorem_ipsum.sentence(),
-                     member_since=forgery_py.date.date(True))
-            db.session.add(u)
-            try:
-                db.session.commit()
-            except IntegrityError:
-                db.session.rollback()
 
     def follow(self, user):
         if not self.is_following(user):
@@ -228,30 +205,7 @@ class Post(db.Model):
     body_html = db.Column(db.Text)
     comments = db.relationship('Comment', backref='post', lazy='dynamic')
 
-    @staticmethod
-    def generate_fake(count=100):
-        from random import seed, randint
-        import forgery_py
 
-        seed()
-        user_count = User.query.count()
-        for i in range(count):
-            u = User.query.offset(randint(0, user_count - 1)).first()
-            p = Post(body=forgery_py.lorem_ipsum.sentences(randint(1, 5)),
-                     timestamp=forgery_py.date.date(True),
-                     article_title=forgery_py.lorem_ipsum.sentence(),
-                     author=u)
-            db.session.add(p)
-            db.session.commit()
-
-    @staticmethod
-    def on_changed_body(target, value, oldvalue, initiator):
-        allowed_tags = ['a', 'abbr', 'acronym', 'b', 'blockquote', 'code',
-                        'em', 'i', 'li', 'ol', 'pre', 'strong', 'ul', 'h1'
-                        'h2', 'h3', 'h4', 'h5', 'p']
-        target.body_html = bleach.linkify(bleach.clean(
-            markdown(value, output_format='html'), tags=allowed_tags,
-            strip=True))
 
 db.event.listen(Post.body, 'set', Post.on_changed_body)
 
@@ -266,12 +220,5 @@ class Comment(db.Model):
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     post_id = db.Column(db.Integer, db.ForeignKey('posts.id'))
 
-    @staticmethod
-    def on_changed_body(target, value, oldvalue, initiator):
-        allowed_tags = ['a', 'abbr', 'acronym', 'b', 'code', 'em', 'i',
-                        'strong']
-        target.body_html = bleach.linkify(bleach.clean(
-            markdown(value, output_format='html'),
-            tags=allowed_tags, strip=True))
 
 db.event.listen(Comment.body, 'set', Comment.on_changed_body)
