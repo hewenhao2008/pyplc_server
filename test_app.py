@@ -55,7 +55,7 @@ class User(db.Model):
         return '<User %r>' % self.username
 
 
-@app.route('/test')
+@app.route('/')
 def test():
     # admin = User('admin', 'admin@example.com')
     # guest = User('guest', 'guest@example.com')
@@ -66,7 +66,8 @@ def test():
     admin2 = User.query.first()
     html = "test result:"
 
-    return admin2.username
+    # return admin2.username
+    return html
 
 if __name__ == '__main__':
     app.run(debug=True)
