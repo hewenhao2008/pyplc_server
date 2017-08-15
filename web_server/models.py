@@ -169,7 +169,7 @@ class YjVariableInfo(db.Model):
     group_id = db.Column(db.Integer, db.ForeignKey('yjgroupinfo.id'))
 
     values = db.relationship('Value', backref='yjvariableinfo', lazy='dynamic', cascade="delete, delete-orphan")
-    alarms = db.relationship('VarAlarmInfo', backref='yjvariableinfo', lazy='dynamic', cascade="delete, delete-orphan")
+    # alarms = db.relationship('VarAlarmInfo', backref='yjvariableinfo', lazy='dynamic', cascade="delete, delete-orphan")
     params = db.relationship('Parameter', backref='yjvariableinfo', lazy='dynamic', cascade="delete, delete-orphan")
 
     def __init__(self, variable_name=None, group_id=None, db_num=None, address=None,
@@ -326,22 +326,22 @@ class QueryGroup(db.Model):
     )
 
 
-class VarAlarmLog(db.Model):
-    __tablename__ = 'var_alarm_log'
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    alarm_id = db.Column(db.Integer, db.ForeignKey('var_alarm_info.id'))
-    time = db.Column(db.Integer)
-    confirm = db.Column(db.Boolean)
-
-
-class VarAlarmInfo(db.Model):
-    __tablename__ = 'var_alarm_info'
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    variable_id = db.Column(db.Integer, db.ForeignKey('yjvariableinfo.id'))
-    alarm_type = db.Column(db.Integer)
-    note = db.Column(db.String(128))
-
-    logs = db.relationship('VarAlarmLog', backref='var_alarm_info', lazy='dynamic', cascade="delete, delete-orphan")
+# class VarAlarmLog(db.Model):
+#     __tablename__ = 'var_alarm_log'
+#     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+#     alarm_id = db.Column(db.Integer, db.ForeignKey('var_alarm_info.id'))
+#     time = db.Column(db.Integer)
+#     confirm = db.Column(db.Boolean)
+#
+#
+# class VarAlarmInfo(db.Model):
+#     __tablename__ = 'var_alarm_info'
+#     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+#     variable_id = db.Column(db.Integer, db.ForeignKey('yjvariableinfo.id'))
+#     alarm_type = db.Column(db.Integer)
+#     note = db.Column(db.String(128))
+#
+#     logs = db.relationship('VarAlarmLog', backref='var_alarm_info', lazy='dynamic', cascade="delete, delete-orphan")
 
 
 class InterfaceLog(db.Model):
