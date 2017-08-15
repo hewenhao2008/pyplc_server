@@ -188,7 +188,7 @@ CREATE TABLE `role_users` (
   PRIMARY KEY (`user_id`,`role_id`),
   KEY `role_id` (`role_id`),
   CONSTRAINT `role_users_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`),
-  CONSTRAINT `role_users_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+  CONSTRAINT `role_users_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -202,13 +202,13 @@ LOCK TABLES `role_users` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `user`
+-- Table structure for table `users`
 --
 
-DROP TABLE IF EXISTS `user`;
+DROP TABLE IF EXISTS `users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `user` (
+CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(32) NOT NULL,
   `email` varchar(32) DEFAULT NULL,
@@ -221,13 +221,13 @@ CREATE TABLE `user` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `user`
+-- Dumping data for table `users`
 --
 
-LOCK TABLES `user` WRITE;
-/*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'yakumo',NULL,'123456',1,'127.0.0.1',1501147996),(2,'yakumo17s',NULL,'123456',0,'unknown',NULL),(3,'yakumo17',NULL,'123456',11,'127.0.0.1',1501141541),(4,'yakumo17aa',NULL,'123456',6,'127.0.0.1',1501120474),(5,'jx',NULL,'123456',1,'127.0.0.1',1501293091);
-/*!40000 ALTER TABLE `user` ENABLE KEYS */;
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (1,'yakumo',NULL,'123456',1,'127.0.0.1',1501147996),(2,'yakumo17s',NULL,'123456',0,'unknown',NULL),(3,'yakumo17',NULL,'123456',11,'127.0.0.1',1501141541),(4,'yakumo17aa',NULL,'123456',6,'127.0.0.1',1501120474),(5,'jx',NULL,'123456',1,'127.0.0.1',1501293091);
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -491,4 +491,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-08-14 16:18:26
+-- Dump completed on 2017-08-15 15:32:52
