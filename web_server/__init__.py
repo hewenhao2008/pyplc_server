@@ -44,7 +44,8 @@ def create_app(config_name):
     # eventlet.monkey_patch()
     mako.init_app(app)
     db.init_app(app)
-
+    with app.app_context():
+        db.create_all()
     hashing.init_app(app)
     admin.init_app(app)
     login_manager.init_app(app)
@@ -85,9 +86,9 @@ def create_app(config_name):
     def get_current_user():
         return session['username']
 
-    # @app.errorhandler(500)
-    # def server_inner_error(error):
-    #     return u"内部代码错误 by yakumo17s"
+    @app.errorhandler(500)
+    def server_inner_error(error):
+        return u"内部代码错误 by yakumo17s"
 
     def close_db_connection(sender, **extra):
         db.session.close()
@@ -95,10 +96,9 @@ def create_app(config_name):
 
     request_tearing_down.connect(close_db_connection, app)
 
-    # @app.before_first_request
-    # def set_up():
-    #     with app.app_context():
-    #         db.create_all()
+    @app.before_first_request
+    def set_up():
+
 
     @app.context_processor
     def template_extras():
