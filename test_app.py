@@ -57,12 +57,12 @@ class User(db.Model):
 
 @app.route('/')
 def test():
-    # admin = User('admin', 'admin@example.com')
-    # guest = User('guest', 'guest@example.com')
-    # db.session.add(admin)
-    # db.session.add(guest)
-    # db.session.commit()
-    # users = User.query.all()
+    admin = User('admin', 'admin@example.com')
+    guest = User('guest', 'guest@example.com')
+    db.session.add(admin)
+    db.session.add(guest)
+    db.session.commit()
+    users = User.query.all()
     admin2 = User.query.first()
     html = "test result:"
 
