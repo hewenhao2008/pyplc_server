@@ -87,7 +87,7 @@ def test():
     return admin2.username
     # return html
 @app.route('/value')
-def test():
+def test2():
     # admin = User('admin', 'admin@example.com')
     # guest = User('guest', 'guest@example.com')
     # db.session.add(admin)
