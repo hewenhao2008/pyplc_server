@@ -43,8 +43,8 @@ def create_app(config_name):
     # eventlet.monkey_patch()
     mako.init_app(app)
     db.init_app(app)
-    with app.app_context():
-        db.create_all()
+    # with app.app_context():
+    #     db.create_all()
     hashing.init_app(app)
     # admin.init_app(app)
     login_manager.init_app(app)
