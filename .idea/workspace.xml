@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e126bebe-f028-4a30-9661-aea5909fb763" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/requirments.txt" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web_server/__init__.py" afterPath="$PROJECT_DIR$/web_server/__init__.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/requirements.txt" afterPath="$PROJECT_DIR$/requirements.txt" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -15,7 +16,7 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="config.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="config.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web_server/config.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="147">
@@ -39,34 +40,10 @@
         <entry file="file://$PROJECT_DIR$/web_server/__init__.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="-1070">
-              <caret line="46" column="23" lean-forward="true" selection-start-line="46" selection-start-column="23" selection-end-line="46" selection-end-column="23" />
+              <caret line="46" column="23" lean-forward="false" selection-start-line="46" selection-start-column="23" selection-end-line="46" selection-end-column="23" />
               <folding>
                 <element signature="e#16#41#0" expanded="true" />
                 <marker date="1502867647000" expanded="true" signature="3619:3633" ph="SELECT * FRO... missing_value" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/site-packages/flask_wtf/__init__.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="12" column="0" lean-forward="false" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
-              <folding>
-                <element signature="e#240#278#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="_compat.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/site-packages/flask_wtf/_compat.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding>
-                <element signature="e#0#10#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -85,11 +62,31 @@
       <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web_server/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-375">
-              <caret line="11" column="18" lean-forward="false" selection-start-line="11" selection-start-column="18" selection-end-line="11" selection-end-column="18" />
+            <state relative-caret-position="150">
+              <caret line="343" column="8" lean-forward="false" selection-start-line="343" selection-start-column="8" selection-end-line="343" selection-end-column="8" />
               <folding>
                 <element signature="e#15#24#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="requirements.txt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/requirements.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="472">
+              <caret line="57" column="11" lean-forward="false" selection-start-line="57" selection-start-column="11" selection-end-line="57" selection-end-column="11" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.wsgi" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/index.wsgi">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="105">
+              <caret line="7" column="18" lean-forward="false" selection-start-line="7" selection-start-column="18" selection-end-line="7" selection-end-column="18" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -149,6 +146,9 @@
       <find>flask.ext</find>
       <find>wtf</find>
       <find>Text</find>
+      <find>logs</find>
+      <find>logsls</find>
+      <find>logslsl</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -180,6 +180,7 @@
         <option value="$PROJECT_DIR$/web_server/ext.py" />
         <option value="$PROJECT_DIR$/manager.py" />
         <option value="$PROJECT_DIR$/web_server/__init__.py" />
+        <option value="$PROJECT_DIR$/requirements.txt" />
       </list>
     </option>
   </component>
@@ -496,7 +497,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/web_server/app_admin.py" />
     <entry file="file://$PROJECT_DIR$/tasks.py" />
     <entry file="file://$USER_HOME$/.pyenv/versions/sae-plc/lib/python2.7/site-packages/celery/app/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -579,13 +579,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/index.wsgi">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="18" lean-forward="false" selection-start-line="7" selection-start-column="18" selection-end-line="7" selection-end-column="18" />
         </state>
       </provider>
     </entry>
@@ -784,16 +777,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web_server/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-375">
-          <caret line="11" column="18" lean-forward="false" selection-start-line="11" selection-start-column="18" selection-end-line="11" selection-end-column="18" />
-          <folding>
-            <element signature="e#15#24#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test_app.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="165">
@@ -805,7 +788,7 @@
     <entry file="file://$PROJECT_DIR$/web_server/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1070">
-          <caret line="46" column="23" lean-forward="true" selection-start-line="46" selection-start-column="23" selection-end-line="46" selection-end-column="23" />
+          <caret line="46" column="23" lean-forward="false" selection-start-line="46" selection-start-column="23" selection-end-line="46" selection-end-column="23" />
           <folding>
             <element signature="e#16#41#0" expanded="true" />
             <marker date="1502867647000" expanded="true" signature="3619:3633" ph="SELECT * FRO... missing_value" />
@@ -817,6 +800,32 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="147">
           <caret line="92" column="0" lean-forward="false" selection-start-line="92" selection-start-column="0" selection-end-line="92" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web_server/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="343" column="8" lean-forward="false" selection-start-line="343" selection-start-column="8" selection-end-line="343" selection-end-column="8" />
+          <folding>
+            <element signature="e#15#24#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/requirements.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="472">
+          <caret line="57" column="11" lean-forward="false" selection-start-line="57" selection-start-column="11" selection-end-line="57" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.wsgi">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="18" lean-forward="false" selection-start-line="7" selection-start-column="18" selection-end-line="7" selection-end-column="18" />
           <folding />
         </state>
       </provider>
