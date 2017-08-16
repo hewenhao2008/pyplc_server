@@ -141,4 +141,5 @@ def create_app(config_name):
     app.register_blueprint(client_blueprint)
     import flask
     print flask.__file__
+    print 'test'
     return app
