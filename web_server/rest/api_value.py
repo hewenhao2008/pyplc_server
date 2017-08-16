@@ -101,6 +101,9 @@ class ValueResource(ApiResource):
 
         # if limit:
         #     q = q.limit(limit)
+
+        with current_app:
+            db.create_all()
         print(query)
 
         if page:

@@ -2,67 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e126bebe-f028-4a30-9661-aea5909fb763" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/requirments.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/site-packages/SQLAlchemy-0.9.8.dist-info/DESCRIPTION.rst" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/site-packages/SQLAlchemy-0.9.8.dist-info/INSTALLER" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/site-packages/SQLAlchemy-0.9.8.dist-info/METADATA" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/site-packages/SQLAlchemy-0.9.8.dist-info/RECORD" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/site-packages/SQLAlchemy-0.9.8.dist-info/WHEEL" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/site-packages/SQLAlchemy-0.9.8.dist-info/metadata.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/site-packages/SQLAlchemy-0.9.8.dist-info/top_level.txt" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/cprocessors.so" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/cprocessors.so" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/cresultproxy.so" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/cresultproxy.so" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/cutils.so" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/cutils.so" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/requirements.txt" afterPath="$PROJECT_DIR$/requirements.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/__init__.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/__init__.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/dialects/mssql/pymssql.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/dialects/mssql/pymssql.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/dialects/mysql/base.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/dialects/mysql/base.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/dialects/mysql/mysqlconnector.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/dialects/mysql/mysqlconnector.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/dialects/oracle/base.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/dialects/oracle/base.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/dialects/postgresql/base.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/dialects/postgresql/base.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/dialects/postgresql/json.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/dialects/postgresql/json.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/dialects/postgresql/pg8000.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/dialects/postgresql/pg8000.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/dialects/postgresql/psycopg2.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/dialects/postgresql/psycopg2.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/dialects/sqlite/base.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/dialects/sqlite/base.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/dialects/sqlite/pysqlite.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/dialects/sqlite/pysqlite.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/engine/__init__.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/engine/__init__.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/engine/base.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/engine/base.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/engine/reflection.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/engine/reflection.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/engine/strategies.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/engine/strategies.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/engine/url.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/engine/url.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/event/attr.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/event/attr.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/event/registry.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/event/registry.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/events.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/events.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/exc.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/exc.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/ext/declarative/api.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/ext/declarative/api.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/ext/declarative/clsregistry.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/ext/declarative/clsregistry.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/ext/mutable.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/ext/mutable.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/ext/orderinglist.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/ext/orderinglist.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/orm/collections.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/orm/collections.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/orm/dependency.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/orm/dependency.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/orm/events.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/orm/events.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/orm/mapper.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/orm/mapper.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/orm/query.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/orm/query.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/orm/relationships.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/orm/relationships.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/pool.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/pool.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/sql/base.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/sql/base.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/sql/compiler.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/sql/compiler.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/sql/dml.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/sql/dml.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/sql/elements.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/sql/elements.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/sql/functions.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/sql/functions.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/sql/schema.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/sql/schema.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/sql/selectable.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/sql/selectable.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/testing/__init__.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/testing/__init__.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/testing/assertions.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/testing/assertions.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/testing/exclusions.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/testing/exclusions.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/testing/plugin/noseplugin.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/testing/plugin/noseplugin.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/testing/plugin/plugin_base.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/testing/plugin/plugin_base.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/testing/requirements.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/testing/requirements.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/testing/schema.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/testing/schema.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/util/__init__.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/util/__init__.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/util/_collections.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/util/_collections.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/sqlalchemy/util/compat.py" afterPath="$PROJECT_DIR$/site-packages/sqlalchemy/util/compat.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web_server/rest/api_value.py" afterPath="$PROJECT_DIR$/web_server/rest/api_value.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -97,22 +38,24 @@
       <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web_server/__init__.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1070">
-              <caret line="46" column="23" lean-forward="false" selection-start-line="46" selection-start-column="23" selection-end-line="46" selection-end-column="23" />
+            <state relative-caret-position="294">
+              <caret line="46" column="25" lean-forward="true" selection-start-line="46" selection-start-column="25" selection-end-line="46" selection-end-column="25" />
               <folding>
                 <element signature="e#16#41#0" expanded="true" />
-                <marker date="1502867647000" expanded="true" signature="3619:3633" ph="SELECT * FRO... missing_value" />
+                <marker date="1502869575000" expanded="true" signature="3623:3637" ph="SELECT * FRO... missing_value" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="form.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/site-packages/flask_wtf/form.py">
+      <file leaf-file-name="api_value.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/web_server/rest/api_value.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="11" column="67" lean-forward="false" selection-start-line="11" selection-start-column="63" selection-end-line="11" selection-end-column="67" />
-              <folding />
+            <state relative-caret-position="155">
+              <caret line="105" column="12" lean-forward="false" selection-start-line="105" selection-start-column="12" selection-end-line="105" selection-end-column="12" />
+              <folding>
+                <marker date="1502869754000" expanded="true" signature="2123:2167" ph="select yjvar... yjvariableinfo" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -139,7 +82,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.wsgi" pinned="false" current-in-tab="true">
+      <file leaf-file-name="index.wsgi" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.wsgi">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="105">
@@ -226,7 +169,6 @@
         <option value="$PROJECT_DIR$/web_server/config.py" />
         <option value="$PROJECT_DIR$/test_app.py" />
         <option value="$PROJECT_DIR$/index.wsgi" />
-        <option value="$PROJECT_DIR$/web_server/rest/api_value.py" />
         <option value="$PROJECT_DIR$/web_server/rest/api_plc.py" />
         <option value="$PROJECT_DIR$/web_server/rest/api_user.py" />
         <option value="$PROJECT_DIR$/web_server/controllers/basic.py" />
@@ -237,8 +179,9 @@
         <option value="$PROJECT_DIR$/site-packages/flask_wtf/form.py" />
         <option value="$PROJECT_DIR$/web_server/ext.py" />
         <option value="$PROJECT_DIR$/manager.py" />
-        <option value="$PROJECT_DIR$/web_server/__init__.py" />
         <option value="$PROJECT_DIR$/requirements.txt" />
+        <option value="$PROJECT_DIR$/web_server/__init__.py" />
+        <option value="$PROJECT_DIR$/web_server/rest/api_value.py" />
       </list>
     </option>
   </component>
@@ -521,6 +464,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1280" y="23" width="1920" height="1057" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25612354" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -530,7 +474,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3290735" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3290735" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.38125667" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.38125667" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -591,6 +535,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="168">
           <caret line="89" column="10" lean-forward="false" selection-start-line="89" selection-start-column="10" selection-end-line="89" selection-end-column="10" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -659,16 +604,6 @@
         <state relative-caret-position="18">
           <caret line="62" column="12" lean-forward="false" selection-start-line="62" selection-start-column="12" selection-end-line="62" selection-end-column="12" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web_server/rest/api_value.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="365">
-          <caret line="119" column="31" lean-forward="false" selection-start-line="119" selection-start-column="31" selection-end-line="119" selection-end-column="31" />
-          <folding>
-            <marker date="1502787407000" expanded="true" signature="2123:2167" ph="select yjvar... yjvariableinfo" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -772,7 +707,7 @@
         <state relative-caret-position="330">
           <caret line="22" column="41" lean-forward="false" selection-start-line="22" selection-start-column="41" selection-end-line="22" selection-end-column="41" />
           <folding>
-            <element signature="e#0#9#0" expanded="true" />
+            <element signature="e#0#9#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -782,7 +717,7 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#0#10#0" expanded="true" />
+            <element signature="e#0#10#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -792,7 +727,7 @@
         <state relative-caret-position="180">
           <caret line="12" column="0" lean-forward="false" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
           <folding>
-            <element signature="e#240#278#0" expanded="true" />
+            <element signature="e#240#278#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -826,30 +761,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/manager.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test_app.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="165">
           <caret line="20" column="137" lean-forward="false" selection-start-line="20" selection-start-column="137" selection-end-line="20" selection-end-column="137" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web_server/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1070">
-          <caret line="46" column="23" lean-forward="false" selection-start-line="46" selection-start-column="23" selection-end-line="46" selection-end-column="23" />
-          <folding>
-            <element signature="e#16#41#0" expanded="true" />
-            <marker date="1502867647000" expanded="true" signature="3619:3633" ph="SELECT * FRO... missing_value" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -884,6 +800,35 @@
         <state relative-caret-position="105">
           <caret line="7" column="18" lean-forward="false" selection-start-line="7" selection-start-column="18" selection-end-line="7" selection-end-column="18" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/manager.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web_server/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="294">
+          <caret line="46" column="25" lean-forward="true" selection-start-line="46" selection-start-column="25" selection-end-line="46" selection-end-column="25" />
+          <folding>
+            <element signature="e#16#41#0" expanded="true" />
+            <marker date="1502869575000" expanded="true" signature="3623:3637" ph="SELECT * FRO... missing_value" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web_server/rest/api_value.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="155">
+          <caret line="105" column="12" lean-forward="false" selection-start-line="105" selection-start-column="12" selection-end-line="105" selection-end-column="12" />
+          <folding>
+            <marker date="1502869754000" expanded="true" signature="2123:2167" ph="select yjvar... yjvariableinfo" />
+          </folding>
         </state>
       </provider>
     </entry>
