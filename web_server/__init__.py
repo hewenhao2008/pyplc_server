@@ -17,7 +17,6 @@ from web_server.rest.api_variable import VariableResource
 from web_server.rest.api_value import ValueResource
 from web_server.rest.auth import AuthApi
 
-from web_server.admin_view import CustomView, CustomModelView, CustomFileAdmin
 
 from web_server.controllers.basic import basic_blueprint
 from web_server.controllers.api import api_blueprint
@@ -47,7 +46,7 @@ def create_app(config_name):
     # with app.app_context():
     #     db.create_all()
     hashing.init_app(app)
-    admin.init_app(app)
+    # admin.init_app(app)
     login_manager.init_app(app)
     # csrf.init_app(app)
     debug_toolbar.init_app(app)
