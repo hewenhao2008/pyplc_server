@@ -38,7 +38,7 @@
         <entry file="file://$PROJECT_DIR$/web_server/__init__.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="120">
-              <caret line="8" column="34" lean-forward="true" selection-start-line="8" selection-start-column="34" selection-end-line="8" selection-end-column="34" />
+              <caret line="8" column="34" lean-forward="false" selection-start-line="8" selection-start-column="34" selection-end-line="8" selection-end-column="34" />
               <folding>
                 <marker date="1502851314000" expanded="true" signature="3623:3637" ph="SELECT * FRO... missing_value" />
               </folding>
@@ -50,7 +50,7 @@
         <entry file="file://$PROJECT_DIR$/site-packages/flask_admin/contrib/fileadmin.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="291">
-              <caret line="22" column="41" lean-forward="true" selection-start-line="22" selection-start-column="41" selection-end-line="22" selection-end-column="41" />
+              <caret line="22" column="41" lean-forward="false" selection-start-line="22" selection-start-column="41" selection-end-line="22" selection-end-column="41" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -62,7 +62,7 @@
         <entry file="file://$PROJECT_DIR$/site-packages/flask_wtf/__init__.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="180">
-              <caret line="12" column="0" lean-forward="true" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+              <caret line="12" column="0" lean-forward="false" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
               <folding>
                 <element signature="e#240#278#0" expanded="true" />
               </folding>
@@ -828,8 +828,8 @@
         <state relative-caret-position="317">
           <caret line="30" column="30" lean-forward="false" selection-start-line="30" selection-start-column="30" selection-end-line="30" selection-end-column="30" />
           <folding>
-            <marker date="1502849626000" expanded="true" signature="248:271" ph="import ..." />
-            <marker date="1502849626000" expanded="true" signature="36636:36637" ph="..." />
+            <marker date="1502851618000" expanded="true" signature="248:271" ph="import ..." />
+            <marker date="1502851618000" expanded="true" signature="33688:33689" ph="..." />
           </folding>
         </state>
       </provider>
@@ -932,7 +932,7 @@
     <entry file="file://$PROJECT_DIR$/site-packages/flask_admin/contrib/fileadmin.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="291">
-          <caret line="22" column="41" lean-forward="true" selection-start-line="22" selection-start-column="41" selection-end-line="22" selection-end-column="41" />
+          <caret line="22" column="41" lean-forward="false" selection-start-line="22" selection-start-column="41" selection-end-line="22" selection-end-column="41" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>
@@ -952,7 +952,7 @@
     <entry file="file://$PROJECT_DIR$/site-packages/flask_wtf/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
-          <caret line="12" column="0" lean-forward="true" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+          <caret line="12" column="0" lean-forward="false" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
           <folding>
             <element signature="e#240#278#0" expanded="true" />
           </folding>
@@ -998,7 +998,7 @@
     <entry file="file://$PROJECT_DIR$/web_server/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
-          <caret line="8" column="34" lean-forward="true" selection-start-line="8" selection-start-column="34" selection-end-line="8" selection-end-column="34" />
+          <caret line="8" column="34" lean-forward="false" selection-start-line="8" selection-start-column="34" selection-end-line="8" selection-end-column="34" />
           <folding>
             <marker date="1502851314000" expanded="true" signature="3623:3637" ph="SELECT * FRO... missing_value" />
           </folding>
