@@ -6,7 +6,7 @@ from flask import request_tearing_down
 from flask_login import user_logged_in,  current_user
 
 from models import *
-from ext import mako, hashing, api, admin, login_manager, csrf, cache, debug_toolbar, CSRFProtect
+from ext import mako, hashing, api, login_manager, csrf, cache, debug_toolbar, CSRFProtect
 from forms import RegistrationForm, LoginForm
 from config import DevConfig, ProdConfig
 
@@ -63,17 +63,17 @@ def create_app(config_name):
 
     api.init_app(app)
 
-    admin.add_view(CustomView(name='Custom'))
-    show_models = [YjStationInfo, YjPLCInfo, YjGroupInfo, YjVariableInfo, Value, TransferLog, User]
-
-    for model in show_models:
-        admin.add_view(
-            CustomModelView(model, db.session,
-                            category='models')
-        )
-    admin.add_view(CustomFileAdmin(os.path.join(os.path.dirname(__file__), 'static'),
-                                   '/static/',
-                                   name='Static File'))
+    # admin.add_view(CustomView(name='Custom'))
+    # show_models = [YjStationInfo, YjPLCInfo, YjGroupInfo, YjVariableInfo, Value, TransferLog, User]
+    #
+    # for model in show_models:
+    #     admin.add_view(
+    #         CustomModelView(model, db.session,
+    #                         category='models')
+    #     )
+    # admin.add_view(CustomFileAdmin(os.path.join(os.path.dirname(__file__), 'static'),
+    #                                '/static/',
+    #                                name='Static File'))
 
     def value2dict(std):
         return {
