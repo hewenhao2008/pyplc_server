@@ -21,7 +21,8 @@ basic_blueprint = Blueprint(
 # @cache.cached(timeout=60)
 def index():
     users = User.query.all()
-    return render_template('index.html', users=users)
+    return 'hello,world'
+    # return render_template('index.html', users=users)
 
 
 @basic_blueprint.route('/test')
@@ -45,6 +46,7 @@ def test2():
     print(config)
 
     return jsonify({'a': '1'})
+
 
 @basic_blueprint.route('/register', methods=['GET', 'POST'])
 @csrf.exempt
