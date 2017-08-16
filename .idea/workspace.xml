@@ -2,14 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e126bebe-f028-4a30-9661-aea5909fb763" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/site-packages/Flask_SQLAlchemy-2.0.dist-info/DESCRIPTION.rst" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/site-packages/Flask_SQLAlchemy-2.0.dist-info/INSTALLER" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/site-packages/Flask_SQLAlchemy-2.0.dist-info/METADATA" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/site-packages/Flask_SQLAlchemy-2.0.dist-info/RECORD" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/site-packages/Flask_SQLAlchemy-2.0.dist-info/WHEEL" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/site-packages/Flask_SQLAlchemy-2.0.dist-info/metadata.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/site-packages/Flask_SQLAlchemy-2.0.dist-info/top_level.txt" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site-packages/flask_sqlalchemy/__init__.py" afterPath="$PROJECT_DIR$/site-packages/flask_sqlalchemy/__init__.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
