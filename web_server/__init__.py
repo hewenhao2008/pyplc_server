@@ -139,4 +139,6 @@ def create_app(config_name):
     app.register_blueprint(basic_blueprint)
     app.register_blueprint(api_blueprint)
     app.register_blueprint(client_blueprint)
+    import flask
+    print flask.__file__
     return app
