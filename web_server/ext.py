@@ -1,6 +1,6 @@
 # coding=utf-8
 from flask_mako import MakoTemplates
-from flask_sqlalchemy import SQLAlchemy
+from flaskext.sqlalchemy import SQLAlchemy
 from flask_hashing import Hashing
 from flask_restful import Api
 from flask_admin import Admin
