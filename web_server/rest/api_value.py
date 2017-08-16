@@ -102,7 +102,8 @@ class ValueResource(ApiResource):
         # if limit:
         #     q = q.limit(limit)
 
-        with current_app:
+        from manager import app
+        with app.app_context():
             db.create_all()
         print(query)
 
