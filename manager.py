@@ -12,6 +12,8 @@ from web_server.ext import db
 # else:
 #     env = 'prod'
 app = create_app('config.py')
+import flask
+print flask.__file__
 # app = create_app('web_server.config.{}Config'.format(env.capitalize()))
 
 # with app.app_context():
