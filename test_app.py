@@ -60,6 +60,19 @@ class User(db.Model):
         return '<User %r>' % self.username
 
 
+class Value(db.Model):
+    __tablename__ = 'values'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    variable_id = db.Column(db.Integer, db.ForeignKey('yjvariableinfo.id'))
+    value = db.Column(db.String(128))
+    time = db.Column(db.Integer)
+
+    def __init__(self, variable_id, value, time):
+        self.variable_id = variable_id
+        self.value = value
+        self.time = time
+
+
 @app.route('/')
 def test():
     # admin = User('admin', 'admin@example.com')
@@ -72,6 +85,19 @@ def test():
     html = "test result:"
 
     return admin2.username
+    # return html
+@app.route('/value')
+def test():
+    # admin = User('admin', 'admin@example.com')
+    # guest = User('guest', 'guest@example.com')
+    # db.session.add(admin)
+    # db.session.add(guest)
+    # db.session.commit()
+    users = User.query.all()
+    admin2 = Value.query.first()
+    html = "test result:"
+
+    return admin2.id
     # return html
 
 if __name__ == '__main__':
