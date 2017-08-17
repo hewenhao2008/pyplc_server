@@ -29,6 +29,9 @@ def authenticate(func):
 class ApiResource(Resource):
     # method_decorators = [authenticate]
     def __init__(self):
+        from flask import request
+        print(request.json, 'abcd')
+
         self.user = None
         # self.user = self.verify()
         self.new_id = None
@@ -107,8 +110,8 @@ class ApiResource(Resource):
 
     def delete(self):
 
-        from flask import request
-        print(request.json, 'abcd')
+        # from flask import request
+        # print(request.json, 'abcd')
         models = self.search()
         count = len(models)
 
