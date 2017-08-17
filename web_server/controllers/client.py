@@ -63,29 +63,34 @@ def beats():
     data = request.get_json(force=True)
     # data = decryption(rv)
 
-    station = YjStationInfo.query.filter_by(id_num=data["id_num"]).first_or_404()
-    station.con_time = int(time.time())
+    station = YjStationInfo.query.filter_by(id_num=data["id_num"]).first()
+    if station:
+        station.con_time = int(time.time())
 
-    # if int(station.version) != int(data["version"]):
-    #     station.modification = 1
-    # else:
-    #     station.modification = 0
+        # if int(station.version) != int(data["version"]):
+        #     station.modification = 1
+        # else:
+        #     station.modification = 0
 
-    db.session.add(station)
+        db.session.add(station)
 
-    if 'alarm_log' in data.keys():
-        for log in data['alarm_log']:
-            l = VarAlarmLog(
-                alarm_id=log['alarm_id'],
-                time=log['time'],
-                confirm=log['confirm']
-            )
-            db.session.add(l)
+        if 'alarm_log' in data.keys():
+            for log in data['alarm_log']:
+                l = VarAlarmLog(
+                    alarm_id=log['alarm_id'],
+                    time=log['time'],
+                    confirm=log['confirm']
+                )
+                db.session.add(l)
 
-    db.session.commit()
+        db.session.commit()
 
-    data = {"modification": station.modification, "status": 'OK'}
-    # data = encryption(data)
+        data = {"modification": station.modification, "status": 'OK'}
+        # data = encryption(data)
+
+    else:
+        data = {'modification': 0, 'status': 'error'}
+
     return jsonify(data)
 
 
@@ -94,7 +99,7 @@ def set_config():
     if request.method == 'POST':
         data = request.get_json(force=True)
 
-        station = db.session.query(YjStationInfo).filter_by(id_num=data["id_num"]).first_or_404()
+        station = db.session.query(YjStationInfo).filter_by(id_num=data["id_num"]).first()
         # data = decryption(data)
 
 
@@ -105,7 +110,8 @@ def set_config():
             "YjStationInfo": serialize(station),
             "YjPLCInfo": [serialize(plc) for plc in station.plcs],
             "YjGroupInfo": [serialize(group) for plc in station.plcs for group in plc.groups],
-            "YjVariableInfo": [serialize(variable) for plc in station.plcs for group in plc.groups for variable in group.variables]
+            "YjVariableInfo": [serialize(variable) for plc in station.plcs for group in plc.groups for variable in
+                               group.variables]
         }
         # time2 = time.time()
         # print(time2 - time1)
@@ -132,7 +138,7 @@ def upload():
         version = data["version"]
 
         # 查询服务器是否有正在上传的站信息
-        station = YjStationInfo.query.filter_by(id_num=id_num).first_or_404()
+        station = YjStationInfo.query.filter_by(id_num=id_num).first()
 
         # 查询上传信息的版本是否匹配
         try:
@@ -156,9 +162,6 @@ def upload():
 
             response = make_response('OK', 200, id_num=id_num, version=version)
 
-
-
         db.session.commit()
-
 
         return response
