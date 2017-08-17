@@ -30,7 +30,7 @@ class ApiResource(Resource):
     # method_decorators = [authenticate]
     def __init__(self):
         from flask import request
-        print(request.json, 'abcd')
+        print(request, 'abcd')
 
         self.user = None
         # self.user = self.verify()
