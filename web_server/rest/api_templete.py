@@ -108,7 +108,7 @@ class ApiResource(Resource):
     def delete(self):
 
         from flask import request
-        print(request.json)
+        print(request.json, 'abcd')
         models = self.search()
         count = len(models)
 
