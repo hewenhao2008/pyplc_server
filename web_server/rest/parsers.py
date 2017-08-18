@@ -260,7 +260,7 @@ alarm_info_put_parser = reqparse.RequestParser()
 alarm_info_put_parser.add_argument('id', type=int)
 alarm_info_put_parser.add_argument('variable_id', type=int, action='append')
 
-alarm_info_put_parser.add_argument('alarm_type', type=int, action='append')
+alarm_info_put_parser.add_argument('alarm_type', type=int)
 alarm_info_put_parser.add_argument('note', type=str)
 alarm_info_put_parser.add_argument('token', type=str)
 
