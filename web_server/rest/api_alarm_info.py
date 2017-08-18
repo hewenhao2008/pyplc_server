@@ -34,7 +34,7 @@ class AlarmInfoResource(ApiResource):
             query = query.filter_by(id=model_id)
 
         if alarm_type:
-            query = query.filter(VarAlarmInfo.alarm_type.in_(alarm_type))
+            query = query.filter(VarAlarmInfo.alarm_type == alarm_type)
 
         if plc_id:
             query = query.join(YjVariableInfo, YjGroupInfo).filter(YjGroupInfo.plc_id.in_(plc_id))
