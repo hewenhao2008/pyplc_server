@@ -161,7 +161,7 @@ def upload():
                     if last_log is None:
                         print('1')
                         print(v['value'], type(v['value']))
-                        if v['value'] == 1:
+                        if status == 1:
                             print('2')
                             log = VarAlarmLog(alarm_id=alarm.id, time=v['time'], status=status)
                             db.session.add(log)
