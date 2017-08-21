@@ -42,7 +42,7 @@ class PLCResource(ApiResource):
         if limit:
             query = query.limit(limit)
 
-        print(query)
+        # print(query)
 
         if page:
             query = query.paginate(page, per_page, False).items

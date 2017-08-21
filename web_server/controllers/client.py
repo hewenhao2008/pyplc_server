@@ -159,20 +159,26 @@ def upload():
                         VarAlarmLog.time.desc()).first()
                     status = int(v['value'])
                     if last_log is None:
+                        print('1')
                         if v['value'] == 1:
+                            print('2')
                             log = VarAlarmLog(alarm_id=alarm.id, time=v['time'], status=status)
                             db.session.add(log)
                             alarm = VarAlarm(alarm_id=alarm.id, time=v['time'])
                             db.session.add(alarm)
                     
                     else:
+                        print('3')
                         if last_log.status != status:
+                            print('4')
                             log = VarAlarmLog(alarm_id=alarm.id, time=v['time'], status=status)
                             db.session.add(log)
                         if status == 1:
+                            print('5')
                             alarm = VarAlarm(alarm_id=alarm.id, time=v['time'])
                             db.session.add(alarm)
                         elif status == 0:
+                            print('6')
                             alarm = VarAlarm.query.filter(VarAlarm.alarm_id == alarm.id).first()
                             db.session.remove(alarm)
                 except:
