@@ -154,10 +154,12 @@ def upload():
                 db.session.add(value)
 
                 try:
+
                     last_log = VarAlarmLog.query.join(VarAlarmInfo, VarAlarmInfo.variable_id == v['variable_id']).\
                         filter(VarAlarmLog.alarm_id == VarAlarmInfo.id).order_by(VarAlarmLog.time.desc()).first()
                     status = int(v['value'])
                     if last_log is None:
+                        alarm = VarAlarmInfo.query.filter_by(variable_id=v['variable_id']).first()
                         print('1')
                         print(v['value'], type(v['value']))
                         if status == 1:
@@ -171,15 +173,15 @@ def upload():
                         print('3')
                         if last_log.status != status:
                             print('4')
-                            log = VarAlarmLog(alarm_id=alarm.id, time=v['time'], status=status)
+                            log = VarAlarmLog(alarm_id=last_log.alarm_id, time=v['time'], status=status)
                             db.session.add(log)
                             if status == 1:
                                 print('5')
-                                alarm = VarAlarm(alarm_id=alarm.id, time=v['time'])
+                                alarm = VarAlarm(alarm_id=last_log.alarm_id, time=v['time'])
                                 db.session.add(alarm)
                             elif status == 0:
                                 print('6')
-                                alarm = VarAlarm.query.filter(VarAlarm.alarm_id == alarm.id).first()
+                                alarm = VarAlarm.query.filter(VarAlarm.alarm_id == last_log.alarm_id).first()
                                 db.session.delete(alarm)
                 except:
                     pass
