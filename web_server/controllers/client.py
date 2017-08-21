@@ -160,6 +160,7 @@ def upload():
                     status = int(v['value'])
                     if last_log is None:
                         print('1')
+                        print(v['value'], type(v['value']))
                         if v['value'] == 1:
                             print('2')
                             log = VarAlarmLog(alarm_id=alarm.id, time=v['time'], status=status)
