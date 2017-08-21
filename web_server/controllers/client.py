@@ -154,9 +154,8 @@ def upload():
                 db.session.add(value)
 
                 try:
-                    alarm = VarAlarmInfo.query.filter_by(variable_id=v['variable_id']).first()
-                    last_log = VarAlarmLog.query.filter(VarAlarmLog.alarm_id == alarm.id).order_by(
-                        VarAlarmLog.time.desc()).first()
+                    last_log = VarAlarmLog.query.join(VarAlarmInfo, VarAlarmInfo.variable_id == v['variable_id']).\
+                        filter(VarAlarmLog.alarm_id == VarAlarmInfo.id).order_by(VarAlarmLog.time.desc()).first()
                     status = int(v['value'])
                     if last_log is None:
                         print('1')
