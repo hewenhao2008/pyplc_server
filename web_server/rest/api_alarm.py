@@ -21,7 +21,6 @@ class AlarmResource(ApiResource):
 
         model_id = self.args['id']
 
-        status = self.args['status']
         alarm_id = self.args['alarm_id']
         variable_id = self.args['variable_id']
 
@@ -38,9 +37,6 @@ class AlarmResource(ApiResource):
 
         if alarm_id is not None:
             query = query.filter(VarAlarm.alarm_id.in_(alarm_id))
-
-        if status is not None:
-            query = query.filter_by(status=status)
 
         # if limit:
         #     query = query.limit(limit)
@@ -65,7 +61,6 @@ class AlarmResource(ApiResource):
             data['id'] = m.id
             data['alarm_id'] = m.alarm_id
             data['time'] = m.time
-            data['status'] = m.status
 
             alarm_info = m.var_alarm_info
             data['note'] = m.var_alarm_info.note if alarm_info else None

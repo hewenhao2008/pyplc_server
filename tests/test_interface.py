@@ -46,7 +46,6 @@ class TestInterface(unittest.TestCase):
         self.assertIs(res.status_code, 200)
         self.assertEqual(len(res.json()['data']), variable_num)
 
-
     def test_api_alarm(self):
         path = '/api/alarm'
         url = HOST + path
