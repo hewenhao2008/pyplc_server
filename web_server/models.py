@@ -5,7 +5,7 @@ import time
 
 from flask import current_app
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login impormt UserMixin, AnonymousUserMixin
+from flask_login import UserMixin, AnonymousUserMixin
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer, BadSignature, SignatureExpired
 from sqlalchemy.orm import class_mapper
 
