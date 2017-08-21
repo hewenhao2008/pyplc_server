@@ -181,7 +181,7 @@ def upload():
                             elif status == 0:
                                 print('6')
                                 alarm = VarAlarm.query.filter(VarAlarm.alarm_id == alarm.id).first()
-                                db.session.remove(alarm)
+                                db.session.delete(alarm)
                 except:
                     pass
 
