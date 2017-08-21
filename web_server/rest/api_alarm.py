@@ -24,6 +24,8 @@ class AlarmResource(ApiResource):
         alarm_id = self.args['alarm_id']
         variable_id = self.args['variable_id']
 
+        min_time = self.args['min_time']
+        max_time = self.args['max_time']
         page = self.args['page']
         per_page = self.args['per_page'] if self.args['per_page'] else 10
 
@@ -37,6 +39,12 @@ class AlarmResource(ApiResource):
 
         if alarm_id is not None:
             query = query.filter(VarAlarm.alarm_id.in_(alarm_id))
+
+        if min_time is not None:
+            query = query.filter(VarAlarm.time > min_time)
+
+        if max_time is not None:
+            query = query.filter(VarAlarm.time < max_time)
 
         # if limit:
         #     query = query.limit(limit)

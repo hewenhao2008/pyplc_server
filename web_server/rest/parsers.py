@@ -259,6 +259,8 @@ alarm_now_parser.add_argument('id', type=int)
 alarm_now_parser.add_argument('alarm_id', type=int)
 alarm_now_parser.add_argument('time', type=int)
 alarm_now_parser.add_argument('variable_id', type=int, action='append')
+alarm_now_parser.add_argument('min_time', type=int)
+alarm_now_parser.add_argument('max_time', type=int)
 
 alarm_now_parser.add_argument('page', type=int)
 alarm_now_parser.add_argument('per_page', type=int)
