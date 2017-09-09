@@ -11,7 +11,7 @@ from flask_principal import identity_loaded, identity_changed, UserNeed, RoleNee
 from web_server.ext import csrf, api
 from web_server.models import *
 from web_server.util import get_data_from_query, get_data_from_model
-from web_server import mc
+# from web_server import mc
 
 client_blueprint = Blueprint(
     'client',
