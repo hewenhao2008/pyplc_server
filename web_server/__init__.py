@@ -3,7 +3,8 @@
 from celery import Celery
 from flask import Flask, request, session
 from flask import request_tearing_down
-from flask_login import user_logged_in,  current_user
+from flask_login import user_logged_in, current_user
+import pylibmc as memcache
 
 from models import *
 from ext import mako, hashing, api, login_manager, csrf, cache, debug_toolbar, CSRFProtect
@@ -17,7 +18,6 @@ from web_server.rest.api_variable import VariableResource
 from web_server.rest.api_value import ValueResource
 from web_server.rest.auth import AuthApi
 
-
 from web_server.controllers.basic import basic_blueprint
 from web_server.controllers.api import api_blueprint
 from web_server.controllers.client import client_blueprint
@@ -28,6 +28,8 @@ import sys
 
 reload(sys)
 sys.setdefaultencoding("utf-8")
+
+mc = memcache.Client()
 
 
 def create_app(config_name):
@@ -50,7 +52,7 @@ def create_app(config_name):
     login_manager.init_app(app)
     # csrf.init_app(app)
     debug_toolbar.init_app(app)
-    # cache.init_app(app)
+    cache.init_app(app)
 
     # SOCKETIO_REDIS_URL = app.config['CELERY_BACKEND_URL']
     # socketio.init_app(
@@ -139,5 +141,9 @@ def create_app(config_name):
     app.register_blueprint(basic_blueprint)
     app.register_blueprint(api_blueprint)
     app.register_blueprint(client_blueprint)
+
+    alarm_vars = VarAlarmInfo.query.all()
+    alarm_list = [dict(variable_id=model.variabl_id, alarm_id=model.id, status=0) for model in alarm_vars]
+    mc.set("alarm", alarm_list)
 
     return app

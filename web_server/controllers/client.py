@@ -4,12 +4,14 @@ from os import path
 
 from flask import Blueprint, request, jsonify, render_template, redirect, url_for, current_app, flash, Config
 
+
 from flask_login import login_user, logout_user, user_logged_in, login_required, current_user
 from flask_principal import identity_loaded, identity_changed, UserNeed, RoleNeed, Identity, AnonymousIdentity
 
 from web_server.ext import csrf, api
 from web_server.models import *
 from web_server.util import get_data_from_query, get_data_from_model
+from web_server import mc
 
 client_blueprint = Blueprint(
     'client',
@@ -147,40 +149,40 @@ def upload():
             response = make_response('version error', 403)
         else:
             for v in data["value"]:
-                value = Value(variable_id=v["variable_id"],
-                              value=v["value"],
-                              time=v["time"]
-                              )
+                value = Value(
+                    variable_id=v["variable_id"],
+                    value=v["value"],
+                    time=v["time"]
+                )
                 db.session.add(value)
 
                 try:
-
-                    last_log = VarAlarmLog.query.join(VarAlarmInfo, VarAlarmInfo.variable_id == v['variable_id']).\
+                    last_log = VarAlarmLog.query.join(VarAlarmInfo, VarAlarmInfo.variable_id == v['variable_id']). \
                         filter(VarAlarmLog.alarm_id == VarAlarmInfo.id).order_by(VarAlarmLog.time.desc()).first()
                     status = int(v['value'])
                     if last_log is None:
                         alarm = VarAlarmInfo.query.filter_by(variable_id=v['variable_id']).first()
-                        print('1')
-                        print(v['value'], type(v['value']))
+                        # print('1')
+                        # print(v['value'], type(v['value']))
                         if status == 1:
-                            print('2')
+                            # print('2')
                             log = VarAlarmLog(alarm_id=alarm.id, time=v['time'], status=status)
                             db.session.add(log)
                             alarm = VarAlarm(alarm_id=alarm.id, time=v['time'])
                             db.session.add(alarm)
-                    
+
                     else:
-                        print('3')
+                        # print('3')
                         if last_log.status != status:
-                            print('4')
+                            # print('4')
                             log = VarAlarmLog(alarm_id=last_log.alarm_id, time=v['time'], status=status)
                             db.session.add(log)
                             if status == 1:
-                                print('5')
+                                # print('5')
                                 alarm = VarAlarm(alarm_id=last_log.alarm_id, time=v['time'])
                                 db.session.add(alarm)
                             elif status == 0:
-                                print('6')
+                                # print('6')
                                 alarm = VarAlarm.query.filter(VarAlarm.alarm_id == last_log.alarm_id).first()
                                 db.session.delete(alarm)
                 except:

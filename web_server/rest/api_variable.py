@@ -109,6 +109,7 @@ class VariableResource(ApiResource):
             data['id'] = m.id
             data['variable_name'] = m.variable_name
             data['group_id'] = m.group_id
+            data['area'] = m.area
             data['db_num'] = m.db_num
             data['address'] = m.address
             data['data_type'] = m.data_type
