@@ -142,8 +142,8 @@ def create_app(config_name):
     app.register_blueprint(api_blueprint)
     app.register_blueprint(client_blueprint)
 
-    alarm_vars = VarAlarmInfo.query.all()
-    alarm_list = [dict(variable_id=model.variabl_id, alarm_id=model.id, status=0) for model in alarm_vars]
-    mc.set("alarm", alarm_list)
+    # alarm_vars = VarAlarmInfo.query.all()
+    # alarm_list = [dict(variable_id=model.variabl_id, alarm_id=model.id, status=0) for model in alarm_vars]
+    # mc.set("alarm", alarm_list)
 
     return app
