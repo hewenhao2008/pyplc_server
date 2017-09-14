@@ -139,7 +139,8 @@ class QueryResource(ApiResource):
 
             if args['variable_id']:
                 var_models = YjVariableInfo.query.filter(YjVariableInfo.id.in_(args['variable_id'])).all()
-                model.vars += var_models
+                # 添加关系，使用并集操作防止重复添加
+                model.vars = list(set(model.vars).union(set(var_models)))
 
             db.session.add(model)
             db.session.commit()
