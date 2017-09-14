@@ -321,7 +321,7 @@ class QueryGroup(db.Model):
         'YjVariableInfo',
         secondary=var_queries,
         backref=db.backref('querys', lazy='dynamic'),
-        cascade="delete, delete-orphan",
+        # cascade="delete, delete-orphan",
         single_parent=True,
     )
 
@@ -350,7 +350,6 @@ class VarAlarmInfo(db.Model):
 
     logs = db.relationship('VarAlarmLog', backref='var_alarm_info', lazy='dynamic', cascade="delete, delete-orphan")
     alarms = db.relationship('VarAlarm', backref='var_alarm_info', lazy='dynamic', cascade="delete, delete-orphan")
-
 
 
 class InterfaceLog(db.Model):
