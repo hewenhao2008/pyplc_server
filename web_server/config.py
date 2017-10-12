@@ -97,7 +97,7 @@ class ProdConfig(Config):
     #                           % (sae.const.MYSQL_USER, sae.const.MYSQL_PASS,
     #                              sae.const.MYSQL_HOST, int(sae.const.MYSQL_PORT), sae.const.MYSQL_DB)
 
-    SQLALCHEMY_DATABASE_URI = 'mysql://zhouxian:zhouxia@puxeljoqembh.mysq.sae.sina.com.cn:10399/app_pasu'
+    SQLALCHEMY_DATABASE_URI = 'mysql://zhouxian:zhouxia@puxeljoqembh.mysql.sae.sina.com.cn:10399/app_pasu'
     # SQLALCHEMY_DATABASE_URI = 'mysql://ow0y40kylm:1kim23000hz44m5kk3zwjx5myzzlm0k2lj2x2lhl@w.rdc.sae.sina.com.cn:3306/app_pasu'
     # SQLALCHEMY_DATABASE_URI = 'mysql://1m4zwn31kn:i155mii155xx51xkyi0ximxl3hzy3hzk244lk4j0@w.rdc.sae.sina.com.cn:3306/app_yakumo'
     # SQLALCHEMY_DATABASE_URI = 'mysql://web:web@localhost:3306/pyplc'
