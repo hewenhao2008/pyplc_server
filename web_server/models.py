@@ -11,7 +11,6 @@ from sqlalchemy.orm import class_mapper
 
 from ext import db
 
-
 def check_int(column):
     if column:
         return int(column)
@@ -36,9 +35,9 @@ roles = db.Table(
 var_queries = db.Table(
     'variables_queries',
     db.Column('query_id', db.Integer, db.ForeignKey('query_group.id', onupdate="CASCADE", ondelete="CASCADE"),
-              primary_key=True),
+           primary_key=True),
     db.Column('variable_id', db.Integer, db.ForeignKey('yjvariableinfo.id', onupdate="CASCADE", ondelete="CASCADE"),
-              primary_key=True, )
+           primary_key=True, )
 )
 
 
@@ -58,7 +57,7 @@ class YjStationInfo(db.Model):
     version = db.Column(db.Integer)
 
     plcs = db.relationship('YjPLCInfo', backref='yjstationinfo', lazy='dynamic',
-                           cascade="delete, delete-orphan")
+                        cascade="delete, delete-orphan")
 
     logs = db.relationship('TransferLog', backref='yjstationinfo', lazy='dynamic')
 
@@ -98,7 +97,7 @@ class YjPLCInfo(db.Model):
     station_id = db.Column(db.Integer, db.ForeignKey('yjstationinfo.id'))
 
     groups = db.relationship('YjGroupInfo', backref='yjplcinfo', lazy='dynamic',
-                             cascade="delete, delete-orphan")
+                          cascade="delete, delete-orphan")
 
     def __init__(self, plc_name=None, station_id=None, note=None, ip=None,
                  mpi=None, type=None, plc_type=None,
@@ -133,7 +132,7 @@ class YjGroupInfo(db.Model):
     plc_id = db.Column(db.Integer, db.ForeignKey('yjplcinfo.id'))
 
     variables = db.relationship('YjVariableInfo', backref='yjgroupinfo', lazy='dynamic',
-                                cascade="delete, delete-orphan")
+                             cascade="delete, delete-orphan")
 
     def __init__(self, group_name=None, plc_id=None, note=None,
                  upload_cycle=None, upload=True, ten_id=None, item_id=None):
@@ -371,3 +370,24 @@ class Parameter(db.Model):
     variable_id = db.Column(db.Integer, db.ForeignKey('yjvariableinfo.id'))
     param_name = db.Column(db.String(32))
     unit = db.Column(db.String(16))
+
+
+class StationAlarm(db.Model):
+    __tablename__ = 'station_alarm'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    id_num = db.Column(db.String(200))
+    code = db.Column(db.Integer)
+    note = db.Column(db.String(200))
+    time = db.Column(db.Integer)
+
+
+class PLCAlarm(db.Model):
+    __tablename__ = 'plc_alarm'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    id_num = db.Column(db.String(200))
+    plc_id = db.Column(db.Integer)
+    level = db.Column(db.Integer)
+    note = db.Column(db.String(200))
+    time = db.Column(db.Integer)

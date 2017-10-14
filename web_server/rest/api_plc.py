@@ -1,7 +1,7 @@
 # coding=utf-8
 from flask import jsonify, Response
 
-from web_server.models import *
+from web_server.models import YjPLCInfo
 from web_server.rest.parsers import plc_parser, plc_put_parser
 from api_templete import ApiResource
 from err import err_not_found

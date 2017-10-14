@@ -6,8 +6,8 @@ from flask import request_tearing_down
 from flask_login import user_logged_in, current_user
 import pylibmc as memcache
 
-from models import *
-from ext import mako, hashing, api, login_manager, csrf, cache, debug_toolbar, CSRFProtect
+from models import User
+from ext import db, mako, hashing, api, login_manager, csrf, cache, debug_toolbar, CSRFProtect
 from forms import RegistrationForm, LoginForm
 from config import DevConfig, ProdConfig
 
@@ -29,7 +29,7 @@ import sys
 reload(sys)
 sys.setdefaultencoding("utf-8")
 
-mc = memcache.Client()
+# mc = memcache.Client()
 
 
 def create_app(config_name):
@@ -37,22 +37,23 @@ def create_app(config_name):
 
     # here = os.path.abspath(os.path.dirname(__file__))
 
-    # if os.path.exists('dev'):
-    #     app.config.from_object(DevConfig)
-    # else:
-    app.config.from_object(ProdConfig)
+    # 判断调用开发或生产环境配置
+    if app.instance_path == '/Users/yakumo_17/workspace/Github/yakumo/instance':
+        app.config.from_object(DevConfig)
+    else:
+        app.config.from_object(ProdConfig)
 
     # eventlet.monkey_patch()
     mako.init_app(app)
     db.init_app(app)
-    # with app.app_context():
-    #     db.create_all()
+    with app.app_context():
+        db.create_all()
     hashing.init_app(app)
     # admin.init_app(app)
     login_manager.init_app(app)
     # csrf.init_app(app)
     debug_toolbar.init_app(app)
-    # cache.init_app(app)
+    cache.init_app(app)
 
     # SOCKETIO_REDIS_URL = app.config['CELERY_BACKEND_URL']
     # socketio.init_app(

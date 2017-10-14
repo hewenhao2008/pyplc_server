@@ -10,9 +10,9 @@ from celery.schedules import crontab
 class Config(object):
     # 终端连接超时
     STATION_TIMEOUT = 60
-    SQLALCHEMY_DATABASE_URI = 'mysql://%s:%s@%s:%s/%s'.format(sae.const.MYSQL_USER, sae.const.MYSQL_PASS,
-                                                              sae.const.MYSQL_HOST, int(sae.const.MYSQL_PORT),
-                                                              sae.const.MYSQL_DB)
+    # SQLALCHEMY_DATABASE_URI = 'mysql://%s:%s@%s:%s/%s'.format(sae.const.MYSQL_USER, sae.const.MYSQL_PASS,
+    #                                                           sae.const.MYSQL_HOST, int(sae.const.MYSQL_PORT),
+    #                                                           sae.const.MYSQL_DB)
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     # 回收连接
