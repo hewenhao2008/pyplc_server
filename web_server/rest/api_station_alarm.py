@@ -85,12 +85,12 @@ class StationAlarmResource(ApiResource):
         model_id = args['id']
 
         # 判断添加还是修改
-        if model_id is not None:
+        if model_id:
 
             # 修改
             model = StationAlarm.query.get(model_id)
 
-            if model is None:
+            if not model:
                 return err_not_found()
 
             if args['id_num'] is not None:

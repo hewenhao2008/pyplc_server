@@ -1,7 +1,8 @@
 # coding=utf-8
 from flask import abort, jsonify
 
-from web_server.models import *
+from web_server.ext import db
+from web_server.models import YjStationInfo
 from web_server.rest.parsers import station_parser, station_put_parser
 from api_templete import ApiResource
 from err import err_not_found
@@ -64,47 +65,48 @@ class StationResource(ApiResource):
     def put(self):
         args = station_put_parser.parse_args()
 
-        station_id = args['id']
+        model_id = args['id']
 
-        if station_id:
-            station = YjStationInfo.query.get(station_id)
+        if model_id:
+            model = YjStationInfo.query.get(model_id)
 
-            if not station:
+            if not model:
                 return err_not_found()
 
             if args['station_name']:
-                station.station_name = args['station_name']
+                model.station_name = args['station_name']
 
             if args['mac']:
-                station.mac = args['mac']
+                model.mac = args['mac']
 
             if args['ip']:
-                station.ip = args['ip']
+                model.ip = args['ip']
 
             if args['note']:
-                station.note = args['note']
+                model.note = args['note']
 
             if args['id_num']:
-                station.id_num = args['id_num']
+                model.id_num = args['id_num']
 
             if args['plc_count']:
-                station.plc_count = args['plc_count']
+                model.plc_count = args['plc_count']
 
             if args['ten_id']:
-                station.ten_id = args['ten_id']
+                model.ten_id = args['ten_id']
 
             if args['item_id']:
-                station.item_id = args['item_id']
+                model.item_id = args['item_id']
 
             if args['modification']:
-                station.modification = args['modification']
+                model.modification = args['modification']
 
-            db.session.add(station)
+            db.session.add(model)
             db.session.commit()
+
             return rp_modify()
 
         else:
-            station = YjStationInfo(
+            model = YjStationInfo(
                 station_name=args['station_name'],
                 mac=args['mac'],
                 ip=args['ip'],
@@ -115,6 +117,7 @@ class StationResource(ApiResource):
                 item_id=args['item_id'],
                 modification=args['modification']
             )
-            db.session.add(station)
+            db.session.add(model)
             db.session.commit()
+
             return rp_create()

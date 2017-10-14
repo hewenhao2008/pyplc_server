@@ -148,6 +148,7 @@ class AlarmLogResource(ApiResource):
 
             db.session.add(model)
             db.session.commit()
+
             return rp_modify()
 
         else:
@@ -158,4 +159,5 @@ class AlarmLogResource(ApiResource):
             )
             db.session.add(model)
             db.session.commit()
+
             return rp_create()

@@ -76,46 +76,10 @@ class QueryResource(ApiResource):
                 )
                 for v in m.vars
             ]
-            # value_list = []
-            #
-            # for var in m.vars:
-            #     if self.args['min_time'] and self.args['max_time']:
-            #         values = Value.query.filter_by(variable_id=var.id).filter(Value.time > self.args['min_time']).filter(Value.time < self.args['max_time']).all()
-            #         value_list += values
-            #     else:
-            #         value = Value.query.filter_by(variable_id=var.id).order_by(Value.time.desc()).all()
-            #         value_list += (value)
-            #
-            # value_info = [
-            #     dict(
-            #         id=value.id,
-            #         value=value.value,
-            #         time=value.time,
-            #         variable_id=value.variable_id
-            #     )
-            #     for value in value_list
-            # ]
-            # data['value'] = value_info
 
             data['variable'] = variable_list
 
             info.append(data)
-
-        # info = [
-        #     dict(id=m.id,
-        #          name=m.name,
-        #          variable=[
-        #              dict(
-        #                  id=v.id,
-        #                  value=v.values,
-        #                  time=v.time,
-        #                  variable_id=v.variable_id
-        #              )
-        #              for v in m.vars
-        #          ]
-        #          )
-        #     for m in models
-        # ]
 
         response = jsonify({"ok": 1, "data": info})
 

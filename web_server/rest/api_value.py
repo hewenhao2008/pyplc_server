@@ -3,23 +3,12 @@ import datetime
 import time
 
 from flask import abort, jsonify
-from flask_restful import reqparse, Resource, marshal_with, fields
 
 from web_server.models import *
 from web_server.rest.parsers import value_parser, value_put_parser
 from api_templete import ApiResource
 from err import err_not_found
 from response import rp_create, rp_delete, rp_modify
-
-value_field = {
-    'id': fields.Integer,
-    'value_name': fields.String,
-    'plc_id': fields.Integer,
-    'note': fields.String,
-    'upload_cycle': fields.Integer,
-    'ten_id': fields.String,
-    'item_id': fields.String
-}
 
 
 class ValueResource(ApiResource):
@@ -128,28 +117,6 @@ class ValueResource(ApiResource):
         if not value:
             return err_not_found()
 
-        # info = [
-        #     dict(
-        #         id=v.id,
-        #         variable_id=v.variable_id,
-        #         value=v.value,
-        #         time=v.time,
-        #         variable_name=v.yjvariableinfo.variable_name
-        #         if v.yjvariableinfo else None,
-        #         plc_id=v.yjvariableinfo.yjgroupinfo.yjplcinfo.id
-        #         if (v.yjvariableinfo and v.yjvariableinfo.yjgroupinfo and v.yjvariableinfo.yjgroupinfo.yjplcinfo)
-        #         else None,
-        #         plc_name=v.yjvariableinfo.yjplcinfo.plc_name
-        #         if (v.yjvariableinfo and v.yjvariableinfo.yjgroupinfo and v.yjvariableinfo.yjgroupinfo.yjplcinfo)
-        #         else None,
-        #         group_id=v.yjvariableinfo.yjgroupinfo.id
-        #         if v.yjvariableinfo and v.yjvariableinfo.yjgroupinfo else None,
-        #         group_name=v.yjvariableinfo.yjgroupinfo.group_name
-        #         if v.yjvariableinfo and v.yjvariableinfo.yjgroupinfo else None
-        #     )
-        #     for v in value
-        # ]
-
         info = []
         for v in value:
 
@@ -192,35 +159,37 @@ class ValueResource(ApiResource):
     def put(self):
         args = value_put_parser.parse_args()
 
-        value_id = args['id']
+        model_id = args['id']
 
-        if value_id:
+        if model_id:
 
-            value = Value.query.get(value_id)
+            model = Value.query.get(model_id)
 
-            if not value:
+            if not model:
                 return err_not_found()
 
             if args['variable_id']:
-                value.variable_id = args['variable_id']
+                model.variable_id = args['variable_id']
 
             if args['value']:
-                value.value = args['value']
+                model.value = args['value']
 
             if args['time']:
-                value.time = args['time']
+                model.time = args['time']
 
-            db.session.add(value)
+            db.session.add(model)
             db.session.commit()
+
             return rp_modify()
 
         else:
-            value = Value(
+            model = Value(
                 variable_id=args['variable_id'],
                 value=args['value'],
                 time=args['time']
             )
 
-            db.session.add(value)
+            db.session.add(model)
             db.session.commit()
+
             return rp_create()

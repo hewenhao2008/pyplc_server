@@ -1,31 +1,12 @@
 # coding=utf-8
-import time
+from flask import abort, jsonify, current_app
 
-from flask import abort, jsonify
-from flask_restful import reqparse, Resource, marshal_with, fields
-
-from web_server import
-from web_server.models import *
+from web_server.ext import db
+from web_server.models import YjPLCInfo, YjGroupInfo, YjVariableInfo
 from web_server.rest.parsers import variable_parser, variable_put_parser
 from api_templete import ApiResource
 from err import err_not_found, variable_overfulfil
 from response import rp_create, rp_delete, rp_modify
-
-variable_field = {
-    'id': fields.Integer,
-    'tag_name': fields.String,
-    'plc_id': fields.Integer,
-    'group_id': fields.Integer,
-    'address': fields.String,
-    'data_type': fields.String,
-    'rw_type': fields.Integer,
-    'upload': fields.Boolean,
-    'acquisition_cycle': fields.Integer,
-    'server_record_cycle': fields.Integer,
-    'note': fields.String,
-    'ten_id': fields.String,
-    'item_id': fields.String
-}
 
 
 class VariableResource(ApiResource):
@@ -33,9 +14,8 @@ class VariableResource(ApiResource):
         self.args = variable_parser.parse_args()
         super(VariableResource, self).__init__()
 
-    def search(self, variable_id=None):
-        if not variable_id:
-            variable_id = self.args['id']
+    def search(self):
+        variable_id = self.args['id']
 
         variable_name = self.args['variable_name']
         plc_id = self.args['plc_id']
@@ -76,35 +56,6 @@ class VariableResource(ApiResource):
         if not models:
             return err_not_found()
 
-        # time1 = time.time()
-        # info = [
-        #     dict(
-        #         id=m.id,
-        #         variable_name=m.variable_name,
-        #         group_id=m.group_id,
-        #         db_num=m.db_num,
-        #         address=m.address,
-        #         area=m.area,
-        #         write_value=m.write_value,
-        #         data_type=m.data_type,
-        #         rw_type=m.rw_type,
-        #         upload=m.upload,
-        #         acquisition_cycle=m.acquisition_cycle,
-        #         server_record_cycle=m.server_record_cycle,
-        #         note=m.note,
-        #         ten_id=m.ten_id,
-        #         item_id=m.item_id,
-        #         group_name=m.yjgroupinfo.group_name if m.yjgroupinfo else None,
-        #         plc_id=m.yjgroupinfo.yjplcinfo.id if m.yjgroupinfo and m.yjgroupinfo.yjplcinfo else None,
-        #         plc_name=m.yjgroupinfo.yjplcinfo.plc_name if m.yjgroupinfo and m.yjgroupinfo.yjplcinfo else None,
-        #     )
-        #     for m in models
-        # ]
-
-        # time2 = time.time()
-        # print(time2 - time1)
-
-        time1 = time.time()
         info = []
         for m in models:
 
@@ -142,19 +93,18 @@ class VariableResource(ApiResource):
 
             info.append(data)
 
-        time2 = time.time()
-        print(time2 - time1)
-
-        response = jsonify({'ok': 1, "data": info})
+        response = jsonify({
+            'ok': 1,
+            "data": info
+        })
         response.status_code = 200
 
         return response
 
-    def put(self, variable_id=None):
+    def put(self):
         args = variable_put_parser.parse_args()
 
-        if not variable_id:
-            variable_id = args['id']
+        variable_id = args['id']
 
         if variable_id:
 

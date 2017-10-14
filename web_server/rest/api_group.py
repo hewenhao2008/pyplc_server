@@ -1,7 +1,8 @@
 # coding=utf-8
 from flask import abort, jsonify
 
-from web_server.models import *
+from web_server.ext import db
+from web_server.models import YjPLCInfo, YjGroupInfo
 from web_server.rest.parsers import group_parser, group_put_parser
 from api_templete import ApiResource
 from err import err_not_found
@@ -82,42 +83,43 @@ class GroupResource(ApiResource):
     def put(self):
         args = group_put_parser.parse_args()
 
-        group_id = args['id']
+        model_id = args['id']
 
-        if group_id:
+        if model_id:
 
-            group = YjGroupInfo.query.get(group_id)
+            model = YjGroupInfo.query.get(model_id)
 
-            if not group:
+            if not model:
                 return err_not_found()
 
             if args['group_name']:
-                group.group_name = args['group_name']
+                model.group_name = args['group_name']
 
             if args['plc_id']:
-                group.plc_id = args['plc_id']
+                model.plc_id = args['plc_id']
 
             if args['note']:
-                group.note = args['note']
+                model.note = args['note']
 
             if args['upload_cycle']:
-                group.upload_cycle = args['upload_cycle']
+                model.upload_cycle = args['upload_cycle']
 
             if args['ten_id']:
-                group.ten_id = args['ten_id']
+                model.ten_id = args['ten_id']
 
             if args['item_id']:
-                group.item_id = args['item_id']
+                model.item_id = args['item_id']
 
             if args['upload']:
-                group.item_id = args['upload']
+                model.upload = args['upload']
 
-            db.session.add(group)
+            db.session.add(model)
             db.session.commit()
+
             return rp_modify()
 
         else:
-            group = YjGroupInfo(
+            model = YjGroupInfo(
                 group_name=args['group_name'],
                 plc_id=args['plc_id'],
                 note=args['note'],
@@ -127,6 +129,7 @@ class GroupResource(ApiResource):
                 upload=args['upload']
             )
 
-            db.session.add(group)
+            db.session.add(model)
             db.session.commit()
+
             return rp_create()
