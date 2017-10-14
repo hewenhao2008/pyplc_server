@@ -139,6 +139,7 @@ def create_app(config_name):
     #         return 'Bad data format!'
     #     return render_template('show_data.html', df=df.to_html(classes='frame'), date_string=date_string)
 
+    # 注册蓝图
     app.register_blueprint(basic_blueprint)
     app.register_blueprint(api_blueprint)
     app.register_blueprint(client_blueprint)

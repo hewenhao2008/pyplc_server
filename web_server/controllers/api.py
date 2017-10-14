@@ -19,6 +19,8 @@ from web_server.rest.api_interface_log import InterfaceLogResource
 from web_server.rest.api_param import ParameterResource
 from web_server.rest.api_value_id import VariableIDResource
 from web_server.rest.api_alarm import AlarmResource
+from web_server.rest.api_station_alarm import StationAlarmResource
+from web_server.rest.api_plc_alarm import PLCAlarmResource
 from web_server.rest.err import custom_errors
 
 api_blueprint = Blueprint(
@@ -44,3 +46,5 @@ api.add_resource(UserResource, '/user', endpoint='user')
 api.add_resource(InterfaceLogResource, '/interface_log', endpoint='interfacelog')
 api.add_resource(ParameterResource, '/param', endpoint='parameter')
 api.add_resource(VariableIDResource, '/variable_id')
+api.add_resource(PLCAlarmResource, '/station_alarm')
+api.add_resource(StationAlarmResource, '/plc_alarm')

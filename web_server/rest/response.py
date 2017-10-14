@@ -11,7 +11,7 @@ def make_response(msg, status_code):
         'msg': msg
     })
     response.status_code = status_code
-    print response
+
     return response
 
 

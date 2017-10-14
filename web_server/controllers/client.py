@@ -1,16 +1,17 @@
 # coding=utf-8
 
 from os import path
-
+import time
 from flask import Blueprint, request, jsonify, render_template, redirect, url_for, current_app, flash, Config
-
 
 from flask_login import login_user, logout_user, user_logged_in, login_required, current_user
 from flask_principal import identity_loaded, identity_changed, UserNeed, RoleNeed, Identity, AnonymousIdentity
 
-from web_server.ext import csrf, api
-from web_server.models import *
+from web_server.ext import db, csrf, api
+from web_server.models import (serialize, YjStationInfo, YjPLCInfo, YjGroupInfo, YjVariableInfo,
+                               Value, VarAlarm, VarAlarmInfo, VarAlarmLog, StationAlarm, PLCAlarm)
 from web_server.util import get_data_from_query, get_data_from_model
+
 # from web_server import mc
 
 client_blueprint = Blueprint(
@@ -62,11 +63,14 @@ def configuration(station_model):
 
 @client_blueprint.route('/beats', methods=['POST'])
 def beats():
+    # 获取心跳数据
     data = request.get_json(force=True)
     # data = decryption(rv)
 
+    # 根据id_num查询终端数据模型
     station = YjStationInfo.query.filter_by(id_num=data["id_num"]).first()
     if station:
+        # 记录连接时间
         station.con_time = int(time.time())
 
         # if int(station.version) != int(data["version"]):
@@ -76,6 +80,7 @@ def beats():
 
         db.session.add(station)
 
+        # 记录变量报警信息
         if 'alarm_log' in data.keys():
             for log in data['alarm_log']:
                 l = VarAlarmLog(
@@ -85,13 +90,42 @@ def beats():
                 )
                 db.session.add(l)
 
-        db.session.commit()
+        # 记录终端故障信息
+        for station_alarm in data['station_alarms']:
+            alarm = StationAlarm(
+                id_num=station_alarm['id_num'],
+                code=station_alarm['code'],
+                note=station_alarm['note'],
+                time=station_alarm['time']
+            )
+            db.session.add(alarm)
 
-        data = {"modification": station.modification, "status": 'OK'}
+        # 记录PLC故障信息
+        for plc_alarm in data['plc_alarms']:
+            alarm = PLCAlarm(
+                id_num=plc_alarm['id_num'],
+                plc_id=plc_alarm['plc_id'],
+                level=plc_alarm['level'],
+                note=plc_alarm['note'],
+                time=plc_alarm['time']
+            )
+            db.session.add(alarm)
+
+        modification = station.modification
+        status = 'ok'
+
         # data = encryption(data)
 
     else:
-        data = {'modification': 0, 'status': 'error'}
+        modification = 0
+        status = 'error'
+
+    # 返回信息
+    data = {
+        "modification": modification,
+        "status": status
+    }
+    db.session.commit()
 
     return jsonify(data)
 
@@ -110,10 +144,15 @@ def set_config():
         # 获取属于该终端的四个表的数据
         data = {
             "YjStationInfo": serialize(station),
-            "YjPLCInfo": [serialize(plc) for plc in station.plcs],
-            "YjGroupInfo": [serialize(group) for plc in station.plcs for group in plc.groups],
-            "YjVariableInfo": [serialize(variable) for plc in station.plcs for group in plc.groups for variable in
-                               group.variables]
+            "YjPLCInfo": [serialize(plc)
+                          for plc in station.plcs],
+            "YjGroupInfo": [serialize(group)
+                            for plc in station.plcs
+                            for group in plc.groups],
+            "YjVariableInfo": [serialize(variable)
+                               for plc in station.plcs
+                               for group in plc.groups
+                               for variable in group.variables]
         }
         # time2 = time.time()
         # print(time2 - time1)

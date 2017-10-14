@@ -342,4 +342,29 @@ param_parser.add_argument('page', type=int)
 param_parser.add_argument('per_page', type=int)
 param_parser.add_argument('limit', type=int)
 
+# 终端故障信息
+station_alarm_parser = reqparse.RequestParser()
+station_alarm_parser.add_argument('id', type=int)
+station_alarm_parser.add_argument('code', type=int)
+station_alarm_parser.add_argument('id_num', type=str)
+station_alarm_parser.add_argument('note', type=str)
+station_alarm_parser.add_argument('time', type=int)
 
+station_alarm_parser.add_argument('min_time', type=int)
+station_alarm_parser.add_argument('max_time', type=int)
+station_alarm_parser.add_argument('page', type=int)
+station_alarm_parser.add_argument('per_page', type=int)
+
+# PLC故障信息
+plc_alarm_parser = reqparse.RequestParser()
+plc_alarm_parser.add_argument('id', type=int)
+plc_alarm_parser.add_argument('plc_id', type=int)
+plc_alarm_parser.add_argument('level', type=int)
+plc_alarm_parser.add_argument('id_num', type=str)
+plc_alarm_parser.add_argument('note', type=str)
+plc_alarm_parser.add_argument('time', type=int)
+
+plc_alarm_parser.add_argument('min_time', type=int)
+plc_alarm_parser.add_argument('max_time', type=int)
+plc_alarm_parser.add_argument('page', type=int)
+plc_alarm_parser.add_argument('per_page', type=int)
