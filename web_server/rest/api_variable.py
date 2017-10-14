@@ -1,11 +1,14 @@
 # coding=utf-8
+import time
+
 from flask import abort, jsonify
 from flask_restful import reqparse, Resource, marshal_with, fields
 
+from web_server import
 from web_server.models import *
 from web_server.rest.parsers import variable_parser, variable_put_parser
 from api_templete import ApiResource
-from err import err_not_found
+from err import err_not_found, variable_overfulfil
 from response import rp_create, rp_delete, rp_modify
 
 variable_field = {
@@ -208,6 +211,12 @@ class VariableResource(ApiResource):
             return rp_modify()
 
         else:
+            # 检查站点已存在变量数量，防止超过规定上限
+            plc_id = YjGroupInfo.query.filter_by(id=args['group_id']).first().plc.id
+            station_variable_count = YjVariableInfo.query.join(YjGroupInfo).filter(YjGroupInfo.plc_id == plc_id).count()
+            if station_variable_count >= current_app.config['VARIABLE_COUNT']:
+                return variable_overfulfil()
+
             variable = YjVariableInfo(
                 variable_name=args['variable_name'],
                 group_id=args['group_id'],

@@ -8,6 +8,8 @@ from celery.schedules import crontab
 
 
 class Config(object):
+    # 终端变量上限
+    VARIABLE_COUNT = 200
     # 终端连接超时
     STATION_TIMEOUT = 60
     # SQLALCHEMY_DATABASE_URI = 'mysql://%s:%s@%s:%s/%s'.format(sae.const.MYSQL_USER, sae.const.MYSQL_PASS,
