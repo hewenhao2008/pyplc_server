@@ -7,11 +7,19 @@ from web_server.models import db, YjStationInfo, TransferLog
 task_blueprint = Blueprint(
     'task',
     __name__,
-    template_folder=path.join(path.pardir, 'templates', 'task')
+    template_folder=path.join(path.pardir, 'templates', 'task'),
+    url_prefix='/task'
 )
 
 
-@task_blueprint.route('/check_station')
+@task_blueprint.route('/test', methods=['GET'])
+def test():
+    print(current_app.config['VARIABLE_COUNT'])
+    print('this is task crontab.')
+    return 'test'
+
+
+@task_blueprint.route('/check_station', methods=['GET'])
 def check_station():
     with current_app.app_context():
         current_time = int(time.time())
@@ -45,8 +53,3 @@ def check_station():
             db.session.add(warn)
         db.session.commit()
     return 'check station complete.'
-
-@task_blueprint.route('/test')
-def test():
-    print('this is task crontab.')
-    return 'test'

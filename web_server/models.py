@@ -1,6 +1,5 @@
 # coding=utf-8
 import os
-import datetime
 import time
 
 from flask import current_app
@@ -10,6 +9,7 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer, BadSigna
 from sqlalchemy.orm import class_mapper
 
 from ext import db
+
 
 def check_int(column):
     if column:
@@ -35,9 +35,9 @@ roles = db.Table(
 var_queries = db.Table(
     'variables_queries',
     db.Column('query_id', db.Integer, db.ForeignKey('query_group.id', onupdate="CASCADE", ondelete="CASCADE"),
-           primary_key=True),
+              primary_key=True),
     db.Column('variable_id', db.Integer, db.ForeignKey('yjvariableinfo.id', onupdate="CASCADE", ondelete="CASCADE"),
-           primary_key=True, )
+              primary_key=True, )
 )
 
 
@@ -55,9 +55,10 @@ class YjStationInfo(db.Model):
     con_time = db.Column(db.Integer)
     modification = db.Column(db.Integer)
     version = db.Column(db.Integer)
+    phone = db.Column(db.Integer)
 
     plcs = db.relationship('YjPLCInfo', backref='yjstationinfo', lazy='dynamic',
-                        cascade="delete, delete-orphan")
+                           cascade="delete, delete-orphan")
 
     logs = db.relationship('TransferLog', backref='yjstationinfo', lazy='dynamic')
 
@@ -97,7 +98,7 @@ class YjPLCInfo(db.Model):
     station_id = db.Column(db.Integer, db.ForeignKey('yjstationinfo.id'))
 
     groups = db.relationship('YjGroupInfo', backref='yjplcinfo', lazy='dynamic',
-                          cascade="delete, delete-orphan")
+                             cascade="delete, delete-orphan")
 
     def __init__(self, plc_name=None, station_id=None, note=None, ip=None,
                  mpi=None, type=None, plc_type=None,
@@ -132,7 +133,7 @@ class YjGroupInfo(db.Model):
     plc_id = db.Column(db.Integer, db.ForeignKey('yjplcinfo.id'))
 
     variables = db.relationship('YjVariableInfo', backref='yjgroupinfo', lazy='dynamic',
-                             cascade="delete, delete-orphan")
+                                cascade="delete, delete-orphan")
 
     def __init__(self, group_name=None, plc_id=None, note=None,
                  upload_cycle=None, upload=True, ten_id=None, item_id=None):
@@ -346,6 +347,7 @@ class VarAlarmInfo(db.Model):
     variable_id = db.Column(db.Integer, db.ForeignKey('yjvariableinfo.id'))
     alarm_type = db.Column(db.Integer)
     note = db.Column(db.String(128))
+    is_send_message = db.Column(db.Boolean)
 
     logs = db.relationship('VarAlarmLog', backref='var_alarm_info', lazy='dynamic', cascade="delete, delete-orphan")
     alarms = db.relationship('VarAlarm', backref='var_alarm_info', lazy='dynamic', cascade="delete, delete-orphan")

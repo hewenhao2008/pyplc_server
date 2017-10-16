@@ -21,7 +21,10 @@ def encryption(data):
     data = zlib.compress(data)
     data = base64.b64encode(data)
     digest = h.hexdigest()
-    data = {"data": data, "digest": digest}
+    data = {
+        "data": data,
+        "digest": digest
+    }
     return data
 
 
@@ -42,7 +45,9 @@ def decryption(rj):
         # data = base64.b64decode(data)
         data = json.loads(data.replace("'", '"'))
     else:
-        data = {"status": "Error"}
+        data = {
+            "status": "Error"
+        }
     return data
 
 
@@ -87,7 +92,16 @@ def configuration(station_model):
                 variables_config += get_data_from_query(variables)
 
     # 包装数据
-    data = {"YjStationInfo": station_config, "YjPLCInfo": plcs_config,
-            "YjGroupInfo": groups_config, "YjVariableInfo": variables_config}
+    data = {
+        "YjStationInfo": station_config,
+        "YjPLCInfo": plcs_config,
+        "YjGroupInfo": groups_config,
+        "YjVariableInfo": variables_config
+    }
 
     return data
+
+
+# 发送短信
+def send_message():
+    pass
