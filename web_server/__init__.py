@@ -21,6 +21,7 @@ from web_server.rest.auth import AuthApi
 from web_server.controllers.basic import basic_blueprint
 from web_server.controllers.api import api_blueprint
 from web_server.controllers.client import client_blueprint
+from web_server.controllers.crontabs import task_blueprint
 
 # 设置默认编码
 # 不用这段会使得jinja渲染flash消息时产生编码错误
@@ -143,6 +144,7 @@ def create_app(config_name):
     app.register_blueprint(basic_blueprint)
     app.register_blueprint(api_blueprint)
     app.register_blueprint(client_blueprint)
+    app.register_blueprint(task_blueprint)
 
     # alarm_vars = VarAlarmInfo.query.all()
     # alarm_list = [dict(variable_id=model.variabl_id, alarm_id=model.id, status=0) for model in alarm_vars]
