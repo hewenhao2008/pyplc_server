@@ -68,15 +68,16 @@ class ApiResource(Resource):
             )
         else:
             old_data = None
-        log = InterfaceLog(username=user.username,
-                           host_url=request.path,
-                           method=request.method.lower(),
-                           time=current_time,
-                           param=json.dumps(param),
-                           old_data=old_data,
-                           endpoint=request.endpoint,
-                           new_data_id=new_id
-                           )
+        log = InterfaceLog(
+            username=user.username,
+            host_url=request.path,
+            method=request.method.lower(),
+            time=current_time,
+            param=json.dumps(param),
+            old_data=old_data,
+            endpoint=request.endpoint,
+            new_data_id=new_id
+        )
         db.session.add(log)
         db.session.commit()
 
