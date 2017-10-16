@@ -44,8 +44,9 @@ def check_station():
             )
             db.session.add(warn)
         db.session.commit()
+    return 'check station complete.'
 
-
-@task_blueprint.route('/tast')
+@task_blueprint.route('/test')
 def test():
     print('this is task crontab.')
+    return 'test'
