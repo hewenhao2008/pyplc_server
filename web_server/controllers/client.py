@@ -171,6 +171,9 @@ def set_config():
 @client_blueprint.route('/upload', methods=['POST'])
 def upload():
     if request.method == 'POST':
+        # 设置每次上传时最大发送的短信条数
+        message_count = 1
+
         data = request.get_json(force=True)
         # data = decryption(data)
 
@@ -226,7 +229,9 @@ def upload():
 
                             # 发送短信
                             if alarm_info.is_send_message and station.phone and station.station_name:
-                                sms_alarm(station.phone, {'name': station.station_name})
+                                if message_count > 0:
+                                    sms_alarm(station.phone, {'name': station.station_name})
+                                    message_count -= 1
 
                     else:
                         # 历史报警存在，检查状态。相同不做处理，不相同时，记录本次状态。同时增加或删除当前报警表内该变量信息。
@@ -246,7 +251,9 @@ def upload():
 
                                 # 发送短信
                                 if alarm.var_alarm_info.is_send_message and station.phone and station.station_name:
-                                    sms_alarm(station.phone, {'name': station.station_name})
+                                    if message_count > 0:
+                                        sms_alarm(station.phone, {'name': station.station_name})
+                                        message_count -= 1
 
                             elif status == 0:
                                 alarm = VarAlarm.query.filter(VarAlarm.alarm_id == last_log.alarm_id).first()

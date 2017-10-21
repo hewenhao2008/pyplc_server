@@ -55,7 +55,7 @@ class YjStationInfo(db.Model):
     con_time = db.Column(db.Integer)
     modification = db.Column(db.Integer)
     version = db.Column(db.Integer)
-    phone = db.Column(db.Integer)
+    phone = db.Column(db.BigInteger)
 
     plcs = db.relationship('YjPLCInfo', backref='yjstationinfo', lazy='dynamic',
                            cascade="delete, delete-orphan")

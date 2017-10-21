@@ -11,7 +11,7 @@ class Config(object):
     # 终端变量上限
     VARIABLE_COUNT = 200
     # 终端连接超时
-    STATION_TIMEOUT = 60
+    STATION_TIMEOUT = 300
     # SQLALCHEMY_DATABASE_URI = 'mysql://%s:%s@%s:%s/%s'.format(sae.const.MYSQL_USER, sae.const.MYSQL_PASS,
     #                                                           sae.const.MYSQL_HOST, int(sae.const.MYSQL_PORT),
     #                                                           sae.const.MYSQL_DB)

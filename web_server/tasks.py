@@ -24,16 +24,16 @@ def check_station():
                 if current_time - last_time > Config.STATION_TIMEOUT:
                     warn_level = last_level + 1
                     if warn_level >= 3:
-                        level = 3,
+                        level = 3
                         note = 'ERROR'
                     else:
                         level = warn_level,
                         note = 'WARNING'
                 else:
-                    level = 0,
+                    level = 0
                     note = 'OK'
             else:
-                level = 0,
+                level = 0
                 note = 'First Check'
 
             warn = TransferLog(
