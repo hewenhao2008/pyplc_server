@@ -1,10 +1,10 @@
 # coding=utf-8
 
-from celery import Celery
+# from celery import Celery
 from flask import Flask, request, session
 from flask import request_tearing_down
 from flask_login import user_logged_in, current_user
-import pylibmc as memcache
+# import pylibmc as memcache
 
 from models import User
 from ext import db, mako, hashing, api, login_manager, csrf, cache, debug_toolbar, CSRFProtect
