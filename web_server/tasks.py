@@ -27,7 +27,7 @@ def check_station():
                         level = 3
                         note = 'ERROR'
                     else:
-                        level = warn_level,
+                        level = warn_level
                         note = 'WARNING'
                 else:
                     level = 0
