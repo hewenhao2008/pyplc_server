@@ -18,7 +18,7 @@ hashing = Hashing()
 # admin = Admin()
 csrf = CSRFProtect()
 api = Api(decorators=[csrf.exempt])  # decorators参数，给所有api的url加上装饰器，免于csrf检查
-cache = Cache()
+# cache = Cache()
 debug_toolbar = DebugToolbarExtension()
 # socketio = SocketIO()
 celery = Celery()
