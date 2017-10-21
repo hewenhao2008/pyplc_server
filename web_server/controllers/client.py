@@ -69,6 +69,7 @@ def beats():
 
     # 根据id_num查询终端数据模型
     station = YjStationInfo.query.filter_by(id_num=data["id_num"]).first()
+    print(1)
     if station:
         # 记录连接时间
         station.con_time = int(time.time())
@@ -81,7 +82,7 @@ def beats():
         db.session.add(station)
 
         # 记录变量报警信息
-        if 'alarm_log' in data.keys():
+        if 'alarm_log' in data.keys() and data['alarm_log']:
             for log in data['alarm_log']:
                 l = VarAlarmLog(
                     alarm_id=log['alarm_id'],
@@ -89,28 +90,30 @@ def beats():
                     confirm=log['confirm']
                 )
                 db.session.add(l)
-
+            print(2)
         # 记录终端故障信息
-        for station_alarm in data['station_alarms']:
-            alarm = StationAlarm(
-                id_num=station_alarm['id_num'],
-                code=station_alarm['code'],
-                note=station_alarm['note'],
-                time=station_alarm['time']
-            )
-            db.session.add(alarm)
-
+        if data['station_alarms']:
+            for station_alarm in data['station_alarms']:
+                alarm = StationAlarm(
+                    id_num=station_alarm['id_num'],
+                    code=station_alarm['code'],
+                    note=station_alarm['note'],
+                    time=station_alarm['time']
+                )
+                db.session.add(alarm)
+        print(3)
         # 记录PLC故障信息
-        for plc_alarm in data['plc_alarms']:
-            alarm = PLCAlarm(
-                id_num=plc_alarm['id_num'],
-                plc_id=plc_alarm['plc_id'],
-                level=plc_alarm['level'],
-                note=plc_alarm['note'],
-                time=plc_alarm['time']
-            )
-            db.session.add(alarm)
-
+        if data['plc_alarms']:
+            for plc_alarm in data['plc_alarms']:
+                alarm = PLCAlarm(
+                    id_num=plc_alarm['id_num'],
+                    plc_id=plc_alarm['plc_id'],
+                    level=plc_alarm['level'],
+                    note=plc_alarm['note'],
+                    time=plc_alarm['time']
+                )
+                db.session.add(alarm)
+        print(4)
         modification = station.modification
         status = 'ok'
 
@@ -119,7 +122,7 @@ def beats():
     else:
         modification = 0
         status = 'error'
-
+    print(5)
     # 返回信息
     data = {
         "modification": modification,
