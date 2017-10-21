@@ -104,40 +104,40 @@ class PLCResource(ApiResource):
             if not plc:
                 return err_not_found()
 
-            if args['plc_name']:
+            if args['plc_name'] is not None:
                 plc.plc_name = args['plc_name']
 
-            if args['station_id']:
+            if args['station_id'] is not None:
                 plc.station_id = args['station_id']
 
-            if args['note']:
+            if args['note'] is not None:
                 plc.note = args['note']
 
-            if args['ip']:
+            if args['ip'] is not None:
                 plc.ip = args['ip']
 
-            if args['mpi']:
+            if args['mpi'] is not None:
                 plc.mpi = args['mpi']
 
-            if args['type']:
+            if args['type'] is not None:
                 plc.type = args['type']
 
-            if args['plc_type']:
+            if args['plc_type'] is not None:
                 plc.plc_type = args['plc_type']
 
-            if args['ten_id']:
+            if args['ten_id'] is not None:
                 plc.ten_id = args['ten_id']
 
-            if args['item_id']:
+            if args['item_id'] is not None:
                 plc.item_id = args['item_id']
 
-            if args['rack']:
+            if args['rack'] is not None:
                 plc.rack = args['rack']
 
-            if args['slot']:
+            if args['slot'] is not None:
                 plc.slot = args['slot']
 
-            if args['tcp_port']:
+            if args['tcp_port'] is not None:
                 plc.tcp_port = args['tcp_port']
 
             db.session.add(plc)
