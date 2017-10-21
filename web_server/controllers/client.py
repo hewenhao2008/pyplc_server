@@ -10,8 +10,8 @@ from flask_principal import identity_loaded, identity_changed, UserNeed, RoleNee
 from web_server.ext import db, csrf, api
 from web_server.models import (serialize, YjStationInfo, YjPLCInfo, YjGroupInfo, YjVariableInfo,
                                Value, VarAlarm, VarAlarmInfo, VarAlarmLog, StationAlarm, PLCAlarm)
-from web_server.util import get_data_from_query, get_data_from_model, send_message
-
+from web_server.util import get_data_from_query, get_data_from_model
+from web_server.utils.aliyun_sms import sms_alarm
 # from web_server import mc
 
 client_blueprint = Blueprint(
@@ -225,8 +225,8 @@ def upload():
                             db.session.add(alarm)
 
                             # 发送短信
-                            if alarm_info.is_send_message:
-                                send_message()
+                            if alarm_info.is_send_message and station.phone and station.station_name:
+                                sms_alarm(station.phone, {'name': station.station_name})
 
                     else:
                         # 历史报警存在，检查状态。相同不做处理，不相同时，记录本次状态。同时增加或删除当前报警表内该变量信息。
@@ -245,8 +245,8 @@ def upload():
                                 db.session.add(alarm)
 
                                 # 发送短信
-                                if alarm.var_alarm_info.is_send_message:
-                                    send_message()
+                                if alarm.var_alarm_info.is_send_message and station.phone and station.station_name:
+                                    sms_alarm(station.phone, {'name': station.station_name})
 
                             elif status == 0:
                                 alarm = VarAlarm.query.filter(VarAlarm.alarm_id == last_log.alarm_id).first()

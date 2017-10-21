@@ -34,6 +34,8 @@ station_put_parser.add_argument('plc_count', type=int)
 station_put_parser.add_argument('ten_id', type=str)
 station_put_parser.add_argument('item_id', type=str)
 station_put_parser.add_argument('modification', type=bool)
+station_put_parser.add_argument('phone', type=int)
+
 
 # plc查询参数
 plc_parser = reqparse.RequestParser()
@@ -292,6 +294,7 @@ alarm_info_put_parser.add_argument('variable_id', type=int)
 
 alarm_info_put_parser.add_argument('alarm_type', type=int)
 alarm_info_put_parser.add_argument('note', type=str)
+alarm_info_put_parser.add_argument('is_send_message', type=bool)
 alarm_info_put_parser.add_argument('token', type=str)
 
 # 用户认证、用户新建（无认证）

@@ -54,7 +54,7 @@ class StationResource(ApiResource):
             data['ten_id'] = m.ten_id
             data['item_id'] = m.item_id
             data['modification'] = m.modification
-
+            data['phone'] = m.phone
             info.append(data)
 
         response = jsonify({'ok': 1, "data": info})
@@ -73,32 +73,35 @@ class StationResource(ApiResource):
             if not model:
                 return err_not_found()
 
-            if args['station_name']:
+            if args['station_name'] is not None:
                 model.station_name = args['station_name']
 
-            if args['mac']:
+            if args['mac'] is not None:
                 model.mac = args['mac']
 
-            if args['ip']:
+            if args['ip'] is not None:
                 model.ip = args['ip']
 
-            if args['note']:
+            if args['note'] is not None:
                 model.note = args['note']
 
-            if args['id_num']:
+            if args['id_num'] is not None:
                 model.id_num = args['id_num']
 
-            if args['plc_count']:
+            if args['plc_count'] is not None:
                 model.plc_count = args['plc_count']
 
-            if args['ten_id']:
+            if args['ten_id'] is not None:
                 model.ten_id = args['ten_id']
 
-            if args['item_id']:
+            if args['item_id'] is not None:
                 model.item_id = args['item_id']
 
-            if args['modification']:
+            if args['modification'] is not None:
                 model.modification = args['modification']
+
+            if args['phone'] is not None:
+                model.phone = args['phone']
 
             db.session.add(model)
             db.session.commit()
@@ -115,7 +118,8 @@ class StationResource(ApiResource):
                 plc_count=args['plc_count'],
                 ten_id=args['ten_id'],
                 item_id=args['item_id'],
-                modification=args['modification']
+                modification=args['modification'],
+                phone=args['phone']
             )
             db.session.add(model)
             db.session.commit()

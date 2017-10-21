@@ -102,6 +102,3 @@ def configuration(station_model):
     return data
 
 
-# 发送短信
-def send_message():
-    pass

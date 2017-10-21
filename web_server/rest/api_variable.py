@@ -162,10 +162,12 @@ class VariableResource(ApiResource):
 
         else:
             # 检查站点已存在变量数量，防止超过规定上限
-            plc_id = YjGroupInfo.query.filter_by(id=args['group_id']).first().plc.id
-            station_variable_count = YjVariableInfo.query.join(YjGroupInfo).filter(YjGroupInfo.plc_id == plc_id).count()
-            if station_variable_count >= current_app.config['VARIABLE_COUNT']:
-                return variable_overfulfil()
+            if args['group_id'] is not None:
+                plc_id = YjGroupInfo.query.filter_by(id=args['group_id']).first().yjplcinfo.id
+                station_variable_count = YjVariableInfo.query.join(YjGroupInfo).filter(
+                    YjGroupInfo.plc_id == plc_id).count()
+                if station_variable_count >= current_app.config['VARIABLE_COUNT']:
+                    return variable_overfulfil()
 
             variable = YjVariableInfo(
                 variable_name=args['variable_name'],

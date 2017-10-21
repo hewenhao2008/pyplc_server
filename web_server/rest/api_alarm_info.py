@@ -67,6 +67,7 @@ class AlarmInfoResource(ApiResource):
                 variable_name=m.yjvariableinfo.variable_name if m.yjvariableinfo else None,
                 alarm_type=m.alarm_type,
                 note=m.note,
+                is_send_message=m.is_send_message
             )
             for m in models
         ]
@@ -87,14 +88,17 @@ class AlarmInfoResource(ApiResource):
             if not model:
                 return err_not_found()
 
-            if args['variable_id']:
+            if args['variable_id'] is not None:
                 model.variable_id = args['variable_id']
 
-            if args['alarm_type']:
+            if args['alarm_type'] is not None:
                 model.alarm_type = args['alarm_type']
 
-            if args['note']:
+            if args['note'] is not None:
                 model.note = args['note']
+
+            if args['is_send_message'] is not None:
+                model.is_send_message = args['is_send_message']
 
             db.session.add(model)
             db.session.commit()
@@ -105,7 +109,8 @@ class AlarmInfoResource(ApiResource):
             model = VarAlarmInfo(
                 variable_id=args['variable_id'],
                 alarm_type=args['alarm_type'],
-                note=args['note']
+                note=args['note'],
+                is_send_message=args['is_send_message']
             )
             db.session.add(model)
             db.session.commit()
