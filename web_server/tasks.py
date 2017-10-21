@@ -2,7 +2,7 @@ import time
 from web_server.models import db, YjStationInfo, TransferLog
 
 from web_server.ext import celery
-from web_server import current_app
+from flask import current_app
 from config import Config
 
 

@@ -29,7 +29,7 @@ def check_station():
             if last_log:
                 last_time = last_log.time
                 last_level = last_log.level
-                if current_time - last_time > current_app.config.STATION_TIMEOUT:
+                if current_time - last_time > current_app.config.get('STATION_TIMEOUT'):
                     warn_level = last_level + 1
                     if warn_level >= 3:
                         level = 3
