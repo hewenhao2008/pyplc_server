@@ -35,6 +35,7 @@ station_put_parser.add_argument('ten_id', type=str)
 station_put_parser.add_argument('item_id', type=str)
 station_put_parser.add_argument('modification', type=bool)
 station_put_parser.add_argument('phone', type=int)
+station_put_parser.add_argument('version', type=int)
 
 
 # plc查询参数
