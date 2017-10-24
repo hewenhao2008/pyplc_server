@@ -191,8 +191,8 @@ def upload():
         try:
             assert (int(station.version) == int(version))
         # 不匹配
-        except AssertionError:
-            response = make_response('version error', 403)
+        except (AssertionError, TypeError) as e:
+            response = make_response('version error:' + e, 403)
 
         # 匹配
         else:

@@ -63,7 +63,7 @@ class YjStationInfo(db.Model):
     logs = db.relationship('TransferLog', backref='yjstationinfo', lazy='dynamic')
 
     def __init__(self, station_name=None, mac=None, ip=None, note=None, id_num=None,
-                 plc_count=None, ten_id=None, item_id=None, con_time=int(time.time()), modification=0, phone=None):
+                 plc_count=None, ten_id=None, item_id=None, con_time=int(time.time()), modification=0, phone=None, version=1):
         self.station_name = station_name
         self.mac = mac
         self.ip = ip
@@ -75,6 +75,7 @@ class YjStationInfo(db.Model):
         self.con_time = con_time
         self.modification = modification
         self.phone = phone
+        self.version = version
 
     def __repr__(self):
         return '<Station : ID(%r) Name(%r) >'.format(self.id, self.name)

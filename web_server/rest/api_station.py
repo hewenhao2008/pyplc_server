@@ -55,6 +55,7 @@ class StationResource(ApiResource):
             data['item_id'] = m.item_id
             data['modification'] = m.modification
             data['phone'] = m.phone
+            data['version'] = m.version
             info.append(data)
 
         response = jsonify({'ok': 1, "data": info})
@@ -103,6 +104,9 @@ class StationResource(ApiResource):
             if args['phone'] is not None:
                 model.phone = args['phone']
 
+            if args['version'] is not None:
+                model.version = args['version']
+
             db.session.add(model)
             db.session.commit()
 
@@ -119,7 +123,8 @@ class StationResource(ApiResource):
                 ten_id=args['ten_id'],
                 item_id=args['item_id'],
                 modification=args['modification'],
-                phone=args['phone']
+                phone=args['phone'],
+                version=args['version']
             )
             db.session.add(model)
             db.session.commit()
