@@ -12,6 +12,7 @@ from web_server.models import (serialize, YjStationInfo, YjPLCInfo, YjGroupInfo,
                                Value, VarAlarm, VarAlarmInfo, VarAlarmLog, StationAlarm, PLCAlarm)
 from web_server.util import get_data_from_query, get_data_from_model
 from web_server.utils.aliyun_sms import sms_alarm
+
 # from web_server import mc
 
 client_blueprint = Blueprint(
@@ -23,11 +24,11 @@ client_blueprint = Blueprint(
 
 
 def make_response(status, status_code, **kwargs):
-    msg = {
-        'status': status
+    data = {
+        'status': status,
     }
-    msg.update(kwargs)
-    response = jsonify(msg)
+    data.update(kwargs)
+    response = jsonify(data)
     response.status_code = status_code
 
     return response
@@ -141,7 +142,6 @@ def set_config():
         station = db.session.query(YjStationInfo).filter_by(id_num=data["id_num"]).first()
         # data = decryption(data)
 
-
         # time1 = time.time()
         # data = configuration(station)
         # 获取属于该终端的四个表的数据
@@ -174,6 +174,7 @@ def set_config():
 @client_blueprint.route('/upload', methods=['POST'])
 def upload():
     if request.method == 'POST':
+
         # 设置每次上传时最大发送的短信条数
         message_count = 1
 
@@ -184,19 +185,30 @@ def upload():
         id_num = data["id_num"]
         version = data["version"]
 
+        print(data, version, int(version))
         # 查询服务器是否有正在上传的站信息
+        print('a')
         station = YjStationInfo.query.filter_by(id_num=id_num).first()
+        print(type(station.version))
 
+        if not station:
+            return make_response(
+                status='error',
+                status_code=400,
+                msg='服务器没有站点信息'
+            )
+        print('a')
         # 查询上传信息的版本是否匹配
         try:
+            assert isinstance(int(station.version), int)
             assert (int(station.version) == int(version))
         # 不匹配
         except (AssertionError, TypeError) as e:
-            response = make_response('version error:' + e, 403)
+            response = make_response('version error:' + str(e), 403)
 
         # 匹配
         else:
-
+            print('a')
             # 保存数据
             for v in data["value"]:
                 value = Value(
@@ -206,64 +218,68 @@ def upload():
                 )
                 db.session.add(value)
 
-                try:
-                    # 获取历史报警
-                    last_log = VarAlarmLog.query.join(VarAlarmInfo, VarAlarmInfo.variable_id == v['variable_id']). \
-                        filter(VarAlarmLog.alarm_id == VarAlarmInfo.id).order_by(VarAlarmLog.time.desc()).first()
-                    status = int(v['value'])
+                # 获取报警变量id
+                alarm_variable_id = db.session.query(VarAlarmInfo.variable_id).all()
+                print(alarm_variable_id)
+                if v['variable_id'] in alarm_variable_id:
+                    try:
+                        # 获取历史报警
+                        last_log = VarAlarmLog.query.join(VarAlarmInfo, VarAlarmInfo.variable_id == v['variable_id']). \
+                            filter(VarAlarmLog.alarm_id == VarAlarmInfo.id).order_by(VarAlarmLog.time.desc()).first()
+                        status = int(v['value'])
 
-                    # 历史报警不存在，写入历史报警和当前报警
-                    if last_log is None:
-                        alarm_info = VarAlarmInfo.query.filter_by(variable_id=v['variable_id']).first()
-                        if status == 1:
-                            log = VarAlarmLog(
-                                alarm_id=alarm_info.id,
-                                time=v['time'],
-                                status=status
-                            )
-
-                            db.session.add(log)
-
-                            alarm = VarAlarm(
-                                alarm_id=alarm_info.id,
-                                time=v['time']
-                            )
-                            db.session.add(alarm)
-
-                            # 发送短信
-                            if alarm_info.is_send_message and station.phone and station.station_name:
-                                if message_count > 0:
-                                    sms_alarm(station.phone, {'name': station.station_name})
-                                    message_count -= 1
-
-                    else:
-                        # 历史报警存在，检查状态。相同不做处理，不相同时，记录本次状态。同时增加或删除当前报警表内该变量信息。
-                        if last_log.status != status:
-                            log = VarAlarmLog(
-                                alarm_id=last_log.alarm_id,
-                                time=v['time'],
-                                status=status
-                            )
-                            db.session.add(log)
+                        # 历史报警不存在，写入历史报警和当前报警
+                        if last_log is None:
+                            alarm_info = VarAlarmInfo.query.filter_by(variable_id=v['variable_id']).first()
                             if status == 1:
+                                log = VarAlarmLog(
+                                    alarm_id=alarm_info.id,
+                                    time=v['time'],
+                                    status=status
+                                )
+
+                                db.session.add(log)
+
                                 alarm = VarAlarm(
-                                    alarm_id=last_log.alarm_id,
+                                    alarm_id=alarm_info.id,
                                     time=v['time']
                                 )
                                 db.session.add(alarm)
 
                                 # 发送短信
-                                if alarm.var_alarm_info.is_send_message and station.phone and station.station_name:
+                                if alarm_info.is_send_message and station.phone and station.station_name:
                                     if message_count > 0:
                                         sms_alarm(station.phone, {'name': station.station_name})
                                         message_count -= 1
 
-                            elif status == 0:
-                                alarm = VarAlarm.query.filter(VarAlarm.alarm_id == last_log.alarm_id).first()
-                                db.session.delete(alarm)
+                        else:
+                            # 历史报警存在，检查状态。相同不做处理，不相同时，记录本次状态。同时增加或删除当前报警表内该变量信息。
+                            if last_log.status != status:
+                                log = VarAlarmLog(
+                                    alarm_id=last_log.alarm_id,
+                                    time=v['time'],
+                                    status=status
+                                )
+                                db.session.add(log)
+                                if status == 1:
+                                    alarm = VarAlarm(
+                                        alarm_id=last_log.alarm_id,
+                                        time=v['time']
+                                    )
+                                    db.session.add(alarm)
 
-                except ValueError as e:
-                    print(e)
+                                    # 发送短信
+                                    if alarm.var_alarm_info.is_send_message and station.phone and station.station_name:
+                                        if message_count > 0:
+                                            sms_alarm(station.phone, {'name': station.station_name})
+                                            message_count -= 1
+
+                                elif status == 0:
+                                    alarm = VarAlarm.query.filter(VarAlarm.alarm_id == last_log.alarm_id).first()
+                                    db.session.delete(alarm)
+
+                    except ValueError as e:
+                        print(e)
 
             response = make_response(
                 status='OK',

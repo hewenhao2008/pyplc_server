@@ -78,7 +78,7 @@ class YjStationInfo(db.Model):
         self.version = version
 
     def __repr__(self):
-        return '<Station : ID(%r) Name(%r) >'.format(self.id, self.name)
+        return '<Station : ID(%r) Name(%r) >'.format(self.id, self.station_name)
 
 
 class YjPLCInfo(db.Model):
@@ -194,7 +194,7 @@ class YjVariableInfo(db.Model):
         self.area = area
 
     def __repr__(self):
-        return '<Variable :ID(%r) Name(%r) >'.format(self.id, self.tag_name)
+        return '<Variable :ID(%r) Name(%r) >'.format(self.id, self.variable_name)
 
 
 class Value(db.Model):
