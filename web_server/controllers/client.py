@@ -3,6 +3,8 @@
 from os import path
 import time
 from flask import Blueprint, request, jsonify
+import json
+import zlib
 
 from web_server.ext import db
 from web_server.models import (serialize, YjStationInfo,
@@ -171,7 +173,10 @@ def set_config():
         db.session.add(station)
         db.session.commit()
 
-        data = encryption(data)
+        # data = encryption(data)
+        # data = json.dumps(data)
+        # data = zlib.compress(data)
+
         response = make_response('OK', 200, data=data)
         return response
 
@@ -184,7 +189,9 @@ def upload():
         message_count = 1
 
         data = request.get_json(force=True)
-        data = decryption(data)
+        # data = decryption(data)
+        # data = zlib.decompress(data)
+        # data = json.loads(data)
 
         # 验证上传数据
         id_num = data["id_num"]
