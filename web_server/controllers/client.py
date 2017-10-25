@@ -2,15 +2,12 @@
 
 from os import path
 import time
-from flask import Blueprint, request, jsonify, render_template, redirect, url_for, current_app, flash, Config
+from flask import Blueprint, request, jsonify
 
-from flask_login import login_user, logout_user, user_logged_in, login_required, current_user
-from flask_principal import identity_loaded, identity_changed, UserNeed, RoleNeed, Identity, AnonymousIdentity
-
-from web_server.ext import db, csrf, api
-from web_server.models import (serialize, YjStationInfo, YjPLCInfo, YjGroupInfo, YjVariableInfo,
+from web_server.ext import db
+from web_server.models import (serialize, YjStationInfo,
                                Value, VarAlarm, VarAlarmInfo, VarAlarmLog, StationAlarm, PLCAlarm)
-from web_server.util import get_data_from_query, get_data_from_model
+from web_server.util import get_data_from_query, get_data_from_model, encryption, decryption
 from web_server.utils.aliyun_sms import sms_alarm
 
 # from web_server import mc
@@ -174,7 +171,7 @@ def set_config():
         db.session.add(station)
         db.session.commit()
 
-        # data = encryption(data)
+        data = encryption(data)
         response = make_response('OK', 200, data=data)
         return response
 
@@ -187,7 +184,7 @@ def upload():
         message_count = 1
 
         data = request.get_json(force=True)
-        # data = decryption(data)
+        data = decryption(data)
 
         # 验证上传数据
         id_num = data["id_num"]
