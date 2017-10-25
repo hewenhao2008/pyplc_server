@@ -140,6 +140,14 @@ def set_config():
         data = request.get_json(force=True)
 
         station = db.session.query(YjStationInfo).filter_by(id_num=data["id_num"]).first()
+
+        if not station:
+            response = make_response(
+                'error',
+                400,
+                msg='站点信息不存在'
+            )
+            return response
         # data = decryption(data)
 
         # time1 = time.time()
@@ -200,8 +208,9 @@ def upload():
         print('a')
         # 查询上传信息的版本是否匹配
         try:
-            assert isinstance(int(station.version), int)
-            assert (int(station.version) == int(version))
+            pass
+            # assert isinstance(int(station.version), int)
+            # assert (int(station.version) == int(version))
         # 不匹配
         except (AssertionError, TypeError) as e:
             response = make_response('version error:' + str(e), 403)
