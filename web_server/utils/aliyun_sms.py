@@ -96,7 +96,7 @@ def sms_alarm(phone, params):
     params_str = params_str[0: -1]
     params_str += "}"
 
-    print send_sms(__business_id, str(phone), "简要报警", "SMS_105305014", params)
+    print send_sms(__business_id, str(phone), "云集短信报警", "SMS_105305014", params)
 
-
+# sms_alarm(17647429517, {'name': 'a'})
 # sms_alarm(17647429517, {'station_name': '123', 'time': 1232, 'note': 2312})

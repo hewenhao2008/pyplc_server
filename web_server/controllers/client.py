@@ -222,7 +222,10 @@ def upload():
         # 匹配
         else:
             print('a')
+            # 获取报警变量id
+            alarm_variable_id = [int(alarm[0]) for alarm in db.session.query(VarAlarmInfo.variable_id).all()]
             # 保存数据
+
             for v in data["value"]:
                 value = Value(
                     variable_id=v["variable_id"],
@@ -231,10 +234,9 @@ def upload():
                 )
                 db.session.add(value)
 
-                # 获取报警变量id
-                alarm_variable_id = db.session.query(VarAlarmInfo.variable_id).all()
                 print(alarm_variable_id)
-                if v['variable_id'] in alarm_variable_id:
+                if int(v['variable_id']) in alarm_variable_id:
+                    print('报警')
                     try:
                         # 获取历史报警
                         last_log = VarAlarmLog.query.join(VarAlarmInfo, VarAlarmInfo.variable_id == v['variable_id']). \
@@ -242,6 +244,7 @@ def upload():
                         status = int(v['value'])
 
                         # 历史报警不存在，写入历史报警和当前报警
+                        print('status', status, last_log)
                         if last_log is None:
                             alarm_info = VarAlarmInfo.query.filter_by(variable_id=v['variable_id']).first()
                             if status == 1:
@@ -261,8 +264,9 @@ def upload():
 
                                 # 发送短信
                                 if alarm_info.is_send_message and station.phone and station.station_name:
+                                    print('发送短信')
                                     if message_count > 0:
-                                        sms_alarm(station.phone, {'name': station.station_name})
+                                        sms_alarm(station.phone, {'name': str(station.station_name)})
                                         message_count -= 1
 
                         else:
@@ -282,14 +286,17 @@ def upload():
                                     db.session.add(alarm)
 
                                     # 发送短信
-                                    if alarm.var_alarm_info.is_send_message and station.phone and station.station_name:
+                                    alarm_info = VarAlarmInfo.query.filter_by(id=last_log.alarm_id).first()
+                                    if alarm_info.is_send_message and station.phone and station.station_name:
+                                        print('发短信2')
                                         if message_count > 0:
-                                            sms_alarm(station.phone, {'name': station.station_name})
+                                            sms_alarm(station.phone, {'name': str(station.station_name)})
                                             message_count -= 1
 
                                 elif status == 0:
                                     alarm = VarAlarm.query.filter(VarAlarm.alarm_id == last_log.alarm_id).first()
-                                    db.session.delete(alarm)
+                                    if alarm:
+                                        db.session.delete(alarm)
 
                     except ValueError as e:
                         print(e)
