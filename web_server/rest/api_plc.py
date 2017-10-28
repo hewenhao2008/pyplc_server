@@ -1,12 +1,11 @@
 # coding=utf-8
-from flask import jsonify, Response
 
+from api_templete import ApiResource
 from web_server.ext import db
 from web_server.models import YjStationInfo, YjPLCInfo
 from web_server.rest.parsers import plc_parser, plc_put_parser
-from api_templete import ApiResource
-from err import err_not_found
-from response import rp_create, rp_delete, rp_modify
+from web_server.utils.err import err_not_found
+from web_server.utils.response import rp_create, rp_modify, rp_get
 
 
 class PLCResource(ApiResource):
@@ -35,7 +34,7 @@ class PLCResource(ApiResource):
             query = query.filter_by(plc_name=plc_name)
 
         if station_id:
-            query = query.filter_by(station_id=station_id)
+            query = query.filter(YjPLCInfo.station_id.in_(station_id))
 
         if station_name:
             query = query.join(YjStationInfo, YjStationInfo.station_name == station_name)
@@ -55,8 +54,6 @@ class PLCResource(ApiResource):
         return query
 
     def information(self, models):
-        if not models:
-            return err_not_found()
 
         info = []
         for m in models:
@@ -86,83 +83,84 @@ class PLCResource(ApiResource):
 
             info.append(data)
 
-        response = jsonify({'ok': 1, "data": info})
-        response.status_code = 200
+        # 返回json数据
+        rp = rp_get(info)
 
-        return response
+        return rp
 
     def put(self):
         args = plc_put_parser.parse_args()
 
+        self.query = []
+        plc = YjPLCInfo(
+            plc_name=args['plc_name'],
+            station_id=args['station_id'],
+            note=args['note'],
+            ip=args['ip'],
+            mpi=args['mpi'],
+            type=args['type'],
+            plc_type=args['plc_type'],
+            ten_id=args['ten_id'],
+            item_id=args['item_id'],
+            rack=args['rack'],
+            slot=args['slot'],
+            tcp_port=args['tcp_port']
+        )
+
+        db.session.add(plc)
+        db.session.commit()
+        self.new_id = plc.id
+        return rp_create()
+
+    def patch(self):
+
+        args = plc_put_parser.parse_args()
+
         plc_id = args['id']
 
-        if plc_id:
+        plc = YjPLCInfo.query.get(plc_id)
+        self.query = [].append(plc)
+        print self.query
+        if not plc:
+            return err_not_found()
 
-            plc = YjPLCInfo.query.get(plc_id)
-            self.query = [].append(plc)
-            print self.query
-            if not plc:
-                return err_not_found()
+        if args['plc_name'] is not None:
+            plc.plc_name = args['plc_name']
 
-            if args['plc_name'] is not None:
-                plc.plc_name = args['plc_name']
+        if args['station_id'] is not None:
+            plc.station_id = args['station_id']
 
-            if args['station_id'] is not None:
-                plc.station_id = args['station_id']
+        if args['note'] is not None:
+            plc.note = args['note']
 
-            if args['note'] is not None:
-                plc.note = args['note']
+        if args['ip'] is not None:
+            plc.ip = args['ip']
 
-            if args['ip'] is not None:
-                plc.ip = args['ip']
+        if args['mpi'] is not None:
+            plc.mpi = args['mpi']
 
-            if args['mpi'] is not None:
-                plc.mpi = args['mpi']
+        if args['type'] is not None:
+            plc.type = args['type']
 
-            if args['type'] is not None:
-                plc.type = args['type']
+        if args['plc_type'] is not None:
+            plc.plc_type = args['plc_type']
 
-            if args['plc_type'] is not None:
-                plc.plc_type = args['plc_type']
+        if args['ten_id'] is not None:
+            plc.ten_id = args['ten_id']
 
-            if args['ten_id'] is not None:
-                plc.ten_id = args['ten_id']
+        if args['item_id'] is not None:
+            plc.item_id = args['item_id']
 
-            if args['item_id'] is not None:
-                plc.item_id = args['item_id']
+        if args['rack'] is not None:
+            plc.rack = args['rack']
 
-            if args['rack'] is not None:
-                plc.rack = args['rack']
+        if args['slot'] is not None:
+            plc.slot = args['slot']
 
-            if args['slot'] is not None:
-                plc.slot = args['slot']
+        if args['tcp_port'] is not None:
+            plc.tcp_port = args['tcp_port']
 
-            if args['tcp_port'] is not None:
-                plc.tcp_port = args['tcp_port']
+        db.session.add(plc)
+        db.session.commit()
 
-            db.session.add(plc)
-            db.session.commit()
-
-            return rp_modify()
-
-        else:
-            self.query = []
-            plc = YjPLCInfo(
-                plc_name=args['plc_name'],
-                station_id=args['station_id'],
-                note=args['note'],
-                ip=args['ip'],
-                mpi=args['mpi'],
-                type=args['type'],
-                plc_type=args['plc_type'],
-                ten_id=args['ten_id'],
-                item_id=args['item_id'],
-                rack=args['rack'],
-                slot=args['slot'],
-                tcp_port=args['tcp_port']
-            )
-
-            db.session.add(plc)
-            db.session.commit()
-            self.new_id = plc.id
-            return rp_create()
+        return rp_modify()

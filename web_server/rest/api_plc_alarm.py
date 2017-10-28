@@ -1,12 +1,11 @@
 # coding=utf-8
-from flask import jsonify
 
+from api_templete import ApiResource
 from web_server.ext import db
 from web_server.models import PLCAlarm
 from web_server.rest.parsers import plc_alarm_parser
-from api_templete import ApiResource
-from err import err_not_found
-from response import rp_create, rp_modify
+from web_server.utils.err import err_not_found
+from web_server.utils.response import rp_create, rp_modify, rp_get
 
 
 class PLCAlarmResource(ApiResource):
@@ -54,9 +53,6 @@ class PLCAlarmResource(ApiResource):
         return query
 
     def information(self, models):
-        # 没有查询到返回查询失败信息
-        if not models:
-            return err_not_found()
 
         # 将查询到对象数据填入字典
         info = []
@@ -72,58 +68,54 @@ class PLCAlarmResource(ApiResource):
             info.append(data)
 
         # 返回json数据
-        response = jsonify(
-            {
-                'ok': 1,
-                "data": info
-            }
-        )
-        response.status_code = 200
+        rp = rp_get(info)
 
-        return response
+        return rp
 
     def put(self):
         args = plc_alarm_parser.parse_args()
 
-        model_id = args['id']
+        # 添加
+        model = PLCAlarm(
+            id_num=args['id_num'],
+            plc_id=args['plc_id'],
+            level=args['level'],
+            note=args['note'],
+            time=args['time']
+        )
 
-        # 判断添加还是修改
-        if model_id is not None:
-
-            # 修改
-            model = PLCAlarm.query.get(model_id)
-
-            if model is None:
-                return err_not_found()
-
-            if args['id_num'] is not None:
-                model.id_num = args['id_num']
-
-            if args['code'] is not None:
-                model.code = args['code']
-
-            if args['note'] is not None:
-                model.note = args['note']
-
-            if args['time'] is not None:
-                model.time = args['time']
-
-            db.session.add(model)
-            db.session.commit()
-
-            return rp_modify()
-
-        else:
-
-            # 添加
-            model = PLCAlarm(
-                id_num=args['id_num'],
-                code=args['code'],
-                note=args['note'],
-                time=args['time']
-            )
-
-            db.session.add(model)
-            db.session.commit()
+        db.session.add(model)
+        db.session.commit()
 
         return rp_create()
+
+    def patch(self):
+        args = plc_alarm_parser.parse_args()
+
+        model_id = args['id']
+
+        # 修改
+        model = PLCAlarm.query.get(model_id)
+
+        if model is None:
+            return err_not_found()
+
+        if args['id_num'] is not None:
+            model.id_num = args['id_num']
+
+        if args['plc_id'] is not None:
+            model.plc_id = args['plc_id']
+
+        if args['level'] is not None:
+            model.level = args['level']
+
+        if args['note'] is not None:
+            model.note = args['note']
+
+        if args['time'] is not None:
+            model.time = args['time']
+
+        db.session.add(model)
+        db.session.commit()
+
+        return rp_modify()

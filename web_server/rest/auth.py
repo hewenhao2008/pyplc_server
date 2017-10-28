@@ -1,13 +1,12 @@
 # coding=utf-8
 
-from flask import current_app, jsonify, request
-from flask_restful import Resource, abort
-from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from flask import jsonify, request
+from flask_restful import Resource
 
-from web_server.rest.parsers import auth_parser
 from web_server.models import *
-from web_server.rest.err import err_pw, err_user_not_exist, make_error
-from web_server.rest.response import rp_user_create
+from web_server.rest.parsers import auth_parser
+from web_server.utils.err import err_pw, err_user_not_exist, make_error
+from web_server.utils.response import rp_user_create
 
 
 class AuthApi(Resource):

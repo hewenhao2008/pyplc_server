@@ -1,14 +1,10 @@
 # coding=utf-8
-import datetime
-import time
 
-from flask import abort, jsonify
-
-from web_server.models import *
-from web_server.rest.parsers import status_parser, status_put_parser
 from api_templete import ApiResource
-from err import err_not_found
-from response import rp_create, rp_delete, rp_modify
+from web_server.models import db, TransferLog
+from web_server.rest.parsers import status_parser, status_put_parser
+from web_server.utils.err import err_not_found
+from web_server.utils.response import rp_create, rp_modify, rp_get
 
 
 class StatusResource(ApiResource):
@@ -22,6 +18,7 @@ class StatusResource(ApiResource):
             model_id = self.args['id']
 
         station_id = self.args['station_id']
+        note = self.args['note']
 
         min_time = self.args['min_time']
         max_time = self.args['max_time']
@@ -31,27 +28,29 @@ class StatusResource(ApiResource):
         per_page = self.args['per_page'] if self.args['per_page'] else 10
 
         query = TransferLog.query
-        # print query.all()
 
-        if model_id:
+        if model_id is not None:
             query = query.filter_by(id=model_id)
 
-        if station_id:
+        if station_id is not None:
             query = query.filter(TransferLog.station_id.in_(station_id))
 
-        if min_time:
+        if note is not None:
+            query = query.filter(note=note)
+
+        if min_time is not None:
             query = query.filter(TransferLog.time > min_time)
 
-        if max_time:
+        if max_time is not None:
             query = query.filter(TransferLog.time < max_time)
 
-        if order_time:
+        if order_time is not None:
             query = query.order_by(TransferLog.time.desc())
 
         # if limit:
         #     query = query.limit(limit)
 
-        if page:
+        if page is not None:
             query = query.paginate(page, per_page, False).items
         elif limit:
             # time1 = time.time()
@@ -71,56 +70,56 @@ class StatusResource(ApiResource):
         return query
 
     def information(self, models):
-        if not models:
-            return err_not_found()
 
-        info = [dict(id=m.id,
-                     station_id=m.station_id,
-                     level=m.level,
-                     note=m.note,
-                     time=m.time)
-                for m in models
-                ]
+        info = [
+            dict(id=m.id,
+                 station_id=m.station_id,
+                 level=m.level,
+                 note=m.note,
+                 time=m.time)
+            for m in models
+        ]
 
-        response = jsonify({"ok": 1, "data": info})
+        # 返回json数据
+        rp = rp_get(info)
 
-        return response
+        return rp
 
-    def put(self, model_id=None):
+    def put(self):
         args = status_put_parser.parse_args()
 
-        if not model_id:
-            model_id = args['id']
+        model = TransferLog(
+            station_id=args['station_id'],
+            level=args['level'],
+            time=args['time'],
+            note=args['note'],
+        )
+        db.session.add(model)
+        db.session.commit()
+        return rp_create()
 
-        if model_id:
-            model = TransferLog.query.get(model_id)
+    def patch(self):
+        args = status_put_parser.parse_args()
 
-            if not model:
-                return err_not_found()
+        model_id = args['id']
 
-            if args['station_id']:
-                model.station_name = args['station_id']
+        model = TransferLog.query.get(model_id)
 
-            if args['level']:
-                model.level = args['level']
+        if not model:
+            return err_not_found()
 
-            if args['time']:
-                model.time = args['time']
+        if args['station_id']:
+            model.station_name = args['station_id']
 
-            if args['note']:
-                model.note = args['note']
+        if args['level']:
+            model.level = args['level']
 
-            db.session.add(model)
-            db.session.commit()
-            return rp_modify()
+        if args['time']:
+            model.time = args['time']
 
-        else:
-            model = TransferLog(
-                station_id=args['station_id'],
-                level=args['level'],
-                time=args['time'],
-                note=args['note'],
-            )
-            db.session.add(model)
-            db.session.commit()
-            return rp_create()
+        if args['note']:
+            model.note = args['note']
+
+        db.session.add(model)
+        db.session.commit()
+        return rp_modify()

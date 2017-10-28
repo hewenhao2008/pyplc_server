@@ -1,14 +1,10 @@
 # coding=utf-8
-import datetime
-import time
 
-from flask import jsonify
-
-from web_server.models import *
-from web_server.rest.parsers import alarm_now_parser, alarm_now_put_parser
 from api_templete import ApiResource
-from err import err_not_found
-from response import rp_create, rp_modify
+from web_server.models import db, VarAlarmInfo, VarAlarm, YjVariableInfo
+from web_server.rest.parsers import alarm_now_parser, alarm_now_put_parser
+from web_server.utils.err import err_not_found
+from web_server.utils.response import rp_create, rp_modify, rp_get
 
 
 class AlarmResource(ApiResource):
@@ -23,6 +19,8 @@ class AlarmResource(ApiResource):
 
         alarm_id = self.args['alarm_id']
         variable_id = self.args['variable_id']
+
+        time = self.args['time']
 
         min_time = self.args['min_time']
         max_time = self.args['max_time']
@@ -39,6 +37,9 @@ class AlarmResource(ApiResource):
 
         if alarm_id is not None:
             query = query.filter(VarAlarm.alarm_id.in_(alarm_id))
+
+        if time is not None:
+            query = query.filter(VarAlarm.time == time)
 
         if min_time is not None:
             query = query.filter(VarAlarm.time > min_time)
@@ -59,8 +60,6 @@ class AlarmResource(ApiResource):
         return query
 
     def information(self, models):
-        if not models:
-            return err_not_found()
 
         info = list()
 
@@ -91,38 +90,41 @@ class AlarmResource(ApiResource):
 
             info.append(data)
 
-        response = jsonify({"ok": 1, "data": info})
+        # 返回json数据
+        rp = rp_get(info)
 
-        return response
+        return rp
 
     def put(self):
         args = alarm_now_put_parser.parse_args()
 
+        model = VarAlarm(
+            alarm_id=args['alarm_id'],
+            time=args['time'],
+        )
+        db.session.add(model)
+        db.session.commit()
+
+        return rp_create()
+
+    def patch(self):
+
+        args = alarm_now_put_parser.parse_args()
+
         model_id = args['id']
 
-        if model_id:
-            model = VarAlarm.query.get(model_id)
+        model = VarAlarm.query.get(model_id)
 
-            if not model:
-                return err_not_found()
+        if not model:
+            return err_not_found()
 
-            if args['alarm_id']:
-                model.alarm_id = args['alarm_id']
+        if args['alarm_id']:
+            model.alarm_id = args['alarm_id']
 
-            if args['time']:
-                model.time = args['time']
+        if args['time']:
+            model.time = args['time']
 
-            db.session.add(model)
-            db.session.commit()
+        db.session.add(model)
+        db.session.commit()
 
-            return rp_modify()
-
-        else:
-            model = VarAlarm(
-                alarm_id=args['alarm_id'],
-                time=args['time'],
-            )
-            db.session.add(model)
-            db.session.commit()
-
-            return rp_create()
+        return rp_modify()

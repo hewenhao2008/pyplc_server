@@ -1,12 +1,11 @@
 # coding=utf-8
-from flask import abort, jsonify
 
+from api_templete import ApiResource
 from web_server.ext import db
 from web_server.models import YjStationInfo
 from web_server.rest.parsers import station_parser, station_put_parser
-from api_templete import ApiResource
-from err import err_not_found
-from response import rp_create, rp_delete, rp_modify
+from web_server.utils.err import err_not_found
+from web_server.utils.response import rp_create, rp_modify, rp_get
 
 
 class StationResource(ApiResource):
@@ -38,8 +37,6 @@ class StationResource(ApiResource):
         return query
 
     def information(self, models):
-        if not models:
-            return err_not_found()
 
         info = []
         for m in models:
@@ -58,75 +55,77 @@ class StationResource(ApiResource):
             data['version'] = m.version
             info.append(data)
 
-        response = jsonify({'ok': 1, "data": info})
-        response.status_code = 200
+        # 返回json数据
+        rp = rp_get(info)
 
-        return response
+        return rp
 
     def put(self):
         args = station_put_parser.parse_args()
 
+        model = YjStationInfo(
+            station_name=args['station_name'],
+            mac=args['mac'],
+            ip=args['ip'],
+            note=args['note'],
+            id_num=args['id_num'],
+            plc_count=args['plc_count'],
+            ten_id=args['ten_id'],
+            item_id=args['item_id'],
+            modification=args['modification'],
+            phone=args['phone'],
+            version=args['version']
+        )
+        db.session.add(model)
+        db.session.commit()
+
+        return rp_create()
+
+    def patch(self):
+
+        args = station_put_parser.parse_args()
+
         model_id = args['id']
 
-        if model_id:
-            model = YjStationInfo.query.get(model_id)
+        model = YjStationInfo.query.get(model_id)
 
-            if not model:
-                return err_not_found()
+        if not model:
+            return err_not_found()
 
-            if args['station_name'] is not None:
-                model.station_name = args['station_name']
+        if args['station_name'] is not None:
+            model.station_name = args['station_name']
 
-            if args['mac'] is not None:
-                model.mac = args['mac']
+        if args['mac'] is not None:
+            model.mac = args['mac']
 
-            if args['ip'] is not None:
-                model.ip = args['ip']
+        if args['ip'] is not None:
+            model.ip = args['ip']
 
-            if args['note'] is not None:
-                model.note = args['note']
+        if args['note'] is not None:
+            model.note = args['note']
 
-            if args['id_num'] is not None:
-                model.id_num = args['id_num']
+        if args['id_num'] is not None:
+            model.id_num = args['id_num']
 
-            if args['plc_count'] is not None:
-                model.plc_count = args['plc_count']
+        if args['plc_count'] is not None:
+            model.plc_count = args['plc_count']
 
-            if args['ten_id'] is not None:
-                model.ten_id = args['ten_id']
+        if args['ten_id'] is not None:
+            model.ten_id = args['ten_id']
 
-            if args['item_id'] is not None:
-                model.item_id = args['item_id']
+        if args['item_id'] is not None:
+            model.item_id = args['item_id']
 
-            if args['modification'] is not None:
-                model.modification = args['modification']
+        if args['modification'] is not None:
+            model.modification = args['modification']
 
-            if args['phone'] is not None:
-                model.phone = args['phone']
+        if args['phone'] is not None:
+            model.phone = args['phone']
 
-            if args['version'] is not None:
-                model.version = args['version']
+        if args['version'] is not None:
+            model.version = args['version']
 
-            db.session.add(model)
-            db.session.commit()
+        db.session.add(model)
+        db.session.commit()
 
-            return rp_modify()
-
-        else:
-            model = YjStationInfo(
-                station_name=args['station_name'],
-                mac=args['mac'],
-                ip=args['ip'],
-                note=args['note'],
-                id_num=args['id_num'],
-                plc_count=args['plc_count'],
-                ten_id=args['ten_id'],
-                item_id=args['item_id'],
-                modification=args['modification'],
-                phone=args['phone'],
-                version=args['version']
-            )
-            db.session.add(model)
-            db.session.commit()
-
-            return rp_create()
+        return rp_modify()

@@ -1,14 +1,10 @@
 # coding=utf-8
-import datetime
-import time
 
-from flask import jsonify
-
-from web_server.models import *
-from web_server.rest.parsers import alarm_parser, alarm_put_parser
 from api_templete import ApiResource
-from err import err_not_found
-from response import rp_create, rp_modify
+from web_server.models import db, VarAlarmLog, VarAlarmInfo, YjVariableInfo, YjGroupInfo
+from web_server.rest.parsers import alarm_parser, alarm_put_parser
+from web_server.utils.err import err_not_found
+from web_server.utils.response import rp_create, rp_modify, rp_get
 
 
 class AlarmLogResource(ApiResource):
@@ -89,8 +85,6 @@ class AlarmLogResource(ApiResource):
         return query
 
     def information(self, models):
-        if not models:
-            return err_not_found()
 
         info = list()
 
@@ -122,42 +116,44 @@ class AlarmLogResource(ApiResource):
 
             info.append(data)
 
-        response = jsonify({"ok": 1, "data": info})
+        # 返回json数据
+        rp = rp_get(info)
 
-        return response
+        return rp
 
     def put(self):
         args = alarm_put_parser.parse_args()
 
+        model = VarAlarmLog(
+            alarm_id=args['alarm_id'],
+            status=args['status'],
+            time=args['time'],
+        )
+        db.session.add(model)
+        db.session.commit()
+
+        return rp_create()
+
+    def patch(self):
+        args = alarm_put_parser.parse_args()
+
         model_id = args['id']
 
-        if model_id:
-            model = VarAlarmLog.query.get(model_id)
+        model = VarAlarmLog.query.get(model_id)
 
-            if not model:
-                return err_not_found()
+        if not model:
+            return err_not_found()
 
-            if args['alarm_id']:
-                model.alarm_id = args['alarm_id']
+        if args['alarm_id']:
+            model.alarm_id = args['alarm_id']
 
-            if args['status']:
-                model.status = args['status']
+        if args['status']:
+            model.status = args['status']
 
-            if args['time']:
-                model.time = args['time']
+        if args['time']:
+            model.time = args['time']
 
-            db.session.add(model)
-            db.session.commit()
+        db.session.add(model)
+        db.session.commit()
 
-            return rp_modify()
-
-        else:
-            model = VarAlarmLog(
-                alarm_id=args['alarm_id'],
-                status=args['status'],
-                time=args['time'],
-            )
-            db.session.add(model)
-            db.session.commit()
-
-            return rp_create()
+        return rp_modify()
