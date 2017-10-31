@@ -97,24 +97,19 @@ class ValueResource(ApiResource):
 
         # print(query)
 
-        if self.page is not None:
-            pagination = query.paginate(self.page, self.per_page, False)
-            self.total = pagination.total
-            self.per_page = pagination.per_page
-            self.pages = pagination.pages
-            query = pagination.items
-
-        elif self.limit is not None:
-            # time1 = time.time()
-
+        if self.limit is not None:
             query = [
                 model
                 for v in variable_id
                 for model in
                 query.filter(Value.variable_id == v).limit(self.limit).all()
             ]
-            # time2 = time.time()
-            # print time2 - time1
+        elif self.page is not None:
+            pagination = query.paginate(self.page, self.per_page, False)
+            self.total = pagination.total
+            self.per_page = pagination.per_page
+            self.pages = pagination.pages
+            query = pagination.items
         else:
             query = query.all()
 
