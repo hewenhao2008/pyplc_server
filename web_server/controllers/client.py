@@ -6,7 +6,7 @@ from flask import Blueprint, request, jsonify
 import json
 import zlib
 
-from mc import mc
+# from mc import mc
 from web_server.ext import db
 from web_server.models import (serialize, YjStationInfo,
                                Value, VarAlarm, VarAlarmInfo, VarAlarmLog, StationAlarm, PLCAlarm)
@@ -178,13 +178,13 @@ def upload():
         else:
 
             # 获取报警变量id
-            try:
-                alarm_variable_id = mc.get('alarm_variable_id')
-                print(alarm_variable_id)
-            except Exception, e:
-                print('获取缓存失败' + str(e))
-            else:
-                alarm_variable_id = [int(alarm[0]) for alarm in db.session.query(VarAlarmInfo.variable_id).all()]
+            # try:
+            #     alarm_variable_id = mc.get('alarm_variable_id')
+            #     print(alarm_variable_id)
+            # except Exception, e:
+            #     print('获取缓存失败' + str(e))
+            # else:
+            alarm_variable_id = [int(alarm[0]) for alarm in db.session.query(VarAlarmInfo.variable_id).all()]
 
             # 保存数据
 
