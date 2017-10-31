@@ -98,7 +98,7 @@ class VariableResource(ApiResource):
             info.append(data)
 
         # 返回json数据
-        rp = rp_get(info, self.page, self.pages, self.total)
+        rp = rp_get(info, self.page, self.pages, self.total, self.per_page)
 
         return rp
 

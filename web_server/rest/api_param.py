@@ -20,7 +20,9 @@ class ParameterResource(ApiResource):
         self.unit = self.args['unit']
 
         self.limit = self.args['limit']
-        self.page = self.args['page']
+        self.total = None
+        self.page = self.args['page'] if self.args['page'] else 1
+        self.pages = None
         self.per_page = self.args['per_page'] if self.args['per_page'] else 10
 
     def search(self):
@@ -66,7 +68,8 @@ class ParameterResource(ApiResource):
                 value = None
             m['value'] = value
 
-        rp = rp_get(info)
+        # 返回json数据
+        rp = rp_get(info, self.page, self.pages, self.total, self.per_page)
 
         return rp
 
