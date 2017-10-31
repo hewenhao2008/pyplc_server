@@ -23,9 +23,9 @@ rp_delete_ration = functools.partial(make_response, msg='成功删除关系', st
 rp_user_create = functools.partial(make_response, msg='用户创建成功', status_code=201)
 
 
-def rp_get(data):
+def rp_get(data, page=None, pages=None, total=None):
     count = len(data)
-    return make_response(msg='查询成功', status_code=200, data=data, count=count)
+    return make_response(msg='查询成功', status_code=200, data=data, count=count, page=page, pages=pages, total=total)
 
 
 def rp_delete(count):

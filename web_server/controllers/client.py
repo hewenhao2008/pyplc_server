@@ -6,13 +6,13 @@ from flask import Blueprint, request, jsonify
 import json
 import zlib
 
+from mc import mc
 from web_server.ext import db
 from web_server.models import (serialize, YjStationInfo,
                                Value, VarAlarm, VarAlarmInfo, VarAlarmLog, StationAlarm, PLCAlarm)
 from web_server.util import get_data_from_query, get_data_from_model, encryption, decryption
 from web_server.utils.aliyun_sms import sms_alarm
-
-# from web_server import mc
+from web_server.utils.response import make_response
 
 client_blueprint = Blueprint(
     'client',
@@ -20,45 +20,6 @@ client_blueprint = Blueprint(
     template_folder=path.join(path.pardir, 'templates', 'client'),
     url_prefix='/client'
 )
-
-
-def make_response(status, status_code, **kwargs):
-    data = {
-        'status': status,
-    }
-    data.update(kwargs)
-    response = jsonify(data)
-    response.status_code = status_code
-
-    return response
-
-
-def configuration(station_model):
-    # 读取staion表数据,根据外链,读出该station下的plc、group variable的数据.每一项数据为一个字典,每个表中所有数据存为一个列表.
-    plcs_config = []
-    groups_config = []
-    variables_config = []
-
-    station_config = get_data_from_model(station_model)
-
-    plcs = station_model.plcs.all()
-    if plcs:
-        plcs_config = get_data_from_query(plcs)
-        for plc in plcs:
-
-            groups = plc.groups.all()
-            if groups:
-                groups_config += get_data_from_query(groups)
-
-            variables = plc.variables.all()
-            if variables:
-                variables_config += get_data_from_query(variables)
-
-    # 包装数据
-    data = {"YjStationInfo": station_config, "YjPLCInfo": plcs_config,
-            "YjGroupInfo": groups_config, "YjVariableInfo": variables_config}
-
-    return data
 
 
 @client_blueprint.route('/beats', methods=['POST'])
@@ -149,8 +110,6 @@ def set_config():
             return response
         # data = decryption(data)
 
-        # time1 = time.time()
-        # data = configuration(station)
         # 获取属于该终端的四个表的数据
         data = {
             "YjStationInfo": serialize(station),
@@ -164,8 +123,6 @@ def set_config():
                                for group in plc.groups
                                for variable in group.variables]
         }
-        # time2 = time.time()
-        # print(time2 - time1)
 
         # 将本次发送过配置的站点数据表设置为无更新
         station.modification = 0
@@ -199,7 +156,6 @@ def upload():
 
         print(data, version, int(version))
         # 查询服务器是否有正在上传的站信息
-        print('a')
         station = YjStationInfo.query.filter_by(id_num=id_num).first()
         print(type(station.version))
 
@@ -209,7 +165,6 @@ def upload():
                 status_code=400,
                 msg='服务器没有站点信息'
             )
-        print('a')
         # 查询上传信息的版本是否匹配
         try:
             pass
@@ -221,9 +176,16 @@ def upload():
 
         # 匹配
         else:
-            print('a')
+
             # 获取报警变量id
-            alarm_variable_id = [int(alarm[0]) for alarm in db.session.query(VarAlarmInfo.variable_id).all()]
+            try:
+                alarm_variable_id = mc.get('alarm_variable_id')
+                print(alarm_variable_id)
+            except Exception, e:
+                print('获取缓存失败' + str(e))
+            else:
+                alarm_variable_id = [int(alarm[0]) for alarm in db.session.query(VarAlarmInfo.variable_id).all()]
+
             # 保存数据
 
             for v in data["value"]:
@@ -271,6 +233,7 @@ def upload():
 
                         else:
                             # 历史报警存在，检查状态。相同不做处理，不相同时，记录本次状态。同时增加或删除当前报警表内该变量信息。
+                            print(last_log.status != status)
                             if last_log.status != status:
                                 log = VarAlarmLog(
                                     alarm_id=last_log.alarm_id,
@@ -278,7 +241,9 @@ def upload():
                                     status=status
                                 )
                                 db.session.add(log)
+                                print(status, type(status))
                                 if status == 1:
+                                    print(1)
                                     alarm = VarAlarm(
                                         alarm_id=last_log.alarm_id,
                                         time=v['time']
@@ -287,6 +252,8 @@ def upload():
 
                                     # 发送短信
                                     alarm_info = VarAlarmInfo.query.filter_by(id=last_log.alarm_id).first()
+                                    print(alarm_info)
+                                    print(alarm_info.is_send_message, station.phone, station.station_name)
                                     if alarm_info.is_send_message and station.phone and station.station_name:
                                         print('发短信2')
                                         if message_count > 0:
@@ -294,6 +261,7 @@ def upload():
                                             message_count -= 1
 
                                 elif status == 0:
+                                    print(0)
                                     alarm = VarAlarm.query.filter(VarAlarm.alarm_id == last_log.alarm_id).first()
                                     if alarm:
                                         db.session.delete(alarm)

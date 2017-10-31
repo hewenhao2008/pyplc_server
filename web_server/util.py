@@ -71,7 +71,12 @@ def get_data_from_model(model):
 
 
 def configuration(station_model):
-    # 读取staion表数据,根据外链,读出该station下的plc、group variable的数据.每一项数据为一个字典,每个表中所有数据存为一个列表.
+    """
+    读取staion表数据,根据外链,读出该station下的plc、group variable的数据.每一项数据为一个字典,每个表中所有数据存为一个列表.
+
+    :param station_model: 
+    :return: 
+    """
     plcs_config = []
     groups_config = []
     variables_config = []
@@ -100,5 +105,3 @@ def configuration(station_model):
     }
 
     return data
-
-

@@ -6,6 +6,7 @@ from flask import current_app
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin, AnonymousUserMixin
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer, BadSignature, SignatureExpired
+from flask_sqlalchemy import Pagination
 from sqlalchemy.orm import class_mapper
 
 from ext import db
@@ -63,7 +64,8 @@ class YjStationInfo(db.Model):
     logs = db.relationship('TransferLog', backref='yjstationinfo', lazy='dynamic')
 
     def __init__(self, station_name=None, mac=None, ip=None, note=None, id_num=None,
-                 plc_count=None, ten_id=None, item_id=None, con_time=int(time.time()), modification=0, phone=None, version=1):
+                 plc_count=None, ten_id=None, item_id=None, con_time=int(time.time()), modification=0, phone=None,
+                 version=1):
         self.station_name = station_name
         self.mac = mac
         self.ip = ip
@@ -323,7 +325,6 @@ class QueryGroup(db.Model):
         'YjVariableInfo',
         secondary=var_queries,
         backref=db.backref('querys', lazy='dynamic'),
-        # cascade="delete, delete-orphan",
         single_parent=True,
     )
 
