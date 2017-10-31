@@ -10,6 +10,10 @@ from web_server.utils.response import rp_create, rp_modify, rp_get
 class AlarmInfoResource(ApiResource):
     def __init__(self):
         self.args = alarm_info_parser.parse_args()
+        self.total = None
+        self.page = self.args['page'] if self.args['page'] else 1
+        self.pages = None
+        self.per_page = self.args['per_page'] if self.args['per_page'] else 10
         super(AlarmInfoResource, self).__init__()
 
     def search(self):
@@ -22,8 +26,6 @@ class AlarmInfoResource(ApiResource):
         note = self.args['note']
 
         limit = self.args['limit']
-        page = self.args['page']
-        per_page = self.args['per_page'] if self.args['per_page'] else 10
 
         query = VarAlarmInfo.query
 
@@ -45,8 +47,12 @@ class AlarmInfoResource(ApiResource):
         if limit is not None:
             query = query.limit(limit)
 
-        if page is not None:
-            query = query.paginate(page, per_page, False).items
+        if self.page is not None:
+            pagination = query.paginate(self.page, self.per_page, False)
+            self.total = pagination.total
+            self.per_page = pagination.per_page
+            self.pages = pagination.pages
+            query = pagination.items
 
         else:
             query = query.all()
@@ -72,7 +78,7 @@ class AlarmInfoResource(ApiResource):
         ]
 
         # 返回json数据
-        rp = rp_get(info)
+        rp = rp_get(info, self.page, self.pages, self.total, self.per_page)
 
         return rp
 

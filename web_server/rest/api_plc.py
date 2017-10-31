@@ -11,6 +11,10 @@ from web_server.utils.response import rp_create, rp_modify, rp_get
 class PLCResource(ApiResource):
     def __init__(self):
         self.args = plc_parser.parse_args()
+        self.total = None
+        self.page = self.args['page'] if self.args['page'] else 1
+        self.pages = None
+        self.per_page = self.args['per_page'] if self.args['per_page'] else 10
         super(PLCResource, self).__init__()
         self.query = YjPLCInfo.query
 
@@ -22,30 +26,32 @@ class PLCResource(ApiResource):
         station_name = self.args['station_name']
 
         limit = self.args['limit']
-        page = self.args['page']
-        per_page = self.args['per_page'] if self.args['per_page'] else 10
 
         query = YjPLCInfo.query
 
-        if plc_id:
+        if plc_id is not None:
             query = query.filter_by(id=plc_id)
 
-        if plc_name:
+        if plc_name is not None:
             query = query.filter_by(plc_name=plc_name)
 
-        if station_id:
+        if station_id is not None:
             query = query.filter(YjPLCInfo.station_id.in_(station_id))
 
-        if station_name:
+        if station_name is not None:
             query = query.join(YjStationInfo, YjStationInfo.station_name == station_name)
 
-        if limit:
+        if limit is not None:
             query = query.limit(limit)
 
         # print(query)
 
-        if page:
-            query = query.paginate(page, per_page, False).items
+        if self.page is not None:
+            pagination = query.paginate(self.page, self.per_page, False)
+            self.total = pagination.total
+            self.per_page = pagination.per_page
+            self.pages = pagination.pages
+            query = pagination.items
         else:
             query = query.all()
 
@@ -84,7 +90,7 @@ class PLCResource(ApiResource):
             info.append(data)
 
         # 返回json数据
-        rp = rp_get(info)
+        rp = rp_get(info, self.page, self.pages, self.total, self.per_page)
 
         return rp
 

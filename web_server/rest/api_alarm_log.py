@@ -32,7 +32,6 @@ class AlarmLogResource(ApiResource):
         max_time = self.args['max_time']
         order_time = self.args['order_time']
         limit = self.args['limit']
-        page = self.args['page']
 
         query = VarAlarmLog.query
 
@@ -125,7 +124,7 @@ class AlarmLogResource(ApiResource):
             info.append(data)
 
         # 返回json数据
-        rp = rp_get(info, self.page, self.pages, self.total)
+        rp = rp_get(info, self.page, self.pages, self.total, self.per_page)
 
         return rp
 

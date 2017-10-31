@@ -11,6 +11,10 @@ from web_server.utils.response import rp_create, rp_modify, rp_get
 class GroupResource(ApiResource):
     def __init__(self):
         self.args = group_parser.parse_args()
+        self.page = self.args['page'] if self.args['page'] else 1
+        self.pages = None
+        self.per_page = self.args['per_page'] if self.args['per_page'] else 10
+        self.total = None
         super(GroupResource, self).__init__()
 
     def search(self):
@@ -22,28 +26,30 @@ class GroupResource(ApiResource):
         plc_name = self.args['plc_name']
 
         limit = self.args['limit']
-        page = self.args['page']
-        per_page = self.args['per_page'] if self.args['per_page'] else 10
 
         query = YjGroupInfo.query
 
-        if group_id:
+        if group_id is not None:
             query = query.filter_by(id=group_id)
 
-        if group_name:
+        if group_name is not None:
             query = query.filter_by(group_name=group_name)
 
-        if plc_id:
+        if plc_id is not None:
             query = query.filter(YjGroupInfo.plc_id.in_(plc_id))
 
-        if plc_name:
+        if plc_name is not None:
             query = query.join(YjPLCInfo, YjPLCInfo.plc_name == plc_name)
 
-        if limit:
+        if limit is not None:
             query = query.limit(limit)
 
-        if page:
-            query = query.paginate(page, per_page, False).items
+        if self.page is not None:
+            pagination = query.paginate(self.page, self.per_page, False)
+            self.total = pagination.total
+            self.per_page = pagination.per_page
+            self.pages = pagination.pages
+            query = pagination.items
         else:
             query = query.all()
 
@@ -73,7 +79,7 @@ class GroupResource(ApiResource):
             info.append(data)
 
         # 返回json数据
-        rp = rp_get(info)
+        rp = rp_get(info, self.page, self.pages, self.total, self.per_page)
 
         return rp
 

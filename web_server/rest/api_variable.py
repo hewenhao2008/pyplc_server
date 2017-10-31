@@ -12,6 +12,10 @@ from web_server.utils.response import rp_create, rp_modify, rp_get
 class VariableResource(ApiResource):
     def __init__(self):
         self.args = variable_parser.parse_args()
+        self.total = None
+        self.page = self.args['page'] if self.args['page'] else 1
+        self.pages = None
+        self.per_page = self.args['per_page'] if self.args['per_page'] else 10
         super(VariableResource, self).__init__()
 
     def search(self):
@@ -22,31 +26,33 @@ class VariableResource(ApiResource):
         plc_name = self.args['plc_name']
         group_id = self.args['group_id']
         group_name = self.args['group_name']
-        page = self.args['page']
-        per_page = self.args['per_page'] if self.args['per_page'] else 10
 
         query = YjVariableInfo.query
 
-        if variable_id:
+        if variable_id is not None:
             query = query.filter_by(id=variable_id)
 
-        if variable_name:
+        if variable_name is not None:
             query = query.filter_by(variable_name=variable_name)
 
-        if group_id:
+        if group_id is not None:
             query = query.filter(YjVariableInfo.group_id.in_(group_id))
 
-        if group_name:
+        if group_name is not None:
             query = query.join(YjGroupInfo, YjGroupInfo.group_name == group_name)
 
-        if plc_id:
+        if plc_id is not None:
             query = query.join(YjGroupInfo).filter(YjGroupInfo.plc_id.in_(plc_id))
 
-        if plc_name:
+        if plc_name is not None:
             query = query.join(YjGroupInfo, YjPLCInfo).filter(YjPLCInfo.plc_name == plc_name)
 
-        if page:
-            query = query.paginate(page, per_page, False).items
+        if self.page is not None:
+            pagination = query.paginate(self.page, self.per_page, False)
+            self.total = pagination.total
+            self.per_page = pagination.per_page
+            self.pages = pagination.pages
+            query = pagination.items
         else:
             query = query.all()
 
@@ -92,7 +98,7 @@ class VariableResource(ApiResource):
             info.append(data)
 
         # 返回json数据
-        rp = rp_get(info)
+        rp = rp_get(info, self.page, self.pages, self.total)
 
         return rp
 

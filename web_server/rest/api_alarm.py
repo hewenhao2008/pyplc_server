@@ -11,6 +11,10 @@ class AlarmResource(ApiResource):
     def __init__(self):
 
         self.args = alarm_now_parser.parse_args()
+        self.total = None
+        self.page = self.args['page'] if self.args['page'] else 1
+        self.pages = None
+        self.per_page = self.args['per_page'] if self.args['per_page'] else 10
         super(AlarmResource, self).__init__()
 
     def search(self):
@@ -24,8 +28,6 @@ class AlarmResource(ApiResource):
 
         min_time = self.args['min_time']
         max_time = self.args['max_time']
-        page = self.args['page']
-        per_page = self.args['per_page'] if self.args['per_page'] else 10
 
         query = VarAlarm.query
 
@@ -50,8 +52,12 @@ class AlarmResource(ApiResource):
         # if limit:
         #     query = query.limit(limit)
 
-        if page:
-            query = query.paginate(page, per_page, False).items
+        if self.page is not None:
+            pagination = query.paginate(self.page, self.per_page, False)
+            self.total = pagination.total
+            self.per_page = pagination.per_page
+            self.pages = pagination.pages
+            query = pagination.items
         else:
             query = query.all()
 
@@ -91,7 +97,7 @@ class AlarmResource(ApiResource):
             info.append(data)
 
         # 返回json数据
-        rp = rp_get(info)
+        rp = rp_get(info, self.page, self.pages, self.total, self.per_page)
 
         return rp
 

@@ -10,6 +10,10 @@ from web_server.utils.response import rp_create, rp_modify, rp_get
 class StatusResource(ApiResource):
     def __init__(self):
         self.args = status_parser.parse_args()
+        self.total = None
+        self.page = self.args['page'] if self.args['page'] else 1
+        self.pages = None
+        self.per_page = self.args['per_page'] if self.args['per_page'] else 10
         super(StatusResource, self).__init__()
 
     def search(self, model_id=None):
@@ -24,8 +28,6 @@ class StatusResource(ApiResource):
         max_time = self.args['max_time']
         order_time = self.args['order_time']
         limit = self.args['limit']
-        page = self.args['page']
-        per_page = self.args['per_page'] if self.args['per_page'] else 10
 
         query = TransferLog.query
 
@@ -50,8 +52,12 @@ class StatusResource(ApiResource):
         # if limit:
         #     query = query.limit(limit)
 
-        if page is not None:
-            query = query.paginate(page, per_page, False).items
+        if self.page is not None:
+            pagination = query.paginate(self.page, self.per_page, False)
+            self.total = pagination.total
+            self.per_page = pagination.per_page
+            self.pages = pagination.pages
+            query = pagination.items
         elif limit:
             # time1 = time.time()
             # station_id_list = set((a.station_id for a in query))
@@ -81,7 +87,7 @@ class StatusResource(ApiResource):
         ]
 
         # 返回json数据
-        rp = rp_get(info)
+        rp = rp_get(info, self.page, self.pages, self.total, self.per_page)
 
         return rp
 
