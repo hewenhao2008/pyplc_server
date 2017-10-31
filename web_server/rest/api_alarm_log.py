@@ -14,7 +14,7 @@ class AlarmLogResource(ApiResource):
         self.total = None
         self.page = self.args['page'] if self.args['page'] else 1
         self.pages = None
-        self.per_page = self.args['per_page'] if self.args['per_page'] else 20
+        self.per_page = self.args['per_page'] if self.args['per_page'] else 10
         super(AlarmLogResource, self).__init__()
 
     def search(self):
