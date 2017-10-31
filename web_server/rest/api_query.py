@@ -1,14 +1,10 @@
 # coding=utf-8
-import datetime
-import time
 
-from flask import abort, jsonify
-
-from web_server.models import db, QueryGroup, YjVariableInfo, Value
-from web_server.rest.parsers import query_parser, query_put_parser
 from api_templete import ApiResource
-from err import err_not_found, err_not_contain
-from response import rp_create, rp_delete, rp_modify, rp_delete_ration
+from web_server.models import db, QueryGroup, YjVariableInfo
+from web_server.rest.parsers import query_parser, query_put_parser
+from web_server.utils.err import err_not_found, err_not_contain
+from web_server.utils.response import rp_create, rp_modify, rp_delete, rp_delete_ration, rp_get
 
 
 class QueryResource(ApiResource):
@@ -16,10 +12,9 @@ class QueryResource(ApiResource):
         self.args = query_parser.parse_args()
         super(QueryResource, self).__init__()
 
-    def search(self, model_id=None):
+    def search(self):
 
-        if not model_id:
-            model_id = self.args['id']
+        model_id = self.args['id']
 
         name = self.args['name']
 
@@ -32,140 +27,79 @@ class QueryResource(ApiResource):
 
         query = QueryGroup.query
 
-        if model_id:
+        if model_id is not None:
             query = query.filter_by(id=model_id)
 
-        if name:
+        if name is not None:
             query = query.filter_by(name=name)
 
-        if min_time:
+        if min_time is not None:
             query = query.filter(QueryGroup.time > min_time)
 
-        if max_time:
+        if max_time is not None:
             query = query.filter(QueryGroup.time < max_time)
 
-        if order_time:
+        if order_time is not None:
             query = query.order_by(QueryGroup.time.desc())
 
-        if limit:
+        if limit is not None:
             query = query.limit(limit)
 
-        if page:
+        if page is not None:
             query = query.paginate(page, per_page, False).items
         else:
             query = query.all()
 
-        # print query
+        print query
 
         return query
 
     def information(self, models):
-        if not models:
-            return err_not_found()
 
         info = []
         for m in models:
+            print(m)
             data = dict()
             data['id'] = m.id
             data['name'] = m.name
 
             variable_list = [
                 dict(
-                    var_id=v.id,
-                    var_name=v.variable_name
+                    id=v.id,
+                    variable_name=v.variable_name
                 )
                 for v in m.vars
             ]
-            # value_list = []
-            #
-            # for var in m.vars:
-            #     if self.args['min_time'] and self.args['max_time']:
-            #         values = Value.query.filter_by(variable_id=var.id).filter(Value.time > self.args['min_time']).filter(Value.time < self.args['max_time']).all()
-            #         value_list += values
-            #     else:
-            #         value = Value.query.filter_by(variable_id=var.id).order_by(Value.time.desc()).all()
-            #         value_list += (value)
-            #
-            # value_info = [
-            #     dict(
-            #         id=value.id,
-            #         value=value.value,
-            #         time=value.time,
-            #         variable_id=value.variable_id
-            #     )
-            #     for value in value_list
-            # ]
-            # data['value'] = value_info
 
-            data['variable'] = variable_list
+            data['variables'] = variable_list
 
             info.append(data)
 
-        # info = [
-        #     dict(id=m.id,
-        #          name=m.name,
-        #          variable=[
-        #              dict(
-        #                  id=v.id,
-        #                  value=v.values,
-        #                  time=v.time,
-        #                  variable_id=v.variable_id
-        #              )
-        #              for v in m.vars
-        #          ]
-        #          )
-        #     for m in models
-        # ]
+        # 返回json数据
+        rp = rp_get(info)
 
-        response = jsonify({"ok": 1, "data": info})
+        return rp
 
-        return response
-
-    def put(self, model_id=None):
+    def put(self):
         args = query_put_parser.parse_args()
 
-        if not model_id:
-            model_id = args['id']
-
-        if model_id:
-
-            model = QueryGroup.query.get(model_id)
-
-            if not model:
-                return err_not_found()
-
-            if args['name']:
-                model.name = args['name']
-
-            if args['variable_id']:
-                var_models = YjVariableInfo.query.filter(YjVariableInfo.id.in_(args['variable_id'])).all()
-                # 添加关系，使用并集操作防止重复添加
-                model.vars = list(set(model.vars).union(set(var_models)))
-
-            db.session.add(model)
-            db.session.commit()
-            return rp_modify()
-
+        if args['variable_id']:
+            var_models = YjVariableInfo.query.filter(YjVariableInfo.id.in_(args['variable_id'])).all()
         else:
+            var_models = []
 
-            if args['variable_id']:
-                var_models = YjVariableInfo.query.filter(YjVariableInfo.id.in_(args['variable_id'])).all()
-            else:
-                var_models = []
+        model = QueryGroup(
+            name=args['name'],
+            vars=var_models
+        )
 
-            model = QueryGroup(
-                name=args['name'],
-                vars=var_models
-            )
+        db.session.add(model)
+        db.session.commit()
+        return rp_create()
 
-            db.session.add(model)
-            db.session.commit()
-            return rp_create()
+    def delete(self):
 
-    def delete(self, model_id=None):
-
-        models = self.search(model_id)
-        count = len(models)
+        models = self.search()
 
         if not models:
             return err_not_found()
@@ -181,8 +115,32 @@ class QueryResource(ApiResource):
             db.session.commit()
             return rp_delete_ration()
         else:
+            count = len(models)
+
             for m in models:
                 db.session.delete(m)
             db.session.commit()
 
         return rp_delete(count)
+
+    def patch(self):
+        args = query_put_parser.parse_args()
+
+        model_id = args['id']
+
+        model = QueryGroup.query.get(model_id)
+
+        if not model:
+            return err_not_found()
+
+        if args['name']:
+            model.name = args['name']
+
+        if args['variable_id']:
+            var_models = YjVariableInfo.query.filter(YjVariableInfo.id.in_(args['variable_id'])).all()
+            # 添加关系，使用并集操作防止重复添加
+            model.vars = list(set(model.vars).union(set(var_models)))
+
+        db.session.add(model)
+        db.session.commit()
+        return rp_modify()

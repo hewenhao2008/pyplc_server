@@ -1,17 +1,10 @@
 # coding=utf-8
-import datetime
-import time
 
-import json
-
-from flask import jsonify, url_for
-from flask_restful import abort
-
+from api_templete import ApiResource
 from web_server.models import db, Parameter, Value
 from web_server.rest.parsers import param_parser
-from api_templete import ApiResource
-from err import err_not_found, err_not_contain
-from response import rp_create, rp_delete, rp_modify, rp_delete_ration
+from web_server.utils.err import err_not_found
+from web_server.utils.response import rp_create, rp_modify, rp_get
 
 
 class ParameterResource(ApiResource):
@@ -52,9 +45,6 @@ class ParameterResource(ApiResource):
         else:
             self.query = self.query.all()
 
-        if not self.query:
-            abort(404, msg='查询结果为空', ok=0)
-
         return self.query
 
     def information(self, models):
@@ -76,38 +66,37 @@ class ParameterResource(ApiResource):
                 value = None
             m['value'] = value
 
-        response = jsonify({"ok": 1, "data": info})
+        rp = rp_get(info)
 
-        return response
+        return rp
 
     def put(self):
 
-        if self.model_id:
+        model = Parameter(
+            variable_id=self.variable_id,
+            param_name=self.param_name,
+            unit=self.unit
+        )
+        db.session.add(model)
+        db.session.commit()
+        return rp_create()
 
-            model = Parameter.query.get(self.model_id)
+    def patch(self):
 
-            if not model:
-                return err_not_found()
+        model = Parameter.query.get(self.model_id)
 
-            if self.param_name:
-                model.param_name = self.param_name
+        if not model:
+            return err_not_found()
 
-            if self.variable_id:
-                model.variable_id = self.variable_id
+        if self.param_name:
+            model.param_name = self.param_name
 
-            if self.unit:
-                model.unit = self.unit
+        if self.variable_id:
+            model.variable_id = self.variable_id
 
-            db.session.add(model)
-            db.session.commit()
-            return rp_modify()
+        if self.unit:
+            model.unit = self.unit
 
-        else:
-            model = Parameter(
-                variable_id=self.variable_id,
-                param_name=self.param_name,
-                unit=self.unit
-            )
-            db.session.add(model)
-            db.session.commit()
-            return rp_create()
+        db.session.add(model)
+        db.session.commit()
+        return rp_modify()

@@ -1,11 +1,11 @@
 # coding=utf-8
-from flask import abort, jsonify
 
-from web_server.models import *
-from web_server.rest.parsers import group_parser, group_put_parser
 from api_templete import ApiResource
-from err import err_not_found
-from response import rp_create, rp_delete, rp_modify
+from web_server.ext import db
+from web_server.models import YjPLCInfo, YjGroupInfo
+from web_server.rest.parsers import group_parser, group_put_parser
+from web_server.utils.err import err_not_found
+from web_server.utils.response import rp_create, rp_modify, rp_get
 
 
 class GroupResource(ApiResource):
@@ -34,7 +34,7 @@ class GroupResource(ApiResource):
             query = query.filter_by(group_name=group_name)
 
         if plc_id:
-            query = query.filter_by(plc_id=plc_id)
+            query = query.filter(YjGroupInfo.plc_id.in_(plc_id))
 
         if plc_name:
             query = query.join(YjPLCInfo, YjPLCInfo.plc_name == plc_name)
@@ -50,8 +50,6 @@ class GroupResource(ApiResource):
         return query
 
     def information(self, group):
-        if not group:
-            return err_not_found()
 
         info = []
         for g in group:
@@ -74,59 +72,61 @@ class GroupResource(ApiResource):
 
             info.append(data)
 
-        response = jsonify({'ok': 1, "data": info})
-        response.status_code = 200
+        # 返回json数据
+        rp = rp_get(info)
 
-        return response
+        return rp
 
     def put(self):
         args = group_put_parser.parse_args()
 
-        group_id = args['id']
+        model = YjGroupInfo(
+            group_name=args['group_name'],
+            plc_id=args['plc_id'],
+            note=args['note'],
+            upload_cycle=args['upload_cycle'],
+            ten_id=args['ten_id'],
+            item_id=args['item_id'],
+            upload=args['upload']
+        )
 
-        if group_id:
+        db.session.add(model)
+        db.session.commit()
 
-            group = YjGroupInfo.query.get(group_id)
+        return rp_create()
 
-            if not group:
-                return err_not_found()
+    def patch(self):
+        args = group_put_parser.parse_args()
 
-            if args['group_name']:
-                group.group_name = args['group_name']
+        model_id = args['id']
 
-            if args['plc_id']:
-                group.plc_id = args['plc_id']
+        model = YjGroupInfo.query.get(model_id)
 
-            if args['note']:
-                group.note = args['note']
+        if not model:
+            return err_not_found()
 
-            if args['upload_cycle']:
-                group.upload_cycle = args['upload_cycle']
+        if args['group_name']:
+            model.group_name = args['group_name']
 
-            if args['ten_id']:
-                group.ten_id = args['ten_id']
+        if args['plc_id']:
+            model.plc_id = args['plc_id']
 
-            if args['item_id']:
-                group.item_id = args['item_id']
+        if args['note']:
+            model.note = args['note']
 
-            if args['upload']:
-                group.item_id = args['upload']
+        if args['upload_cycle']:
+            model.upload_cycle = args['upload_cycle']
 
-            db.session.add(group)
-            db.session.commit()
-            return rp_modify()
+        if args['ten_id']:
+            model.ten_id = args['ten_id']
 
-        else:
-            group = YjGroupInfo(
-                group_name=args['group_name'],
-                plc_id=args['plc_id'],
-                note=args['note'],
-                upload_cycle=args['upload_cycle'],
-                ten_id=args['ten_id'],
-                item_id=args['item_id'],
-                upload=args['upload']
-            )
+        if args['item_id']:
+            model.item_id = args['item_id']
 
-            db.session.add(group)
-            db.session.commit()
-            return rp_create()
+        if args['upload']:
+            model.upload = args['upload']
+
+        db.session.add(model)
+        db.session.commit()
+
+        return rp_modify()

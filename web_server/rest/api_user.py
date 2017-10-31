@@ -1,14 +1,10 @@
 # coding=utf-8
-import datetime
-import time
 
-from flask import abort, jsonify
-
+from api_templete import ApiResource
 from web_server.models import db, User, Role
 from web_server.rest.parsers import user_parser
-from api_templete import ApiResource
-from err import err_not_found, err_not_contain
-from response import rp_create, rp_delete, rp_modify, rp_delete_ration
+from web_server.utils.err import err_not_found, err_not_contain
+from web_server.utils.response import rp_modify, rp_delete, rp_delete_ration, rp_get
 
 
 class UserResource(ApiResource):
@@ -59,8 +55,6 @@ class UserResource(ApiResource):
         return query
 
     def information(self, models):
-        if not models:
-            return err_not_found()
 
         info = [
             dict(
@@ -74,9 +68,10 @@ class UserResource(ApiResource):
             for m in models
         ]
 
-        response = jsonify({"ok": 1, "data": info})
+        # 返回json数据
+        rp = rp_get(info)
 
-        return response
+        return rp
 
     def put(self):
         args = user_parser.parse_args()

@@ -1,25 +1,23 @@
+from flask import Blueprint
 from os import path
 
-from flask import Blueprint, request, jsonify, render_template, redirect, url_for, current_app, flash, Config
-
-from web_server.ext import csrf, Api
-
-from web_server.rest.api_plc import PLCResource
-from web_server.rest.api_station import StationResource
-from web_server.rest.api_group import GroupResource
-from web_server.rest.api_variable import VariableResource
-from web_server.rest.api_value import ValueResource
-from web_server.rest.api_station_staus import StatusResource
-from web_server.rest.api_query import QueryResource
-from web_server.rest.api_alarm_log import AlarmLogResource
+from web_server.ext import Api
+from web_server.rest.api_alarm import AlarmResource
 from web_server.rest.api_alarm_info import AlarmInfoResource
-from web_server.rest.auth import AuthApi
-from web_server.rest.api_user import UserResource
+from web_server.rest.api_alarm_log import AlarmLogResource
+from web_server.rest.api_group import GroupResource
 from web_server.rest.api_interface_log import InterfaceLogResource
 from web_server.rest.api_param import ParameterResource
-from web_server.rest.api_value_id import VariableIDResource
-from web_server.rest.api_alarm import AlarmResource
-from web_server.rest.err import custom_errors
+from web_server.rest.api_plc import PLCResource
+from web_server.rest.api_plc_alarm import PLCAlarmResource
+from web_server.rest.api_query import QueryResource
+from web_server.rest.api_station import StationResource
+from web_server.rest.api_station_alarm import StationAlarmResource
+from web_server.rest.api_station_status import StatusResource
+from web_server.rest.api_user import UserResource
+from web_server.rest.api_value import ValueResource
+from web_server.rest.api_variable import VariableResource
+from web_server.rest.auth import AuthApi
 
 api_blueprint = Blueprint(
     'api',
@@ -43,4 +41,5 @@ api.add_resource(AlarmResource, '/alarm', endpoint='varalarm')
 api.add_resource(UserResource, '/user', endpoint='user')
 api.add_resource(InterfaceLogResource, '/interface_log', endpoint='interfacelog')
 api.add_resource(ParameterResource, '/param', endpoint='parameter')
-api.add_resource(VariableIDResource, '/variable_id')
+api.add_resource(StationAlarmResource, '/station_alarm')
+api.add_resource(PLCAlarmResource, '/plc_alarm')

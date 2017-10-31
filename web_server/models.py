@@ -1,12 +1,12 @@
 # coding=utf-8
 import os
-import datetime
 import time
 
 from flask import current_app
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin, AnonymousUserMixin
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer, BadSignature, SignatureExpired
+from flask_sqlalchemy import Pagination
 from sqlalchemy.orm import class_mapper
 
 from ext import db
@@ -56,6 +56,7 @@ class YjStationInfo(db.Model):
     con_time = db.Column(db.Integer)
     modification = db.Column(db.Integer)
     version = db.Column(db.Integer)
+    phone = db.Column(db.BigInteger)
 
     plcs = db.relationship('YjPLCInfo', backref='yjstationinfo', lazy='dynamic',
                            cascade="delete, delete-orphan")
@@ -63,7 +64,8 @@ class YjStationInfo(db.Model):
     logs = db.relationship('TransferLog', backref='yjstationinfo', lazy='dynamic')
 
     def __init__(self, station_name=None, mac=None, ip=None, note=None, id_num=None,
-                 plc_count=None, ten_id=None, item_id=None, con_time=int(time.time()), modification=0):
+                 plc_count=None, ten_id=None, item_id=None, con_time=int(time.time()), modification=0, phone=None,
+                 version=1):
         self.station_name = station_name
         self.mac = mac
         self.ip = ip
@@ -74,9 +76,11 @@ class YjStationInfo(db.Model):
         self.item_id = item_id
         self.con_time = con_time
         self.modification = modification
+        self.phone = phone
+        self.version = version
 
     def __repr__(self):
-        return '<Station : ID(%r) Name(%r) >'.format(self.id, self.name)
+        return '<Station : ID(%r) Name(%r) >'.format(self.id, self.station_name)
 
 
 class YjPLCInfo(db.Model):
@@ -192,7 +196,7 @@ class YjVariableInfo(db.Model):
         self.area = area
 
     def __repr__(self):
-        return '<Variable :ID(%r) Name(%r) >'.format(self.id, self.tag_name)
+        return '<Variable :ID(%r) Name(%r) >'.format(self.id, self.variable_name)
 
 
 class Value(db.Model):
@@ -321,7 +325,6 @@ class QueryGroup(db.Model):
         'YjVariableInfo',
         secondary=var_queries,
         backref=db.backref('querys', lazy='dynamic'),
-        # cascade="delete, delete-orphan",
         single_parent=True,
     )
 
@@ -347,6 +350,7 @@ class VarAlarmInfo(db.Model):
     variable_id = db.Column(db.Integer, db.ForeignKey('yjvariableinfo.id'))
     alarm_type = db.Column(db.Integer)
     note = db.Column(db.String(128))
+    is_send_message = db.Column(db.Boolean)
 
     logs = db.relationship('VarAlarmLog', backref='var_alarm_info', lazy='dynamic', cascade="delete, delete-orphan")
     alarms = db.relationship('VarAlarm', backref='var_alarm_info', lazy='dynamic', cascade="delete, delete-orphan")
@@ -371,3 +375,24 @@ class Parameter(db.Model):
     variable_id = db.Column(db.Integer, db.ForeignKey('yjvariableinfo.id'))
     param_name = db.Column(db.String(32))
     unit = db.Column(db.String(16))
+
+
+class StationAlarm(db.Model):
+    __tablename__ = 'station_alarm'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    id_num = db.Column(db.String(200))
+    code = db.Column(db.Integer)
+    note = db.Column(db.String(200))
+    time = db.Column(db.Integer)
+
+
+class PLCAlarm(db.Model):
+    __tablename__ = 'plc_alarm'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    id_num = db.Column(db.String(200))
+    plc_id = db.Column(db.Integer)
+    level = db.Column(db.Integer)
+    note = db.Column(db.String(200))
+    time = db.Column(db.Integer)

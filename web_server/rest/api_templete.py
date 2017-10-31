@@ -1,12 +1,13 @@
 # coding=utf-8
 import json
+import time
 
 from flask import request
-from flask_restful import reqparse, Resource, marshal_with, fields, abort, wraps
+from flask_restful import Resource, abort, wraps
 
-from web_server.models import *
-from err import err_not_found
-from response import rp_create, rp_delete, rp_modify
+from web_server.models import db, User, InterfaceLog, serialize
+from web_server.utils.err import err_not_found
+from web_server.utils.response import rp_delete
 
 
 def authenticate(func):
@@ -29,7 +30,6 @@ def authenticate(func):
 class ApiResource(Resource):
     # method_decorators = [authenticate]
     def __init__(self):
-        from flask import request
         # print(request, request.json, 'abcd')
 
         self.user = None
@@ -68,15 +68,16 @@ class ApiResource(Resource):
             )
         else:
             old_data = None
-        log = InterfaceLog(username=user.username,
-                           host_url=request.path,
-                           method=request.method.lower(),
-                           time=current_time,
-                           param=json.dumps(param),
-                           old_data=old_data,
-                           endpoint=request.endpoint,
-                           new_data_id=new_id
-                           )
+        log = InterfaceLog(
+            username=user.username,
+            host_url=request.path,
+            method=request.method.lower(),
+            time=current_time,
+            param=json.dumps(param),
+            old_data=old_data,
+            endpoint=request.endpoint,
+            new_data_id=new_id
+        )
         db.session.add(log)
         db.session.commit()
 
@@ -91,27 +92,28 @@ class ApiResource(Resource):
         # time1 = time.time()
         models = self.search()
 
-        response = self.information(models)
+        rp = self.information(models)
         # time2 = time.time()
         # print time2 - time1
 
-        return response
+        return rp
 
     def post(self):
 
         models = self.search()
 
-        response = self.information(models)
+        rp = self.information(models)
 
-        return response
+        return rp
 
     def put(self):
         pass
 
+    def patch(self):
+        pass
+
     def delete(self):
 
-        # from flask import request
-        # print(request.json, 'abcd')
         models = self.search()
         count = len(models)
 

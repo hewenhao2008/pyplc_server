@@ -1,52 +1,42 @@
 # coding=utf-8
-import datetime
-import time
 
-from flask import abort, jsonify
-from flask_restful import reqparse, Resource, marshal_with, fields
-
-from web_server.models import *
-from web_server.rest.parsers import value_parser, value_put_parser
 from api_templete import ApiResource
-from err import err_not_found
-from response import rp_create, rp_delete, rp_modify
-
-value_field = {
-    'id': fields.Integer,
-    'value_name': fields.String,
-    'plc_id': fields.Integer,
-    'note': fields.String,
-    'upload_cycle': fields.Integer,
-    'ten_id': fields.String,
-    'item_id': fields.String
-}
+from web_server.models import YjVariableInfo, YjGroupInfo, YjPLCInfo, Value, var_queries, db, QueryGroup
+from web_server.rest.parsers import value_parser, value_put_parser
+from web_server.utils.err import err_not_found
+from web_server.utils.response import rp_create, rp_modify, rp_get
 
 
 class ValueResource(ApiResource):
     def __init__(self):
         self.args = value_parser.parse_args()
+
+        self.value_id = self.args['id']
+
+        self.value = self.args['value']
+        self.variable_id = self.args['variable_id']
+        self.variable_name = self.args['variable_name']
+        self.plc_id = self.args['plc_id']
+        self.plc_name = self.args['plc_name']
+        self.group_id = self.args['group_id']
+        self.group_name = self.args['group_name']
+        self.query_id = self.args['query_id']
+        self.query_name = self.args['query_name']
+        self.all_variable_id = self.args['all_variable_id']
+
+        self.min_time = self.args['min_time']
+        self.max_time = self.args['max_time']
+        self.order_time = self.args['order_time']
+        self.limit = self.args['limit']
+        self.page = self.args['page']
+        self.total = None
+        self.page = self.args['page'] if self.args['page'] else 1
+        self.pages = None
+        self.per_page = self.args['per_page'] if self.args['per_page'] else 10
+
         super(ValueResource, self).__init__()
 
     def search(self):
-
-        value_id = self.args['id']
-
-        variable_id = self.args['variable_id']
-        variable_name = self.args['variable_name']
-        plc_id = self.args['plc_id']
-        plc_name = self.args['plc_name']
-        group_id = self.args['group_id']
-        group_name = self.args['group_name']
-        query_id = self.args['query_id']
-        query_name = self.args['query_name']
-        all_variable_id = self.args['all_variable_id']
-
-        min_time = self.args['min_time']
-        max_time = self.args['max_time']
-        order_time = self.args['order_time']
-        limit = self.args['limit']
-        page = self.args['page']
-        per_page = self.args['per_page'] if self.args['per_page'] else 10
 
         # query = db.session.query(db.distinct(Value.variable_id).label('variable_id'), Value)
         # query = db.session.query(Value, Value.variable_id)
@@ -55,48 +45,51 @@ class ValueResource(ApiResource):
 
         # a = [a[0] for a in db.session.query(Value.variable_id).distinct()]
         # query = db.session.query(Value).filter(Value.variable_id.in_(a))
-        if value_id:
-            query = query.filter_by(id=value_id)
+        if self.value_id is not None:
+            query = query.filter_by(id=self.value_id)
 
-        if variable_id:
-            query = query.join(YjVariableInfo).filter(YjVariableInfo.id.in_(variable_id))
+        if self.variable_id is not None:
+            query = query.filter(Value.variable_id.in_(self.variable_id))
 
-        if all_variable_id:
+        if self.all_variable_id is not None:
             sql = 'select yjvariableinfo.id from yjvariableinfo'
             models = db.engine.execute(sql).fetchall()
             variable_id = [model[0] for model in models]
 
-        if variable_name:
-            query = query.join(YjVariableInfo).filter(YjVariableInfo.variable_name == variable_name)
+        if self.variable_name is not None:
+            query = query.join(YjVariableInfo).filter(YjVariableInfo.variable_name == self.variable_name)
 
-        if plc_id:
-            query = query.join(YjVariableInfo, YjGroupInfo, YjPLCInfo).filter(YjPLCInfo.id == plc_id)
+        if self.plc_id is not None:
+            query = query.join(YjVariableInfo, YjGroupInfo).filter(YjGroupInfo.plc_id.in_(self.plc_id))
 
-        if plc_name:
-            query = query.join(YjVariableInfo, YjGroupInfo, YjPLCInfo).filter(YjPLCInfo.plc_name == plc_name)
+        if self.plc_name is not None:
+            query = query.join(YjVariableInfo, YjGroupInfo, YjPLCInfo).filter(YjPLCInfo.plc_name == self.plc_name)
 
-        if group_id:
-            query = query.join(YjVariableInfo, YjGroupInfo).filter(YjGroupInfo.id == group_id)
+        if self.group_id is not None:
+            query = query.join(YjVariableInfo).filter(YjVariableInfo.group_id.in_(self.group_id))
 
-        if group_name:
-            query = query.join(YjVariableInfo, YjGroupInfo).filter(YjGroupInfo.group_name == group_name)
+        if self.group_name is not None:
+            query = query.join(YjVariableInfo, YjGroupInfo).filter(YjGroupInfo.group_name == self.group_name)
 
-        if query_id:
-            query = query.join(var_queries, var_queries.columns.query_id == query_id).filter(
-                var_queries.columns.variable_id == Value.variable_id)
+        if self.query_id is not None:
+            query = query.join(var_queries, var_queries.columns.query_id == self.query_id).filter(
+                Value.variable_id.in_(var_queries.columns.variable_id))
 
-        if query_name:
-            query = query.join(QueryGroup, QueryGroup.name == query_name). \
+        if self.query_name is not None:
+            query = query.join(QueryGroup, QueryGroup.name == self.query_name). \
                 join(var_queries, var_queries.columns.query_id == QueryGroup.id).filter(
-                var_queries.columns.variable_id == Value.variable_id)
+                Value.variable_id.in_(var_queries.columns.variable_id))
 
-        if min_time:
-            query = query.filter(Value.time > min_time)
+        if self.value is not None:
+            query = query.filter(Value.value == self.value)
 
-        if max_time:
-            query = query.filter(Value.time < max_time)
+        if self.min_time is not None:
+            query = query.filter(Value.time > self.min_time)
 
-        if order_time:
+        if self.max_time is not None:
+            query = query.filter(Value.time < self.max_time)
+
+        if self.order_time is not None:
             query = query.order_by(Value.time.desc())
 
         # if limit:
@@ -104,59 +97,39 @@ class ValueResource(ApiResource):
 
         # print(query)
 
-        if page:
-            query = query.paginate(page, per_page, False).items
-        elif limit:
+        if self.page is not None:
+            pagination = query.paginate(self.page, self.per_page, False)
+            self.total = pagination.total
+            self.per_page = pagination.per_page
+            self.pages = pagination.pages
+            query = pagination.items
+
+        elif self.limit is not None:
             # time1 = time.time()
 
             query = [
                 model
                 for v in variable_id
                 for model in
-                query.filter(Value.variable_id == v).limit(limit).all()
+                query.filter(Value.variable_id == v).limit(self.limit).all()
             ]
             # time2 = time.time()
             # print time2 - time1
         else:
             query = query.all()
 
-        # print query
-
         return query
 
-    def information(self, value):
-        if not value:
-            return err_not_found()
-
-        # info = [
-        #     dict(
-        #         id=v.id,
-        #         variable_id=v.variable_id,
-        #         value=v.value,
-        #         time=v.time,
-        #         variable_name=v.yjvariableinfo.variable_name
-        #         if v.yjvariableinfo else None,
-        #         plc_id=v.yjvariableinfo.yjgroupinfo.yjplcinfo.id
-        #         if (v.yjvariableinfo and v.yjvariableinfo.yjgroupinfo and v.yjvariableinfo.yjgroupinfo.yjplcinfo)
-        #         else None,
-        #         plc_name=v.yjvariableinfo.yjplcinfo.plc_name
-        #         if (v.yjvariableinfo and v.yjvariableinfo.yjgroupinfo and v.yjvariableinfo.yjgroupinfo.yjplcinfo)
-        #         else None,
-        #         group_id=v.yjvariableinfo.yjgroupinfo.id
-        #         if v.yjvariableinfo and v.yjvariableinfo.yjgroupinfo else None,
-        #         group_name=v.yjvariableinfo.yjgroupinfo.group_name
-        #         if v.yjvariableinfo and v.yjvariableinfo.yjgroupinfo else None
-        #     )
-        #     for v in value
-        # ]
+    def information(self, query):
 
         info = []
-        for v in value:
+        for v in query:
 
             data = dict()
             data['id'] = v.id
             data['variable_id'] = v.variable_id
             data['value'] = v.value
+            # print(v.value, type(v.value))
             data['time'] = v.time
 
             variable = v.yjvariableinfo
@@ -185,42 +158,45 @@ class ValueResource(ApiResource):
 
             info.append(data)
 
-        response = jsonify({"ok": 1, "data": info})
+        # 返回json数据
+        rp = rp_get(info, self.page, self.pages, self.total)
 
-        return response
+        return rp
 
     def put(self):
         args = value_put_parser.parse_args()
 
-        value_id = args['id']
+        model = Value(
+            variable_id=args['variable_id'],
+            value=args['value'],
+            time=args['time']
+        )
 
-        if value_id:
+        db.session.add(model)
+        db.session.commit()
 
-            value = Value.query.get(value_id)
+        return rp_create()
 
-            if not value:
-                return err_not_found()
+    def patch(self):
+        args = value_put_parser.parse_args()
 
-            if args['variable_id']:
-                value.variable_id = args['variable_id']
+        model_id = args['id']
 
-            if args['value']:
-                value.value = args['value']
+        model = Value.query.get(model_id)
 
-            if args['time']:
-                value.time = args['time']
+        if not model:
+            return err_not_found()
 
-            db.session.add(value)
-            db.session.commit()
-            return rp_modify()
+        if args['variable_id']:
+            model.variable_id = args['variable_id']
 
-        else:
-            value = Value(
-                variable_id=args['variable_id'],
-                value=args['value'],
-                time=args['time']
-            )
+        if args['value']:
+            model.value = args['value']
 
-            db.session.add(value)
-            db.session.commit()
-            return rp_create()
+        if args['time']:
+            model.time = args['time']
+
+        db.session.add(model)
+        db.session.commit()
+
+        return rp_modify()

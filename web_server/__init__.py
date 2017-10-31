@@ -1,16 +1,19 @@
 # coding=utf-8
 
-from celery import Celery
+import time
+
+# from celery import Celery
+# import eventlet
 from flask import Flask, request, session
 from flask import request_tearing_down
 from flask_login import user_logged_in, current_user
-import pylibmc as memcache
 
-from models import *
-from ext import mako, hashing, api, login_manager, csrf, cache, debug_toolbar, CSRFProtect
-from forms import RegistrationForm, LoginForm
-from config import DevConfig, ProdConfig
+from web_server.models import User
+from web_server.ext import db, mako, hashing, api, login_manager, csrf, cache, debug_toolbar, CSRFProtect
+from web_server.forms import RegistrationForm, LoginForm
+from web_server.config import DevConfig, ProdConfig
 
+from web_server.models import VarAlarmInfo
 from web_server.rest.api_plc import PLCResource
 from web_server.rest.api_station import StationResource
 from web_server.rest.api_group import GroupResource
@@ -21,6 +24,7 @@ from web_server.rest.auth import AuthApi
 from web_server.controllers.basic import basic_blueprint
 from web_server.controllers.api import api_blueprint
 from web_server.controllers.client import client_blueprint
+from web_server.controllers.crontabs import task_blueprint
 
 # 设置默认编码
 # 不用这段会使得jinja渲染flash消息时产生编码错误
@@ -29,24 +33,23 @@ import sys
 reload(sys)
 sys.setdefaultencoding("utf-8")
 
-mc = memcache.Client()
-
 
 def create_app(config_name):
     app = Flask(__name__, template_folder='templates')
 
     # here = os.path.abspath(os.path.dirname(__file__))
 
-    # if os.path.exists('dev'):
-    #     app.config.from_object(DevConfig)
-    # else:
-    app.config.from_object(ProdConfig)
+    # 判断调用开发或生产环境配置
+    if app.instance_path == '/Users/yakumo_17/workspace/Github/yakumo/instance':
+        app.config.from_object(DevConfig)
+    else:
+        app.config.from_object(ProdConfig)
 
     # eventlet.monkey_patch()
     mako.init_app(app)
     db.init_app(app)
-    # with app.app_context():
-    #     db.create_all()
+    with app.app_context():
+        db.create_all()
     hashing.init_app(app)
     # admin.init_app(app)
     login_manager.init_app(app)
@@ -97,10 +100,6 @@ def create_app(config_name):
 
     request_tearing_down.connect(close_db_connection, app)
 
-    # @app.before_first_request
-    # def set_up():
-
-
     @app.context_processor
     def template_extras():
         return {'enumerate': enumerate, 'current_user': current_user}
@@ -123,27 +122,10 @@ def create_app(config_name):
         user = User.query.get(user_id)
         return user
 
-    # def _get_frame(date_string):
-    #     db = MySQLdb.connect('localhost', 'web', 'web', 'pyplc')
-    #     query = 'SELECT * FROM {}'.format(date_string)
-    #     df = read_sql(query, db)
-    #     df = df.head(100)
-    #     return df
-    #
-    # @app.route('/db/<any(yjstationinfo, yjplcinfo, yjgroupinfo, yjvariableinfo):date_string>/')
-    # @cache.cached(timeout=10)
-    # def show_tables(date_string=None):
-    #     df = _get_frame(date_string)
-    #     if isinstance(df, bool) and not df:
-    #         return 'Bad data format!'
-    #     return render_template('show_data.html', df=df.to_html(classes='frame'), date_string=date_string)
-
+    # 注册蓝图
     app.register_blueprint(basic_blueprint)
     app.register_blueprint(api_blueprint)
     app.register_blueprint(client_blueprint)
-
-    # alarm_vars = VarAlarmInfo.query.all()
-    # alarm_list = [dict(variable_id=model.variabl_id, alarm_id=model.id, status=0) for model in alarm_vars]
-    # mc.set("alarm", alarm_list)
+    app.register_blueprint(task_blueprint)
 
     return app
