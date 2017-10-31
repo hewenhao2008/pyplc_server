@@ -45,7 +45,7 @@ def create_app(config_name):
     else:
         app.config.from_object(ProdConfig)
 
-    eventlet.monkey_patch()
+    # eventlet.monkey_patch()
     mako.init_app(app)
     db.init_app(app)
     with app.app_context():
