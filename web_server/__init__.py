@@ -3,7 +3,7 @@
 import time
 
 # from celery import Celery
-import eventlet
+# import eventlet
 from flask import Flask, request, session
 from flask import request_tearing_down
 from flask_login import user_logged_in, current_user
