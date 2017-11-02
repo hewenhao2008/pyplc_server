@@ -130,9 +130,11 @@ class ValueResource(ApiResource):
             variable = v.yjvariableinfo
             if variable:
                 data['variable_name'] = variable.variable_name
+                data['note'] = variable.note
                 group = variable.yjgroupinfo
             else:
                 data['variable_name'] = None
+                data['note'] = None
                 group = None
 
             if group:
