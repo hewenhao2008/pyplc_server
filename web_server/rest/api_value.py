@@ -40,6 +40,7 @@ class ValueResource(ApiResource):
 
         # query = db.session.query(db.distinct(Value.variable_id).label('variable_id'), Value)
         # query = db.session.query(Value, Value.variable_id)
+        var_query = YjVariableInfo.query
         query = Value.query
         # query = db.session.query(Value.cls).group_by(Value.variable_id)
 
@@ -67,6 +68,7 @@ class ValueResource(ApiResource):
 
         if self.group_id is not None:
             query = query.join(YjVariableInfo).filter(YjVariableInfo.group_id.in_(self.group_id))
+            variable_id = [i.id for i in var_query.filter_by(group_id=self.group_id).all()]
 
         if self.group_name is not None:
             query = query.join(YjVariableInfo, YjGroupInfo).filter(YjGroupInfo.group_name == self.group_name)
