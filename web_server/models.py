@@ -1,12 +1,8 @@
 # coding=utf-8
-import os
-import time
-
 from flask import current_app
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin, AnonymousUserMixin
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer, BadSignature, SignatureExpired
-from flask_sqlalchemy import Pagination
 from sqlalchemy.orm import class_mapper
 
 from ext import db
@@ -33,13 +29,23 @@ roles = db.Table(
     db.Column('role_id', db.Integer, db.ForeignKey('roles.id'), primary_key=True)
 )
 
-var_queries = db.Table(
-    'variables_queries',
-    db.Column('query_id', db.Integer, db.ForeignKey('query_group.id', onupdate="CASCADE", ondelete="CASCADE"),
-              primary_key=True),
-    db.Column('variable_id', db.Integer, db.ForeignKey('yjvariableinfo.id', onupdate="CASCADE", ondelete="CASCADE"),
-              primary_key=True, )
-)
+
+class VarQueries(db.Model):
+    __tablename__ = 'variables_queries'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    query_id = db.Column(db.Integer, db.ForeignKey('query_group.id'))
+    variable_id = db.Column(db.Integer, db.ForeignKey('yjvariableinfo.id'))
+    query = db.relationship('QueryGroup', back_populates='variables')
+    variable = db.relationship('YjVariableInfo', back_populates='queries')
+
+
+class VarGroups(db.Model):
+    __tablename__ = 'variables_groups'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    variable_id = db.Column(db.Integer, db.ForeignKey('yjvariableinfo.id'))
+    group_id = db.Column(db.Integer, db.ForeignKey('yjgroupinfo.id'))
+    variable = db.relationship('YjVariableInfo', back_populates='groups')
+    group = db.relationship('YjGroupInfo', back_populates='variables')
 
 
 class YjStationInfo(db.Model):
@@ -54,8 +60,7 @@ class YjStationInfo(db.Model):
     ten_id = db.Column(db.String(255))
     item_id = db.Column(db.String(20))
     con_time = db.Column(db.Integer)
-    modification = db.Column(db.Integer)
-    version = db.Column(db.Integer)
+    is_modify = db.Column(db.Boolean)
     phone = db.Column(db.BigInteger)
 
     plcs = db.relationship('YjPLCInfo', backref='yjstationinfo', lazy='dynamic',
@@ -63,21 +68,8 @@ class YjStationInfo(db.Model):
 
     logs = db.relationship('TransferLog', backref='yjstationinfo', lazy='dynamic')
 
-    def __init__(self, station_name=None, mac=None, ip=None, note=None, id_num=None,
-                 plc_count=None, ten_id=None, item_id=None, con_time=int(time.time()), modification=0, phone=None,
-                 version=1):
-        self.station_name = station_name
-        self.mac = mac
-        self.ip = ip
-        self.note = note
-        self.id_num = id_num
-        self.plc_count = check_int(plc_count)
-        self.ten_id = ten_id
-        self.item_id = item_id
-        self.con_time = con_time
-        self.modification = modification
-        self.phone = phone
-        self.version = version
+    sms = db.relationship('SMSPhone', backref='yjstationinfo', lazy='dynamic')
+    voice = db.relationship('VoiceCall', backref='yjstationinfo', lazy='dynamic')
 
     def __repr__(self):
         return '<Station : ID(%r) Name(%r) >'.format(self.id, self.station_name)
@@ -91,7 +83,7 @@ class YjPLCInfo(db.Model):
     ip = db.Column(db.String(30))
     mpi = db.Column(db.Integer)
     type = db.Column(db.Integer)
-    plc_type = db.Column(db.String(20))
+    plc_type = db.Column(db.Integer)
     ten_id = db.Column(db.String(255))
     item_id = db.Column(db.String(20))
 
@@ -102,23 +94,7 @@ class YjPLCInfo(db.Model):
     station_id = db.Column(db.Integer, db.ForeignKey('yjstationinfo.id'))
 
     groups = db.relationship('YjGroupInfo', backref='yjplcinfo', lazy='dynamic',
-                             cascade="delete, delete-orphan")
-
-    def __init__(self, plc_name=None, station_id=None, note=None, ip=None,
-                 mpi=None, type=None, plc_type=None,
-                 ten_id=None, item_id=None, rack=0, slot=0, tcp_port=102):
-        self.plc_name = plc_name
-        self.station_id = station_id
-        self.note = note
-        self.ip = ip
-        self.mpi = check_int(mpi)
-        self.type = type
-        self.plc_type = plc_type
-        self.ten_id = ten_id
-        self.item_id = item_id
-        self.rack = rack
-        self.slot = slot
-        self.tcp_port = tcp_port
+                             cascade="all, delete, delete-orphan")
 
     def __repr__(self):
         return '<PLC : ID(%r) Name(%r) >'.format(self.id, self.plc_name)
@@ -129,25 +105,17 @@ class YjGroupInfo(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     group_name = db.Column(db.String(20))
     note = db.Column(db.String(100))
-    upload = db.Column(db.Boolean)
+    is_upload = db.Column(db.Boolean)
     upload_cycle = db.Column(db.Integer)
     ten_id = db.Column(db.String(255))
     item_id = db.Column(db.String(20))
+    acquisition_cycle = db.Column(db.Integer)
+    server_record_cycle = db.Column(db.Integer)
+    group_type = db.Column(db.Integer)
 
     plc_id = db.Column(db.Integer, db.ForeignKey('yjplcinfo.id'))
 
-    variables = db.relationship('YjVariableInfo', backref='yjgroupinfo', lazy='dynamic',
-                                cascade="delete, delete-orphan")
-
-    def __init__(self, group_name=None, plc_id=None, note=None,
-                 upload_cycle=None, upload=True, ten_id=None, item_id=None):
-        self.group_name = group_name
-        self.plc_id = check_int(plc_id)
-        self.note = note
-        self.upload_cycle = check_int(upload_cycle)
-        self.ten_id = ten_id
-        self.item_id = item_id
-        self.upload = upload
+    variables = db.relationship('VarGroups', back_populates='group')
 
     def __repr__(self):
         return '<Group :ID(%r) Name(%r) >'.format(self.id, self.group_name)
@@ -159,41 +127,26 @@ class YjVariableInfo(db.Model):
     variable_name = db.Column(db.String(20))
     db_num = db.Column(db.Integer)
     address = db.Column(db.Float)
-    data_type = db.Column(db.String(10))
+    data_type = db.Column(db.Integer)
     rw_type = db.Column(db.Integer)
-    upload = db.Column(db.Integer)
-    acquisition_cycle = db.Column(db.Integer)
-    server_record_cycle = db.Column(db.Integer)
     note = db.Column(db.String(50))
     ten_id = db.Column(db.String(200))
     item_id = db.Column(db.String(20))
     write_value = db.Column(db.Integer)
     area = db.Column(db.Integer)
-
-    group_id = db.Column(db.Integer, db.ForeignKey('yjgroupinfo.id'))
+    is_analog = db.Column(db.Boolean)
+    analog_low_range = db.Column(db.Float)
+    analog_high_range = db.Column(db.Float)
+    digital_low_range = db.Column(db.Float)
+    digital_high_range = db.Column(db.Float)
+    offset = db.Column(db.Float)
 
     values = db.relationship('Value', backref='yjvariableinfo', lazy='dynamic', cascade="delete, delete-orphan")
     alarms = db.relationship('VarAlarmInfo', backref='yjvariableinfo', lazy='dynamic', cascade="delete, delete-orphan")
     params = db.relationship('Parameter', backref='yjvariableinfo', lazy='dynamic', cascade="delete, delete-orphan")
 
-    def __init__(self, variable_name=None, group_id=None, db_num=None, address=None,
-                 data_type=None, rw_type=None, upload=None,
-                 acquisition_cycle=None, server_record_cycle=None,
-                 note=None, ten_id=None, item_id=None, write_value=None, area=None):
-        self.variable_name = variable_name
-        self.group_id = group_id
-        self.db_num = db_num
-        self.address = address
-        self.data_type = data_type
-        self.rw_type = rw_type
-        self.upload = upload
-        self.acquisition_cycle = acquisition_cycle
-        self.server_record_cycle = server_record_cycle
-        self.note = note
-        self.ten_id = ten_id
-        self.item_id = item_id
-        self.write_value = write_value
-        self.area = area
+    groups = db.relationship('VarGroups', back_populates='variable')
+    queries = db.relationship('VarQueries', back_populates='variable')
 
     def __repr__(self):
         return '<Variable :ID(%r) Name(%r) >'.format(self.id, self.variable_name)
@@ -202,14 +155,9 @@ class YjVariableInfo(db.Model):
 class Value(db.Model):
     __tablename__ = 'values'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    variable_id = db.Column(db.Integer, db.ForeignKey('yjvariableinfo.id'))
-    value = db.Column(db.String(128))
+    variable_id = db.Column(db.BigInteger, db.ForeignKey('yjvariableinfo.id'))
+    value = db.Column(db.Float)
     time = db.Column(db.Integer)
-
-    def __init__(self, variable_id, value, time):
-        self.variable_id = variable_id
-        self.value = value
-        self.time = time
 
     def __repr__(self):
         return '<Value {} {} {} {}'.format(self.id, self.variable_id, self.value, self.time)
@@ -294,9 +242,6 @@ class Role(db.Model):
     name = db.Column(db.String(30), unique=True)
     description = db.Column(db.String(64))
 
-    def __init__(self, name):
-        self.name = name
-
     def __repr__(self):
         return '<Role {}>'.format(self.name)
 
@@ -309,24 +254,13 @@ class TransferLog(db.Model):
     time = db.Column(db.Integer)
     note = db.Column(db.String(200))
 
-    def __init__(self, station_id, level, time, note):
-        self.station_id = station_id
-        self.level = level
-        self.time = time
-        self.note = note
-
 
 class QueryGroup(db.Model):
     __tablename__ = 'query_group'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(32))
 
-    vars = db.relationship(
-        'YjVariableInfo',
-        secondary=var_queries,
-        backref=db.backref('querys', lazy='dynamic'),
-        single_parent=True,
-    )
+    variables = db.relationship('VarQueries', back_populates='query')
 
 
 class VarAlarm(db.Model):
@@ -351,6 +285,10 @@ class VarAlarmInfo(db.Model):
     alarm_type = db.Column(db.Integer)
     note = db.Column(db.String(128))
     is_send_message = db.Column(db.Boolean)
+    type = db.Column(db.Integer)  # 1 bool 2 判断数值
+    symbol = db.Column(db.Integer)  # 1 > 2 >= 3 < 4 <=
+    limit = db.Column(db.Float)
+    delay = db.Column(db.Integer)
 
     logs = db.relationship('VarAlarmLog', backref='var_alarm_info', lazy='dynamic', cascade="delete, delete-orphan")
     alarms = db.relationship('VarAlarm', backref='var_alarm_info', lazy='dynamic', cascade="delete, delete-orphan")
@@ -383,7 +321,7 @@ class StationAlarm(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     id_num = db.Column(db.String(200))
     code = db.Column(db.Integer)
-    note = db.Column(db.String(200))
+    note = db.Column(db.Text)
     time = db.Column(db.Integer)
 
 
@@ -394,5 +332,21 @@ class PLCAlarm(db.Model):
     id_num = db.Column(db.String(200))
     plc_id = db.Column(db.Integer)
     level = db.Column(db.Integer)
-    note = db.Column(db.String(200))
+    note = db.Column(db.Text)
     time = db.Column(db.Integer)
+
+
+class SMSPhone(db.Model):
+    __tablename__ = 'sms_phone'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    station_id = db.Column(db.Integer, db.ForeignKey('yjstationinfo.id'))
+    number = db.Column(db.BigInteger)
+    level = db.Column(db.Integer)
+
+
+class VoiceCall(db.Model):
+    __tablename__ = 'voice_call'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    station_id = db.Column(db.Integer, db.ForeignKey('yjstationinfo.id'))
+    number = db.Column(db.BigInteger)
+    level = db.Column(db.Integer)

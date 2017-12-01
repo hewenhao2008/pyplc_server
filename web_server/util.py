@@ -8,47 +8,32 @@ import json
 from flask import jsonify
 
 
-def encryption(data):
+def encryption_server(dict_data):
     """
-    :param data: dict
+    
+    :param dict_data: dict
+    :return: base64encode str
+    """
+
+    str_data = json.dumps(dict_data)
+    zlib_data = zlib.compress(str_data)
+
+    base64_data = base64.b64encode(zlib_data)
+
+    return base64_data
+
+
+def decryption_server(zlib_data):
+    """
+    
+    :param zlib_data: request.get_data()
     :return: dict
     """
 
-    h = hmac.new(b'poree')
-    data = unicode(data)
-    # data = base64.b64encode(data)
-    h.update(bytes(data))
-    data = zlib.compress(data)
-    data = base64.b64encode(data)
-    digest = h.hexdigest()
-    data = {
-        "data": data,
-        "digest": digest
-    }
-    return data
+    str_data = zlib.decompress(zlib_data)
+    dict_data = json.loads(str_data)
 
-
-def decryption(rj):
-    """
-    :param rj: json
-    :return: dict
-    """
-
-    data = rj['data']
-    di = rj['digest']
-    data = base64.b64decode(data)
-    data = zlib.decompress(data)
-    h = hmac.new(b'poree')
-    h.update(bytes(data))
-    test = h.hexdigest()
-    if di == test:
-        # data = base64.b64decode(data)
-        data = json.loads(data.replace("'", '"'))
-    else:
-        data = {
-            "status": "Error"
-        }
-    return data
+    return dict_data
 
 
 def get_data_from_query(models):

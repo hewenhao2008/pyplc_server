@@ -1,23 +1,11 @@
-import os
-
+# coding=u8
 from flask_script import Manager, Server
 from flask_migrate import Migrate, MigrateCommand
 
 from web_server import create_app
-from web_server.models import *
 from web_server.ext import db
 
-# if os.environ.get('APP_NAME') == None:
-#     env = 'dev'
-# else:
-#     env = 'prod'
-app = create_app('config.py')
-import flask
-
-# app = create_app('web_server.config.{}Config'.format(env.capitalize()))
-
-# with app.app_context():
-#     db.create_all()
+app = create_app()
 
 migrate = Migrate(app, db)
 manager = Manager(app)
@@ -28,6 +16,7 @@ manager.add_command("server", Server(
     host='0.0.0.0',
     port=11000)
                     )
+
 manager.add_command("prod", Server(
     use_debugger=False,
     use_reloader=False,

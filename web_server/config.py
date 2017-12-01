@@ -12,9 +12,6 @@ class Config(object):
     VARIABLE_COUNT = 200
     # 终端连接超时
     STATION_TIMEOUT = 300
-    # SQLALCHEMY_DATABASE_URI = 'mysql://%s:%s@%s:%s/%s'.format(sae.const.MYSQL_USER, sae.const.MYSQL_PASS,
-    #                                                           sae.const.MYSQL_HOST, int(sae.const.MYSQL_PORT),
-    #                                                           sae.const.MYSQL_DB)
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     # 回收连接
@@ -73,19 +70,18 @@ class Config(object):
     #     }
     #
     # }
-    CELERYBEAT_SCHEDULE = {
-        'check_station': {
-            'task': 'web_server.tasks.check_station',
-            'schedule': timedelta(seconds=10),
-        }
-    }
+    # CELERYBEAT_SCHEDULE = {
+    #     'check_station': {
+    #         'task': 'web_server.tasks.check_station',
+    #         'schedule': timedelta(seconds=10),
+    #     }
+    # }
 
-
-# crontab(minute=0) +
 
 class DevConfig(Config):
     # database
-    SQLALCHEMY_DATABASE_URI = 'mysql://web:web@localhost:3306/pyplc'
+    # SQLALCHEMY_DATABASE_URI = 'mysql://web:web@localhost:3306/pyplc'
+    SQLALCHEMY_DATABASE_URI = 'mysql://yakumo17s:touhouproject@114.67.225.15:3306/pyplc'
 
     # 指定消息代理
     CELERY_BROKER_URL = 'pyamqp://yakumo17s:123456@localhost:5672/web_develop'
@@ -105,7 +101,7 @@ class ProdConfig(Config):
 
     SQLALCHEMY_POOL_RECYCLE = 5
 
-    DEBUG = True
+    # DEBUG = True
 
     # 指定消息代理
     CELERY_BROKER_URL = 'pyamqp://yakumo17s:touhou@localhost:5672/web_develop'

@@ -1,6 +1,7 @@
 # coding=utf-8
 
 import time
+import platform
 
 # from celery import Celery
 # import eventlet
@@ -34,13 +35,12 @@ reload(sys)
 sys.setdefaultencoding("utf-8")
 
 
-def create_app(config_name):
+def create_app():
     app = Flask(__name__, template_folder='templates')
 
     # here = os.path.abspath(os.path.dirname(__file__))
-
     # 判断调用开发或生产环境配置
-    if app.instance_path == '/Users/yakumo_17/workspace/Github/yakumo/instance':
+    if platform.system() == 'Darwin':
         app.config.from_object(DevConfig)
     else:
         app.config.from_object(ProdConfig)

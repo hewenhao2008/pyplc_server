@@ -1,7 +1,7 @@
 # coding=utf-8
 
 from api_templete import ApiResource
-from web_server.models import YjVariableInfo, YjGroupInfo, YjPLCInfo, Value, var_queries, db, QueryGroup
+from web_server.models import YjVariableInfo, YjGroupInfo, YjPLCInfo, Value, db, QueryGroup
 from web_server.rest.parsers import value_parser, value_put_parser
 from web_server.utils.err import err_not_found
 from web_server.utils.response import rp_create, rp_modify, rp_get
@@ -73,14 +73,14 @@ class ValueResource(ApiResource):
         if self.group_name is not None:
             query = query.join(YjVariableInfo, YjGroupInfo).filter(YjGroupInfo.group_name == self.group_name)
 
-        if self.query_id is not None:
-            query = query.join(var_queries, var_queries.columns.query_id == self.query_id).filter(
-                Value.variable_id.in_(var_queries.columns.variable_id))
-
-        if self.query_name is not None:
-            query = query.join(QueryGroup, QueryGroup.name == self.query_name). \
-                join(var_queries, var_queries.columns.query_id == QueryGroup.id).filter(
-                Value.variable_id.in_(var_queries.columns.variable_id))
+        # if self.query_id is not None:
+        #     query = query.join(var_queries, var_queries.columns.query_id == self.query_id).filter(
+        #         Value.variable_id.in_(var_queries.columns.variable_id))
+        #
+        # if self.query_name is not None:
+        #     query = query.join(QueryGroup, QueryGroup.name == self.query_name). \
+        #         join(var_queries, var_queries.columns.query_id == QueryGroup.id).filter(
+        #         Value.variable_id.in_(var_queries.columns.variable_id))
 
         if self.value is not None:
             query = query.filter(Value.value == self.value)

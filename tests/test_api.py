@@ -1,6 +1,4 @@
 # coding=u8
-import unittest
-
 import pytest
 import requests
 from requests import get, post, put, delete, patch
@@ -259,7 +257,3 @@ class TestApi(object):
 
         variables = rp.json()['data'][0][relation_key]
         assert len(variables) == 0
-
-
-if __name__ == '__main__':
-    unittest.main()
