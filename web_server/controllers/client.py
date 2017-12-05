@@ -1,8 +1,10 @@
 # coding=utf-8
 
 from os import path
+import logging
 import time
 from flask import Blueprint, request, jsonify
+import platform
 
 from mc import mc
 from web_server.ext import db
@@ -187,8 +189,6 @@ def set_config():
     if request.method == 'POST':
         data = request.get_json(force=True)
 
-        mc.set('test', 'test')
-        test = mc.get('test')
         station = db.session.query(YjStationInfo).filter_by(id_num=data['id_num']).first()
 
         if not station:
@@ -201,10 +201,16 @@ def set_config():
 
         data = config_data2(station)
 
+        logging.debug('debug')
+        logging.info('info')
+        logging.warning('warn')
+        logging.critical('critical')
+        print('print')
+
         # 加密
         data = encryption_server(data)
 
-        response = make_response('OK', 200, data=data, test=test)
+        response = make_response('OK', 200, data=data, platform=platform.uname())
         return response
 
 
@@ -235,9 +241,6 @@ def upload():
         # 验证上传数据
         id_num = data['id_num']
 
-        mc.set('test', 'test')
-        test = mc.get('test')
-        print(test)
         # 查询服务器是否有正在上传的站信息
         station_id_num = mc.get('id_num')
         station = False
@@ -265,15 +268,7 @@ def upload():
                 'value': v['v'],
                 'time': v['t']
             }
-            #
-            # value_model = Value(
-            #     variable_id=v['i'],
-            #     value=v['v'],
-            #     time=v['t']
-            # )
             value_list.append(value_model)
-        # engine.execute(Value.__table__.insert(), value_list)
-        # db.session.add_all(value_list)
         db.session.bulk_insert_mappings(Value, value_list)
         db.session.commit()
         time2 = time.time()
