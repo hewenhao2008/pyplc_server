@@ -187,6 +187,8 @@ def set_config():
     if request.method == 'POST':
         data = request.get_json(force=True)
 
+        mc.set('test', 'test')
+        test = mc.get('test')
         station = db.session.query(YjStationInfo).filter_by(id_num=data['id_num']).first()
 
         if not station:
@@ -202,7 +204,7 @@ def set_config():
         # 加密
         data = encryption_server(data)
 
-        response = make_response('OK', 200, data=data)
+        response = make_response('OK', 200, data=data, test=test)
         return response
 
 
