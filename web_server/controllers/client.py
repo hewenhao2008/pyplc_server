@@ -222,10 +222,13 @@ def set_config():
 
         data = config_data2(id_num)
 
+        mc.set('test', 'test')
+        test = mc.get('test')
+
         # 压缩
         data = encryption_server(data)
 
-        response = make_response('OK', 200, data=data, platform=platform.uname())
+        response = make_response('OK', 200, data=data, platform=test)
         return response
 
 
