@@ -1,11 +1,12 @@
 # coding=u8
 import time
-from web_server.models import serialize, VarAlarmInfo, db
+from web_server.models import serialize, VarAlarmInfo, db, YjStationInfo
 
 
-def config_data(station_model):
+def config_data(id_num):
     # 获取属于该终端的四个表的数据
-    time1 = time.time()
+    # time1 = time.time()
+    station_model = YjStationInfo.query.filter_by(id_num=id_num).first()
     station_data = serialize(station_model)
 
     plcs = station_model.plcs
@@ -51,8 +52,8 @@ def config_data(station_model):
         for model in alarm_info
     ]
 
-    time2 = time.time()
-    print(time2 - time1)
+    # time2 = time.time()
+    # print(time2 - time1)
 
     data = {
         'stations': station_data,
@@ -66,8 +67,9 @@ def config_data(station_model):
     return data
 
 
-def config_data2(station_model):
+def config_data2(id_num):
     # time1 = time.time()
+    station_model = YjStationInfo.query.filter_by(id_num=id_num).first()
     station_data = serialize(station_model)
     plc_data = []
     group_data = []

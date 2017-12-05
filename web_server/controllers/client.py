@@ -23,6 +23,27 @@ client_blueprint = Blueprint(
 )
 
 
+def station_exist(id_num):
+    station_id_num = mc.get('id_num')
+    exist = False
+    if station_id_num:
+        if id_num in station_id_num:
+            exist = True
+            return exist
+
+    station_model = YjStationInfo.query.filter_by(id_num=id_num).first()
+    if station_model:
+        exist = True
+        if station_id_num:
+            station_id_num.append(station_model.id_num)
+        else:
+            station_id_num = [station_model.id_num]
+
+        mc.set('id_num', station_id_num)
+
+    return exist
+
+
 def get_alarm(v, station, message_count, time):
     # 获取历史报警
     # print(v)
@@ -66,7 +87,6 @@ def get_alarm(v, station, message_count, time):
             db.session.add(log)
             print(status, type(status))
             if status == 1:
-                print(1)
                 alarm = VarAlarm(
                     alarm_id=last_log.alarm_id,
                     time=time
@@ -82,10 +102,10 @@ def get_alarm(v, station, message_count, time):
                 #         sms_alarm(station.phone, {'name': str(station.station_name)})
                 #         message_count -= 1
             elif status == 0:
-                print(0)
                 alarm = VarAlarm.query.filter(VarAlarm.alarm_id == last_log.alarm_id).first()
                 if alarm:
                     db.session.delete(alarm)
+
 
 
 @client_blueprint.route('/beats', methods=['POST'])
@@ -107,14 +127,14 @@ def beats():
 
         db.session.add(station)
 
-        print(data['data_alarms'])
+        # print(data['data_alarms'])
         # 记录变量报警信息
         if data['data_alarms']:
             for alarm in data['data_alarms']:
                 for log in alarm['data']:
                     get_alarm(log, station, message_count, alarm['time'])
 
-            print('记录变量报警完成')
+        logging.debug('记录变量报警完成')
 
         # 记录终端故障信息
         if data['station_alarms']:
@@ -126,7 +146,7 @@ def beats():
                     time=station_alarm['time']
                 )
                 db.session.add(alarm)
-        print('记录终端故障完成')
+        logging.debug('记录终端故障完成')
 
         # 记录PLC故障信息
         if data['plc_alarms']:
@@ -140,7 +160,7 @@ def beats():
                     code=plc_alarm['code']
                 )
                 db.session.add(alarm)
-        print('记录PLC故障完成')
+        logging.debug('记录PLC故障完成')
 
         # 记录终端设备状态
         if data['station_info']:
@@ -163,22 +183,21 @@ def beats():
 
             db.session.merge(info)
 
-        modification = station.is_modify
+        is_modify = station.is_modify
         status = 'ok'
 
-        # data = encryption(data)
-
     else:
-        modification = 0
+        is_modify = 0
         status = 'error'
 
-    print('心跳记录完成，返回确认信息')
+    logging.debug('心跳记录完成，返回确认信息')
 
     # 返回信息
     data = {
-        'is_modify': modification,
+        'is_modify': is_modify,
         'status': status
     }
+    # data = encryption_server(data)
     db.session.commit()
 
     return jsonify(data)
@@ -189,9 +208,11 @@ def set_config():
     if request.method == 'POST':
         data = request.get_json(force=True)
 
-        station = db.session.query(YjStationInfo).filter_by(id_num=data['id_num']).first()
+        id_num = data['id_num']
 
-        if not station:
+        exist = station_exist(id_num)
+
+        if not exist:
             response = make_response(
                 'error',
                 400,
@@ -199,15 +220,9 @@ def set_config():
             )
             return response
 
-        data = config_data2(station)
+        data = config_data2(id_num)
 
-        logging.debug('debug')
-        logging.info('info')
-        logging.warning('warn')
-        logging.critical('critical')
-        print('print')
-
-        # 加密
+        # 压缩
         data = encryption_server(data)
 
         response = make_response('OK', 200, data=data, platform=platform.uname())
