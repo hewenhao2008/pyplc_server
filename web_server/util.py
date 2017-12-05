@@ -16,7 +16,7 @@ def encryption_server(dict_data):
     """
 
     str_data = json.dumps(dict_data)
-    zlib_data = zlib.compress(str_data)
+    zlib_data = zlib.compress(str_data, 9)
 
     base64_data = base64.b64encode(zlib_data)
 

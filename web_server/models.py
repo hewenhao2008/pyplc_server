@@ -7,6 +7,7 @@ from sqlalchemy.orm import class_mapper
 
 from ext import db
 
+engine = db.create_engine('mysql://yakumo17s:touhouproject@114.67.225.15:3306/pyplc')
 
 def check_int(column):
     if column:
@@ -66,10 +67,13 @@ class YjStationInfo(db.Model):
     plcs = db.relationship('YjPLCInfo', backref='yjstationinfo', lazy='dynamic',
                            cascade="delete, delete-orphan")
 
-    logs = db.relationship('TransferLog', backref='yjstationinfo', lazy='dynamic')
+    logs = db.relationship('TransferLog', backref='yjstationinfo', lazy='dynamic', cascade="delete, delete-orphan")
 
-    sms = db.relationship('SMSPhone', backref='yjstationinfo', lazy='dynamic')
-    voice = db.relationship('VoiceCall', backref='yjstationinfo', lazy='dynamic')
+    sms = db.relationship('SMSPhone', backref='yjstationinfo', lazy='dynamic', cascade="delete, delete-orphan")
+
+    voice = db.relationship('VoiceCall', backref='yjstationinfo', lazy='dynamic', cascade="delete, delete-orphan")
+
+    infos = db.relationship('TerminalInfo', backref='yjstationinfo', lazy='dynamic', cascade="delete, delete-orphan")
 
     def __repr__(self):
         return '<Station : ID(%r) Name(%r) >'.format(self.id, self.station_name)
@@ -286,7 +290,7 @@ class VarAlarmInfo(db.Model):
     note = db.Column(db.String(128))
     is_send_message = db.Column(db.Boolean)
     type = db.Column(db.Integer)  # 1 bool 2 判断数值
-    symbol = db.Column(db.Integer)  # 1 > 2 >= 3 < 4 <=
+    symbol = db.Column(db.Integer)  # 1 > 2 >= 3 < 4 <= 5 ==
     limit = db.Column(db.Float)
     delay = db.Column(db.Integer)
 
@@ -350,3 +354,19 @@ class VoiceCall(db.Model):
     station_id = db.Column(db.Integer, db.ForeignKey('yjstationinfo.id'))
     number = db.Column(db.BigInteger)
     level = db.Column(db.Integer)
+
+
+class TerminalInfo(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    boot_time = db.Column(db.Integer)
+    total_usage = db.Column(db.Integer)
+    free_usage = db.Column(db.Integer)
+    usage_percent = db.Column(db.Float)
+    total_memory = db.Column(db.Integer)
+    free_memory = db.Column(db.Integer)
+    memory_percent = db.Column(db.Float)
+    bytes_sent = db.Column(db.Integer)
+    bytes_recv = db.Column(db.Integer)
+    cpu_percent = db.Column(db.Float)
+
+    station_id = db.Column(db.Integer, db.ForeignKey('yjstationinfo.id'))
