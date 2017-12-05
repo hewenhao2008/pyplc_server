@@ -92,9 +92,9 @@ def create_app():
     def get_current_user():
         return session['username']
 
-    @app.errorhandler(500)
-    def server_inner_error(error):
-        return u"内部代码错误 by yakumo17s"
+    # @app.errorhandler(500)
+    # def server_inner_error(error):
+    #     return u"内部代码错误 by yakumo17s"
 
     def close_db_connection(sender, **extra):
         db.session.close()
