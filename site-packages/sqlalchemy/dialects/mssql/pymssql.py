@@ -1,5 +1,5 @@
 # mssql/pymssql.py
-# Copyright (C) 2005-2015 the SQLAlchemy authors and contributors
+# Copyright (C) 2005-2017 the SQLAlchemy authors and contributors
 # <see AUTHORS file>
 #
 # This module is part of SQLAlchemy and is released under
@@ -9,7 +9,7 @@
 .. dialect:: mssql+pymssql
     :name: pymssql
     :dbapi: pymssql
-    :connectstring: mssql+pymssql://<username>:<password>@<freetds_name>?\
+    :connectstring: mssql+pymssql://<username>:<password>@<freetds_name>/?\
 charset=utf8
     :url: http://pymssql.org/
 
@@ -85,7 +85,9 @@ class MSDialect_pymssql(MSDialect):
             "message 20003",  # connection timeout
             "Error 10054",
             "Not connected to any MS SQL server",
-            "Connection is closed"
+            "Connection is closed",
+            "message 20006",  # Write to the server failed
+            "message 20017",  # Unexpected EOF from the server
         ):
             if msg in str(e):
                 return True
