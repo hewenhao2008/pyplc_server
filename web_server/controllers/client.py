@@ -44,17 +44,49 @@ def station_exist(id_num):
     return exist
 
 
+def get_cache_station(id_num):
+    stations = mc.get('station')
+    station = None
+    if stations:
+        for s in stations:
+            if s['id_num'] == id_num:
+                s['con_time'] = int(time.time())
+                mc.set('station', stations)
+                station = s
+                return station
+
+    model = YjStationInfo.query.filter_by(id_num=id_num).first()
+    if model:
+        station_info = {
+            'id': model.id,
+            'id_num': model.id_num,
+            'station_name': model.station_name,
+            'con_time': int(time.time()),
+            'is_modify': model.is_modify
+        }
+        station = station_info
+        if stations:
+            stations.append(station_info)
+        else:
+            stations = [station_info]
+
+        mc.set('station', stations)
+
+    return station
+
+
 def get_alarm(v, station, message_count, time):
     # 获取历史报警
     # print(v)
-    last_log = VarAlarmLog.query.join(VarAlarmInfo, VarAlarmInfo.variable_id == v['id']).filter(
+    var_id = v['i']
+    status = v['a']
+    last_log = VarAlarmLog.query.join(VarAlarmInfo, VarAlarmInfo.variable_id == var_id).filter(
         VarAlarmLog.alarm_id == VarAlarmInfo.id).order_by(VarAlarmLog.time.desc()).first()
-    status = v['is_alarm']
 
     # 历史报警不存在，写入历史报警和当前报警
     # print('status', status, last_log)
     if last_log is None:
-        alarm_info = VarAlarmInfo.query.filter_by(variable_id=v['id']).first()
+        alarm_info = VarAlarmInfo.query.filter_by(variable_id=var_id).first()
         if status == 1:
             log = VarAlarmLog(
                 alarm_id=alarm_info.id,
@@ -107,7 +139,6 @@ def get_alarm(v, station, message_count, time):
                     db.session.delete(alarm)
 
 
-
 @client_blueprint.route('/beats', methods=['POST'])
 def beats():
     # 设置每次上传时最大发送的短信条数
@@ -119,26 +150,22 @@ def beats():
     data = decryption_server(rv)
 
     # 根据id_num查询终端数据模型
-    station = YjStationInfo.query.filter_by(id_num=data['id_num']).first()
+    id_num = data['id_num']
+    station = get_cache_station(id_num)
 
     if station:
-        # 记录连接时间
-        station.con_time = int(time.time())
-
-        db.session.add(station)
-
         # print(data['data_alarms'])
         # 记录变量报警信息
-        if data['data_alarms']:
-            for alarm in data['data_alarms']:
+        if data['d_a']:
+            for alarm in data['d_a']:
                 for log in alarm['data']:
                     get_alarm(log, station, message_count, alarm['time'])
 
         logging.debug('记录变量报警完成')
 
         # 记录终端故障信息
-        if data['station_alarms']:
-            for station_alarm in data['station_alarms']:
+        if data['s_a']:
+            for station_alarm in data['s_a']:
                 alarm = StationAlarm(
                     id_num=station_alarm['id_num'],
                     code=station_alarm['code'],
@@ -149,12 +176,11 @@ def beats():
         logging.debug('记录终端故障完成')
 
         # 记录PLC故障信息
-        if data['plc_alarms']:
-            for plc_alarm in data['plc_alarms']:
+        if data['p_a']:
+            for plc_alarm in data['p_a']:
                 alarm = PLCAlarm(
                     id_num=plc_alarm['id_num'],
                     plc_id=plc_alarm['plc_id'],
-                    level=plc_alarm['level'],
                     note=plc_alarm['note'],
                     time=plc_alarm['time'],
                     code=plc_alarm['code']
@@ -163,27 +189,27 @@ def beats():
         logging.debug('记录PLC故障完成')
 
         # 记录终端设备状态
-        if data['station_info']:
-            station_info = data['station_info']
-            info = TerminalInfo.query.filter_by(station_id=station.id).first()
+        if data['info']:
+            station_info = data['info']
+            info = TerminalInfo.query.filter_by(station_id=station['id']).first()
             if not info:
                 info = TerminalInfo()
-                info.station_id = station.id
-            info.cpu_percent = station_info['cpu_percent']
-            info.boot_time = station_info['boot_time']
-            info.total_usage = station_info['total_usage']
-            info.free_usage = station_info['free_usage']
-            info.usage_percent = station_info['usage_percent']
-            info.total_memory = station_info['total_memory']
-            info.free_memory = station_info['free_memory']
-            info.memory_percent = station_info['memory_percent']
-            info.bytes_sent = station_info['bytes_sent']
-            info.bytes_recv = station_info['bytes_recv']
-            info.cpu_percent = station_info['cpu_percent']
+                info.station_id = station['id']
+            info.cpu_percent = station_info['c_p']
+            info.boot_time = station_info['b_t']
+            info.total_usage = station_info['t_u']
+            info.free_usage = station_info['f_u']
+            info.usage_percent = station_info['u_p']
+            info.total_memory = station_info['t_m']
+            info.free_memory = station_info['f_m']
+            info.memory_percent = station_info['m_p']
+            info.bytes_sent = station_info['b_s']
+            info.bytes_recv = station_info['b_r']
+            info.cpu_percent = station_info['c_p']
 
             db.session.merge(info)
 
-        is_modify = station.is_modify
+        is_modify = station['is_modify']
         status = 'ok'
 
     else:
@@ -213,22 +239,20 @@ def set_config():
         exist = station_exist(id_num)
 
         if not exist:
+            logging.warning('服务器没有站点信息')
             response = make_response(
-                'error',
-                400,
-                msg='站点信息不存在'
+                status='error',
+                status_code=400,
+                msg='服务器没有站点信息'
             )
             return response
 
         data = config_data2(id_num)
 
-        mc.set('test', 'test')
-        test = mc.get('test')
-
         # 压缩
         data = encryption_server(data)
 
-        response = make_response('OK', 200, data=data, platform=test)
+        response = make_response('OK', 200, data=data)
         return response
 
 
@@ -260,16 +284,10 @@ def upload():
         id_num = data['id_num']
 
         # 查询服务器是否有正在上传的站信息
-        station_id_num = mc.get('id_num')
-        station = False
-        if station_id_num:
-            if id_num in station_id_num:
-                station = True
-        else:
-            station = YjStationInfo.query.filter_by(id_num=id_num).first()
+        exist = station_exist(id_num)
 
-        if not station:
-            print('服务器没有站点信息')
+        if not exist:
+            logging.warning('服务器没有站点信息')
             return make_response(
                 status='error',
                 status_code=400,

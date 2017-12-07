@@ -335,9 +335,9 @@ class PLCAlarm(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     id_num = db.Column(db.String(200))
     plc_id = db.Column(db.Integer)
-    level = db.Column(db.Integer)
     note = db.Column(db.Text)
     time = db.Column(db.Integer)
+    code = db.Column(db.Integer)
 
 
 class SMSPhone(db.Model):

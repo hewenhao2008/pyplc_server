@@ -9,7 +9,7 @@ from flask import Flask, request, session
 from flask import request_tearing_down
 from flask_login import user_logged_in, current_user
 
-from web_server.models import User
+from web_server.models import User, YjStationInfo
 from web_server.ext import db, mako, hashing, api, login_manager, csrf, cache, debug_toolbar, CSRFProtect
 from web_server.forms import RegistrationForm, LoginForm
 from web_server.config import DevConfig, ProdConfig
@@ -123,6 +123,15 @@ def create_app():
     def user_loader(user_id):
         user = User.query.get(user_id)
         return user
+
+    @app.teardown_appcontext
+    def shutdown_session(response_or_exc):
+        if app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN']:
+            if response_or_exc is None:
+                db.session.commit()
+
+        db.session.remove()
+        return response_or_exc
 
     # 注册蓝图
     app.register_blueprint(basic_blueprint)
