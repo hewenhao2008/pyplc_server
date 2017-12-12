@@ -81,14 +81,6 @@ def create_app():
     #                                name='Static File'))
 
 
-
-    def value2dict(std):
-        return {
-            "id": std.id,
-            "variable_id": std.variable_id,
-            "value": std.value
-        }
-
     def get_current_user():
         return session['username']
 

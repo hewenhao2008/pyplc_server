@@ -3,8 +3,9 @@
 from os import path
 import logging
 import time
+import json
+
 from flask import Blueprint, request, jsonify
-import platform
 
 from mc import mc
 from web_server.ext import db
@@ -75,7 +76,7 @@ def get_cache_station(id_num):
     return station
 
 
-def get_alarm(v, station, message_count, time):
+def get_alarm(v, station, message_count, alarm_time):
     # 获取历史报警
     # print(v)
     var_id = v['i']
@@ -90,14 +91,14 @@ def get_alarm(v, station, message_count, time):
         if status == 1:
             log = VarAlarmLog(
                 alarm_id=alarm_info.id,
-                time=time,
+                time=alarm_time,
                 status=status
             )
             db.session.add(log)
 
             alarm = VarAlarm(
                 alarm_id=alarm_info.id,
-                time=time
+                time=alarm_time
             )
             db.session.add(alarm)
 
@@ -113,7 +114,7 @@ def get_alarm(v, station, message_count, time):
         if last_log.status != status:
             log = VarAlarmLog(
                 alarm_id=last_log.alarm_id,
-                time=time,
+                time=alarm_time,
                 status=status
             )
             db.session.add(log)
@@ -121,7 +122,7 @@ def get_alarm(v, station, message_count, time):
             if status == 1:
                 alarm = VarAlarm(
                     alarm_id=last_log.alarm_id,
-                    time=time
+                    time=alarm_time
                 )
                 db.session.add(alarm)
                 # 发送短信
@@ -232,7 +233,9 @@ def beats():
 @client_blueprint.route('/config', methods=['POST'])
 def set_config():
     if request.method == 'POST':
-        data = request.get_json(force=True)
+        rv = request.get_data()
+
+        data = json.loads(rv)
 
         id_num = data['id_num']
 
@@ -259,7 +262,9 @@ def set_config():
 @client_blueprint.route('/confirm/config', methods=['POST'])
 def confirm_config():
     if request.method == 'POST':
-        data = request.get_json()
+        rv = request.get_data()
+
+        data = json.loads(rv)
 
         station = db.session.query(YjStationInfo).filter_by(id_num=data['id_num']).first()
 
@@ -295,9 +300,8 @@ def upload():
             )
         # 匹配
         # 保存数据
-        time1 = time.time()
         value_list = list()
-        print(len(data['value']))
+        real_time_data = dict()
         for v in data['value']:
             value_model = {
                 'variable_id': v['i'],
@@ -305,10 +309,12 @@ def upload():
                 'time': v['t']
             }
             value_list.append(value_model)
+
+            real_time_data[str(v['i'])] = v['v']
+
+        mc.set('real_time_data', real_time_data)
         db.session.bulk_insert_mappings(Value, value_list)
         db.session.commit()
-        time2 = time.time()
-        print(time2 - time1)
         response = make_response(
             status='OK',
             status_code=200,
