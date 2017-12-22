@@ -1,6 +1,7 @@
 # coding=utf-8
 
 from os import path
+import sys
 import logging
 import time
 import json
@@ -10,11 +11,12 @@ from flask import Blueprint, request, jsonify
 from mc import mc
 from web_server.ext import db
 from web_server.models import (YjStationInfo, Value, VarAlarmInfo, VarAlarmLog, StationAlarm, PLCAlarm, VarAlarm,
-                               TerminalInfo, engine)
+                               TerminalInfo, engine, SMSPhone)
 from web_server.util import encryption_server, decryption_server
 from web_server.utils.aliyun_sms import sms_alarm
 from web_server.utils.response import make_response
 from web_server.utils.client_data import config_data, config_data2
+from web_server.utils.mysql_middle import ConnMySQL
 
 client_blueprint = Blueprint(
     'client',
@@ -128,11 +130,15 @@ def get_alarm(v, station, message_count, alarm_time):
                 # 发送短信
                 # alarm_info = VarAlarmInfo.query.filter_by(id=last_log.alarm_id).first()
                 # print(alarm_info)
-                # print(alarm_info.is_send_message, station.phone, station.station_name)
-                # if alarm_info.is_send_message and station.phone and station.station_name:
-                #     print('发短信2')
+                # print(alarm_info.is_send_message, station['station_name'])
+                # if alarm_info.is_send_message and station['station_name']:
                 #     if message_count > 0:
-                #         sms_alarm(station.phone, {'name': str(station.station_name)})
+                #         numbers = db.session.query(SMSPhone).filter_by(station_id=station['id'])
+                #         print('发短信2')
+                #         print(station['station_name'], type(station['station_name']))
+                #
+                #         for n in numbers:
+                #             sms_alarm(n.number, {'name': '中文'.decode('utf-8')})
                 #         message_count -= 1
             elif status == 0:
                 alarm = VarAlarm.query.filter(VarAlarm.alarm_id == last_log.alarm_id).first()
@@ -300,21 +306,68 @@ def upload():
             )
         # 匹配
         # 保存数据
-        value_list = list()
-        real_time_data = dict()
-        for v in data['value']:
-            value_model = {
-                'variable_id': v['i'],
-                'value': v['v'],
-                'time': v['t']
-            }
-            value_list.append(value_model)
+        with ConnMySQL() as conn:
+            cur = conn.cursor()
+            value_list = list()
+            sql = 'insert into `values`(variable_id, value, time) values '
 
-            real_time_data[str(v['i'])] = v['v']
+            # print(data['value'])
+            if data['value']:
+                for v in data['value']:
+                    value_list.append((v[0], v[1], v[2]))
+                v = map(str, value_list)
+                value_insert_sql = sql + ','.join(v)
 
-        mc.set('real_time_data', real_time_data)
-        db.session.bulk_insert_mappings(Value, value_list)
-        db.session.commit()
+                cur.execute(value_insert_sql)
+                conn.commit()
+            # real_time_data[str(v['i'])] = v['v']
+
+        response = make_response(
+            status='OK',
+            status_code=200,
+            id_num=id_num,
+        )
+
+        return response
+
+
+# @client_blueprint.route('/upload', methods=['POST'])
+def upload_new():
+    if request.method == 'POST':
+
+        data = request.get_data()
+        data = decryption_server(data)
+
+        # 验证上传数据
+        id_num = data['id_num']
+
+        # 查询服务器是否有正在上传的站信息
+        exist = station_exist(id_num)
+
+        if not exist:
+            logging.warning('服务器没有站点信息')
+            return make_response(
+                status='error',
+                status_code=400,
+                msg='服务器没有站点信息'
+            )
+        # 匹配
+        # 保存数据
+        with ConnMySQL() as db:
+            cur = db.cursor()
+            value_list = list()
+            sql = 'insert into `values`(varialbe_id, value, time) values '
+
+            print(data['value'])
+            for value_dict in data['value']:
+                int_time = value_dict['time']
+                value_data = value_dict['value']
+                for v in value_data:
+                    v.append(int_time)
+                v = map(str, value_data)
+
+            # real_time_data[str(v['i'])] = v['v']
+
         response = make_response(
             status='OK',
             status_code=200,

@@ -79,6 +79,11 @@ class Config(object):
 class DevConfig(Config):
     # database
     # SQLALCHEMY_DATABASE_URI = 'mysql://web:web@localhost:3306/pyplc'
+    USERNAME = 'yakumo17s'
+    PASSWORD = 'touhouproject'
+    HOSTNAME = '114.67.225.15'
+    PORT = 3306
+    DATABASE = 'pyplc'
     SQLALCHEMY_DATABASE_URI = 'mysql://yakumo17s:touhouproject@114.67.225.15:3306/pyplc'
 
     # 指定消息代理
@@ -89,6 +94,11 @@ class DevConfig(Config):
 
 
 class ProdConfig(Config):
+    USERNAME = 'yakumo17s'
+    PASSWORD = 'touhouproject'
+    HOSTNAME = '114.67.225.15'
+    PORT = 3306
+    DATABASE = 'pyplc'
     # SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://%s:%s@%s:%s/%s' \
     #                           % (sae.const.MYSQL_USER, sae.const.MYSQL_PASS,
     #                              sae.const.MYSQL_HOST, int(sae.const.MYSQL_PORT), sae.const.MYSQL_DB)
